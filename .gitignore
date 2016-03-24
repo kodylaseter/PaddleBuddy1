@@ -1,2 +1,5 @@
-/.vs
 /packages
+/PaddleBuddy/Example.Core/obj
+/PaddleBuddy/Example.Core/bin
+/PaddleBuddy/Example.Droid/obj
+/PaddleBuddy/Example.Droid/bin
