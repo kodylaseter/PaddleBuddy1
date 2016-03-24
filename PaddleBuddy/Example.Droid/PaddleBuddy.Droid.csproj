@@ -174,7 +174,6 @@
     </AndroidResource>
     <AndroidResource Include="Resources\layout\fragment_navigation_header.axml" />
     <AndroidResource Include="Resources\menu\navigation_drawer.axml" />
-    <AndroidResource Include="Resources\layout\listitem_recyclerviewexample.axml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Example.Core\PaddleBuddy.Core.csproj">

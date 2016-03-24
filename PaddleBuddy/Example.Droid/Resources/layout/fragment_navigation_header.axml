@@ -21,21 +21,12 @@
         android:id="@+id/text_container"
         android:layout_alignParentBottom="true">
         <TextView
-            android:id="@+id/text_view_fullname"
-            android:singleLine="true"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_medium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="PaddleBuddy" />
-        <TextView
             android:id="@+id/text_view_username"
             android:singleLine="true"
             android:textColor="@color/light_gray"
             android:textSize="@dimen/text_medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Blah blah blah" />
+            android:text="PaddleBuddy" />
     </LinearLayout>
 </RelativeLayout>
