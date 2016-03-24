@@ -3686,14 +3686,11 @@ namespace PaddleBuddy.Droid
 			// aapt resource value: 0x7f06007d
 			public const int my_recycler_view = 2131099773;
 			
-			// aapt resource value: 0x7f06009d
-			public const int nav_compose_message = 2131099805;
+			// aapt resource value: 0x7f06009c
+			public const int nav_footer = 2131099804;
 			
 			// aapt resource value: 0x7f06009e
-			public const int nav_footer = 2131099806;
-			
-			// aapt resource value: 0x7f0600a0
-			public const int nav_helpfeedback = 2131099808;
+			public const int nav_helpfeedback = 2131099806;
 			
 			// aapt resource value: 0x7f060099
 			public const int nav_home = 2131099801;
@@ -3701,17 +3698,14 @@ namespace PaddleBuddy.Droid
 			// aapt resource value: 0x7f060098
 			public const int nav_items = 2131099800;
 			
-			// aapt resource value: 0x7f06009c
-			public const int nav_recyclerview = 2131099804;
-			
-			// aapt resource value: 0x7f06009f
-			public const int nav_settings = 2131099807;
-			
 			// aapt resource value: 0x7f06009a
-			public const int nav_viewpager = 2131099802;
+			public const int nav_main = 2131099802;
 			
 			// aapt resource value: 0x7f06009b
-			public const int nav_viewpager_state = 2131099803;
+			public const int nav_map = 2131099803;
+			
+			// aapt resource value: 0x7f06009d
+			public const int nav_settings = 2131099805;
 			
 			// aapt resource value: 0x7f060074
 			public const int navigation_frame = 2131099764;

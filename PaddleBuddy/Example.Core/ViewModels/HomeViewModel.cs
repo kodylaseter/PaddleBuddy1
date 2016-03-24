@@ -3,7 +3,7 @@
 namespace PaddleBuddy.Core.ViewModels
 {
     public class HomeViewModel
-        : MvxViewModel
+        : BaseViewModel
     {
         public HomeViewModel()
         {

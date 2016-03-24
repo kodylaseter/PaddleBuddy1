@@ -7,7 +7,7 @@ using PaddleBuddy.Core.ViewModels;
 namespace PaddleBuddy.Droid.Activities
 {
     [Activity(
-        Label = "Examples",
+        Label = "Login",
         Theme = "@style/AppTheme.Login",
         LaunchMode = LaunchMode.SingleTop,
         ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize,

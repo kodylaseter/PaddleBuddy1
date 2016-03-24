@@ -44,28 +44,16 @@ namespace PaddleBuddy.Droid.Fragments
             return true;
         }
 
-        private async Task Navigate(int itemId)
+        private void Navigate(int itemId)
         {
             ((MainActivity)Activity).DrawerLayout.CloseDrawers ();
-            await Task.Delay (TimeSpan.FromMilliseconds (250));
+            //await Task.Delay (TimeSpan.FromMilliseconds (250));
 
             switch (itemId) {
             case Resource.Id.nav_home:
                 ViewModel.ShowViewModelAndroid(typeof(HomeViewModel));
                 break;
-            case Resource.Id.nav_viewpager:
-                ViewModel.ShowViewModelAndroid(typeof(ExampleViewPagerViewModel));
-                break;
-            case Resource.Id.nav_viewpager_state:
-                ViewModel.ShowViewModelAndroid(typeof(ExampleViewPagerStateViewModel));
-                break;
-            case Resource.Id.nav_recyclerview:
-                ViewModel.ShowViewModelAndroid(typeof(ExampleRecyclerViewModel));
-                break;
-            case Resource.Id.nav_compose_message:
-                ViewModel.ShowViewModelAndroid(typeof(ComposeMessageViewModel));
-                break;
-                case Resource.Id.nav_settings:
+            case Resource.Id.nav_settings:
                 ViewModel.ShowViewModelAndroid(typeof(SettingsViewModel));
                 break;
             case Resource.Id.nav_helpfeedback:

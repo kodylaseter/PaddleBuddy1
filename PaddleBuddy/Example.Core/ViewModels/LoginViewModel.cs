@@ -1,55 +1,76 @@
-﻿using MvvmCross.Core.ViewModels;
+﻿using System.Windows.Input;
+using MvvmCross.Core.ViewModels;
+using PaddleBuddy.Models;
+using PaddleBuddy.Models.Messages;
+using PaddleBuddy.Services;
 
 namespace PaddleBuddy.Core.ViewModels
 {
-    public class LoginViewModel : MvxViewModel
+    public class LoginViewModel : BaseViewModel
     {
+        private string _email;
+        private string _password;
+        private string _status;
+
+
         public LoginViewModel()
         {
-            this.Username = "TestUser";
-            this.Password = "YouCantSeeMe";
-            this.IsLoading = false;
+
         }
 
-        private string _username;
-
-        public string Username
+        private async void Login()
         {
-            get { return _username; }
-            set
+            var user = new User()
             {
-                SetProperty(ref _username, value);
-            }
-        }
+                email = Email,
+                password = Password,
 
-        private string _password;
+            };
+            var resp = await ApiService.GetInstance().Login(user);
+            if (resp.Success)
+            {
+                ShowViewModel<MapViewModel>();
+            }
+            else
+            {
+                //Messenger.Publish(new ToastMessage(this, "Email or password not correct!", true));
+            }
+
+        }
+        public string Email
+        {
+            get { return _email; }
+            set { _email = value; }
+        }
 
         public string Password
         {
             get { return _password; }
-            set
-            {
-                SetProperty(ref _password, value);
-            }
+            set { _password = value; }
         }
 
-        private bool _isLoading = false;
-
-        public bool IsLoading
+        public string Status
         {
-            get { return _isLoading; }
+            get { return _status; }
             set
             {
-                SetProperty(ref _isLoading, value);
+                _status = value;
+                RaisePropertyChanged(() => Status);
             }
         }
 
-        public virtual IMvxCommand LoginCommand
+
+        public ICommand RegisterCommand
         {
             get
             {
-                return new MvxCommand(() => ShowViewModel<MainViewModel>());
+                return new MvxCommand(() => ShowViewModel<RegisterViewModel>());
             }
+        }
+
+        public ICommand LoginCommand
+        {
+            get { return new MvxCommand(Login); }
         }
     }
 }

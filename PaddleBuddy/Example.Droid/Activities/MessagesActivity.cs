@@ -7,7 +7,7 @@ using PaddleBuddy.Core.ViewModels;
 namespace PaddleBuddy.Droid.Activities
 {
     [Activity(
-       Label = "Examples",
+       Label = "Messages",
        Theme = "@style/AppTheme",
        LaunchMode = LaunchMode.SingleTop,
        Name = "example.droid.activities.AnotherFragmentHostActivity"

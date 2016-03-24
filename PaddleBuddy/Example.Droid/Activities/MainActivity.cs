@@ -11,7 +11,7 @@ using PaddleBuddy.Core.ViewModels;
 namespace PaddleBuddy.Droid.Activities
 {
     [Activity(
-        Label = "Examples",
+        Label = "PaddleBuddy",
         Theme = "@style/AppTheme",
         LaunchMode = LaunchMode.SingleTop,
         Name = "paddlebuddy.droid.activities.MainActivity"
