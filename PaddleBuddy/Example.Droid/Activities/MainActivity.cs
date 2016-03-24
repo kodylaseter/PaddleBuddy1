@@ -5,13 +5,13 @@ using Android.OS;
 using Android.Support.V4.View;
 using Android.Support.V4.Widget;
 using Android.Views;
-using Example.Core.ViewModels;
 using Example.Droid.Activities.Caching;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Droid.Support.V7.Fragging.Caching;
 using FragmentTransaction = Android.Support.V4.App.FragmentTransaction;
 using MvvmCross.Droid.Support.V7.Fragging.Fragments;
 using Android.Views.InputMethods;
+using PaddleBuddy.Core.ViewModels;
 
 namespace Example.Droid.Activities
 {

@@ -4,9 +4,9 @@ using Android.Runtime;
 using Android.Support.Design.Widget;
 using Android.Support.V4.View;
 using Android.Views;
-using Example.Core.ViewModels;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Droid.Support.V7.Fragging.Attributes;
+using PaddleBuddy.Core.ViewModels;
 
 namespace Example.Droid.Fragments
 {

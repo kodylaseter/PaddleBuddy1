@@ -1,6 +1,6 @@
 using MvvmCross.Platform.IoC;
 
-namespace Example.Core
+namespace PaddleBuddy.Core
 {
     public class App : MvvmCross.Core.ViewModels.MvxApplication
     {

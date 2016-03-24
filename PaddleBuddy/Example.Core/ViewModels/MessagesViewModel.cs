@@ -1,6 +1,6 @@
 ﻿using MvvmCross.Core.ViewModels;
 
-namespace Example.Core.ViewModels
+namespace PaddleBuddy.Core.ViewModels
 {
     public class MessagesViewModel : MvxViewModel
     {

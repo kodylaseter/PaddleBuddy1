@@ -1,7 +1,7 @@
-﻿using MvvmCross.Core.ViewModels;
-using System;
+﻿using System;
+using MvvmCross.Core.ViewModels;
 
-namespace Example.Core.ViewModels
+namespace PaddleBuddy.Core.ViewModels
 {
     public class MenuViewModel
         : MvxViewModel

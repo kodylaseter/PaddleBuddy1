@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Example.Core.ViewModels;
 using Example.Droid.Fragments;
 using MvvmCross.Droid.Support.V7.Fragging.Caching;
 

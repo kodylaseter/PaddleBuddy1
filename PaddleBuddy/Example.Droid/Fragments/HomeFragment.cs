@@ -1,6 +1,6 @@
 ﻿using Android.Runtime;
-using Example.Core.ViewModels;
 using MvvmCross.Droid.Support.V7.Fragging.Attributes;
+using PaddleBuddy.Core.ViewModels;
 
 namespace Example.Droid.Fragments
 {

@@ -1,7 +1,7 @@
 ﻿using MvvmCross.Core.ViewModels;
-using Example.Core.ViewModels;
+using PaddleBuddy.Core.ViewModels;
 
-namespace Example.Core
+namespace PaddleBuddy.Core
 {
     public class AppStart : MvxNavigatingObject, IMvxAppStart
     {

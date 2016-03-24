@@ -7,6 +7,7 @@ using System.Reflection;
 using MvvmCross.Platform;
 using MvvmCross.Droid.Platform;
 using MvvmCross.Droid.Support.V7.Fragging.Presenter;
+using PaddleBuddy.Core;
 
 namespace Example.Droid
 {
@@ -19,7 +20,7 @@ namespace Example.Droid
 
         protected override IMvxApplication CreateApp()
         {
-            return new Core.App();
+            return new App();
         }
 
 		protected override IEnumerable<Assembly> AndroidViewAssemblies => new List<Assembly>(base.AndroidViewAssemblies)

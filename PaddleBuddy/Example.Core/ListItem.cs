@@ -1,4 +1,4 @@
-﻿namespace Example.Core
+﻿namespace PaddleBuddy.Core
 {
     public class ListItem
     {
