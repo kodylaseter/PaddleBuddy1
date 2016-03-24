@@ -2,6 +2,7 @@
 using MvvmCross.Core.ViewModels;
 using PaddleBuddy.Models;
 using PaddleBuddy.Services;
+using PaddleBuddy.Core.Models.Messages;
 
 namespace PaddleBuddy.Core.ViewModels
 {
@@ -14,11 +15,12 @@ namespace PaddleBuddy.Core.ViewModels
 
         public LoginViewModel()
         {
-
+            
         }
 
         private async void Login()
         {
+            IsLoading = true;
             var user = new User()
             {
                 email = Email,
@@ -28,15 +30,16 @@ namespace PaddleBuddy.Core.ViewModels
             var resp = await ApiService.GetInstance().Login(user);
             if (resp.Success)
             {
-                ShowViewModel<MapViewModel>();
+                ShowViewModel<HomeViewModel>();
             }
             else
             {
-                //TODO uncomment this when messenger is implemented
-                //Messenger.Publish(new ToastMessage(this, "Email or password not correct!", true));
+                Messenger.Publish(new ToastMessage(this, "Email or password not correct!", true));
             }
+            IsLoading = false;
 
         }
+        public bool IsLoading { get; set; }
         public string Email
         {
             get { return _email; }

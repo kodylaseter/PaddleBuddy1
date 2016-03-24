@@ -11,13 +11,11 @@ namespace PaddleBuddy.Core
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 
-            bool isLoggedIn = false;
-            //if (!isLoggedIn) RegisterAppStart<ViewModels.LoginViewModel>();
-            //else RegisterAppStart<ViewModels.TestViewModel>();
-            RegisterAppStart<ViewModels.HomeViewModel>();
-
-            //TODO ensure this
-            //Cirrious.MvvmCross.Plugins.Messenger.PluginLoader.Instance.EnsureLoaded();
+            bool isLoggedIn = true;
+            if (!isLoggedIn) RegisterAppStart<ViewModels.IntroViewModel>();
+            else RegisterAppStart<ViewModels.HomeViewModel>();
+           
+            MvvmCross.Plugins.Messenger.PluginLoader.Instance.EnsureLoaded();
         }
     }
 }

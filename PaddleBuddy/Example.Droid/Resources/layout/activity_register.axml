@@ -18,16 +18,24 @@
             android:layout_gravity="center"
             android:scaleType="fitCenter" />
     </FrameLayout>
-    <TextView
-        android:layout_width="fill_parent"
+  <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView1"
         android:layout_marginLeft="@dimen/element_margin_medium"
         android:layout_marginRight="@dimen/element_margin_medium"
-        android:layout_marginBottom="@dimen/element_margin_medium"
-        android:text="Login"
-        android:textColor="@color/white"
-        android:gravity="center" />
+        android:layout_gravity="center_horizontal">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        local:MvxBind="Text Username"
+        android:layout_gravity="center_vertical"
+        android:inputType="textNoSuggestions"
+        android:textColorHint="@color/colorPrimary"
+        android:textColorHighlight="@color/white"
+        android:textSize="@dimen/text_medium"
+        android:imeOptions="actionNext"
+        android:hint="Username" />
+  </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,7 +45,6 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/TbxEmail"
             local:MvxBind="Text Email"
             android:layout_gravity="center_vertical"
             android:inputType="textNoSuggestions"
@@ -58,7 +65,6 @@
             android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/TbxPassword"
             android:layout_gravity="center_vertical"
             android:textColorHint="@color/colorPrimary"
             android:textSize="@dimen/text_medium"
@@ -71,8 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        local:MvxBind="Visible IsLoading"
-        android:id="@+id/progressBar1"
+        local:MvxBind="Visibility Visibility(IsLoading)"
         android:layout_marginTop="@dimen/element_margin_large"
         android:layout_marginBottom="@dimen/element_margin_large" />
     <FrameLayout
@@ -90,12 +95,12 @@
             android:maxWidth="400dp"
             android:minWidth="400dp"
             android:id="@+id/BtnLogin"
-            local:MvxBind="Click LoginCommand"
+            local:MvxBind="Click SubmitCommand"
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="@dimen/text_large"
             android:background="?android:attr/selectableItemBackground"
             android:layout_gravity="center_horizontal"
-            android:text="Login" />
+            android:text="Submit" />
     </FrameLayout>
 </LinearLayout>

@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using PaddleBuddy.Core.Models.Messages;
 using PaddleBuddy.Models;
-
+using Flurl.Http;
+using MvvmCross.Plugins.Messenger;
+using MvvmCross.Platform;
 
 namespace PaddleBuddy.Services
 {
@@ -36,18 +35,17 @@ namespace PaddleBuddy.Services
         public async Task<Response> PostAsync(string uri, object data)
         {
             Response response = new Response();
-            //TODO uncomment this
-            //try
-            //{
-            //    response = await uri.WithHeader("ContentType", ContentTypeJson)
-            //    .PostJsonAsync(data).ReceiveJson<Response>();
-            //}
-            //catch (Exception e)
-            //{
-            //    Mvx.Resolve<IMvxMessenger>().Publish(new ToastMessage(this, "Problem reaching remote server!", false));
-            //    throw e;
-            //}
-            
+            try
+            {
+                response = await uri.WithHeader("ContentType", ContentTypeJson)
+                .PostJsonAsync(data).ReceiveJson<Response>();
+            }
+            catch (Exception e)
+            {
+                Mvx.Resolve<IMvxMessenger>().Publish(new ToastMessage(this, "Problem reaching remote server!", false));
+                throw e;
+            }
+
             return response;
         }
     }

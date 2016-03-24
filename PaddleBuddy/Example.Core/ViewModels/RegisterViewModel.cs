@@ -41,5 +41,7 @@ namespace PaddleBuddy.Core.ViewModels
                 return new MvxCommand(Register);
             }
         }
+
+        public bool IsLoading { get; set; }
     }
 }
