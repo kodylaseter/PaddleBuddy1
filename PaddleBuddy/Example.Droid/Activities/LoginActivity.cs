@@ -4,7 +4,7 @@ using Android.OS;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using PaddleBuddy.Core.ViewModels;
 
-namespace Example.Droid.Activities
+namespace PaddleBuddy.Droid.Activities
 {
     [Activity(
         Label = "Examples",

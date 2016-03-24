@@ -1,25 +1,20 @@
-﻿using System;
-using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Support.V4.View;
 using Android.Support.V4.Widget;
 using Android.Views;
-using Example.Droid.Activities.Caching;
-using MvvmCross.Droid.Support.V7.AppCompat;
-using MvvmCross.Droid.Support.V7.Fragging.Caching;
-using FragmentTransaction = Android.Support.V4.App.FragmentTransaction;
-using MvvmCross.Droid.Support.V7.Fragging.Fragments;
 using Android.Views.InputMethods;
+using MvvmCross.Droid.Support.V7.AppCompat;
 using PaddleBuddy.Core.ViewModels;
 
-namespace Example.Droid.Activities
+namespace PaddleBuddy.Droid.Activities
 {
     [Activity(
         Label = "Examples",
         Theme = "@style/AppTheme",
         LaunchMode = LaunchMode.SingleTop,
-        Name = "example.droid.activities.MainActivity"
+        Name = "paddlebuddy.droid.activities.MainActivity"
         )]
     public class MainActivity : MvxCachingFragmentCompatActivity<MainViewModel>
     {

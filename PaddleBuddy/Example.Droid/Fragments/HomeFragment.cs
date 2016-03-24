@@ -2,10 +2,10 @@
 using MvvmCross.Droid.Support.V7.Fragging.Attributes;
 using PaddleBuddy.Core.ViewModels;
 
-namespace Example.Droid.Fragments
+namespace PaddleBuddy.Droid.Fragments
 {
     [MvxFragment(typeof(MainViewModel), Resource.Id.content_frame, true)]
-    [Register("example.droid.fragments.HomeFragment")]
+    [Register("paddlebuddy.droid.fragments.HomeFragment")]
     public class HomeFragment : BaseFragment<HomeViewModel>
     {
         protected override int FragmentId => Resource.Layout.fragment_home;

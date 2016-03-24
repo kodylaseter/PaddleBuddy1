@@ -11,10 +11,10 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.Droid.Support.V7.Fragging.Attributes;
 using PaddleBuddy.Core.ViewModels;
 
-namespace Example.Droid.Fragments
+namespace PaddleBuddy.Droid.Fragments
 {
     [MvxFragment(typeof(MainViewModel), Resource.Id.content_frame, true)]
-    [Register("example.droid.fragments.ExampleRecyclerViewFragment")]
+    [Register("paddlebuddy.droid.fragments.ExampleRecyclerViewFragment")]
     public class ExampleRecyclerViewFragment : BaseFragment<ExampleRecyclerViewModel>
     {
         private IDisposable _itemSelectedToken;

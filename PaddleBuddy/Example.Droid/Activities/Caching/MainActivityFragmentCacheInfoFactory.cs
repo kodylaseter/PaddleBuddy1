@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using Example.Droid.Fragments;
-using MvvmCross.Droid.Support.V7.Fragging.Caching;
-
-namespace Example.Droid.Activities.Caching
+namespace PaddleBuddy.Droid.Activities.Caching
 {
     /*internal class MainActivityFragmentCacheInfoFactory : MvxCachedFragmentInfoFactory
     {

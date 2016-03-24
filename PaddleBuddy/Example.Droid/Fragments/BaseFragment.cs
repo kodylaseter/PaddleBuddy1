@@ -3,12 +3,12 @@ using Android.OS;
 using Android.Support.V7.Widget;
 using Android.Views;
 using MvvmCross.Binding.Droid.BindingContext;
+using MvvmCross.Core.ViewModels;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Droid.Support.V7.Fragging.Fragments;
-using MvvmCross.Core.ViewModels;
-using Example.Droid.Activities;
+using PaddleBuddy.Droid.Activities;
 
-namespace Example.Droid.Fragments
+namespace PaddleBuddy.Droid.Fragments
 {
     public abstract class BaseFragment : MvxFragment
     {

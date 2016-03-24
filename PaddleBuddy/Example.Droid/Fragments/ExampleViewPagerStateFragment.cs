@@ -8,10 +8,10 @@ using MvvmCross.Droid.Support.V4;
 using MvvmCross.Droid.Support.V7.Fragging.Attributes;
 using PaddleBuddy.Core.ViewModels;
 
-namespace Example.Droid.Fragments
+namespace PaddleBuddy.Droid.Fragments
 {
     [MvxFragment(typeof(MainViewModel), Resource.Id.content_frame)]
-    [Register("example.droid.fragments.ExampleViewPagerStateFragment")]
+    [Register("paddlebuddy.droid.fragments.ExampleViewPagerStateFragment")]
     public class ExampleViewPagerStateFragment : BaseStateFragment<ExampleViewPagerStateViewModel>
     {
         protected override int FragmentId => Resource.Layout.fragment_example_viewpager_state;

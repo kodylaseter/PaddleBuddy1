@@ -6,10 +6,10 @@ using MvvmCross.Droid.Support.V7.Fragging.Attributes;
 using MvvmCross.Droid.Support.V7.Fragging.Fragments;
 using PaddleBuddy.Core.ViewModels;
 
-namespace Example.Droid.Fragments
+namespace PaddleBuddy.Droid.Fragments
 {
     [MvxFragment(typeof(MessagesViewModel), Resource.Id.content_frame)]
-    [Register("example.droid.fragments.MessageComposeFragment")]
+    [Register("paddlebuddy.droid.fragments.MessageComposeFragment")]
     public class MessageComposeFragment : MvxFragment<ComposeMessageViewModel>
     {
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

@@ -1,12 +1,10 @@
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using Example.Droid.Activities.Caching;
 using MvvmCross.Droid.Support.V7.AppCompat;
-using MvvmCross.Droid.Support.V7.Fragging.Caching;
 using PaddleBuddy.Core.ViewModels;
 
-namespace Example.Droid.Activities
+namespace PaddleBuddy.Droid.Activities
 {
     [Activity(
        Label = "Examples",

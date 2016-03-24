@@ -1,15 +1,15 @@
-using Android.Content;
-using MvvmCross.Platform.Platform;
-using MvvmCross.Droid.Views;
-using MvvmCross.Core.ViewModels;
 using System.Collections.Generic;
 using System.Reflection;
-using MvvmCross.Platform;
+using Android.Content;
+using MvvmCross.Core.ViewModels;
 using MvvmCross.Droid.Platform;
 using MvvmCross.Droid.Support.V7.Fragging.Presenter;
+using MvvmCross.Droid.Views;
+using MvvmCross.Platform;
+using MvvmCross.Platform.Platform;
 using PaddleBuddy.Core;
 
-namespace Example.Droid
+namespace PaddleBuddy.Droid
 {
     public class Setup : MvxAndroidSetup
     {

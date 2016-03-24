@@ -1,10 +1,10 @@
+using System.Collections.Specialized;
+using System.Windows.Input;
 using Android.App;
 using Android.Views;
 using Android.Widget;
-using System.Collections.Specialized;
-using System.Windows.Input;
 
-namespace Example.Droid
+namespace PaddleBuddy.Droid
 {
     // This class is never actually executed, but when Xamarin linking is enabled it does how to ensure types and properties
     // are preserved in the deployed app

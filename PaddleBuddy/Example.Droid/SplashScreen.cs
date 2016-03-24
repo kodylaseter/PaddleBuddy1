@@ -2,7 +2,7 @@ using Android.App;
 using Android.Content.PM;
 using MvvmCross.Droid.Views;
 
-namespace Example.Droid
+namespace PaddleBuddy.Droid
 {
     [Activity(
         Label = "Example.Droid"

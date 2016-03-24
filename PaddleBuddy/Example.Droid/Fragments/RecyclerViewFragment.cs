@@ -5,18 +5,18 @@ using Android.Support.Design.Widget;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
-using MvvmCross.Platform.WeakSubscription;
 using MvvmCross.Binding.Droid.BindingContext;
-using MvvmCross.Droid.Support.V7.Fragging.Fragments;
-using MvvmCross.Droid.Support.V7.RecyclerView;
 using MvvmCross.Droid.Support.V4;
 using MvvmCross.Droid.Support.V7.Fragging.Attributes;
+using MvvmCross.Droid.Support.V7.Fragging.Fragments;
+using MvvmCross.Droid.Support.V7.RecyclerView;
+using MvvmCross.Platform.WeakSubscription;
 using PaddleBuddy.Core.ViewModels;
 
-namespace Example.Droid.Fragments
+namespace PaddleBuddy.Droid.Fragments
 {
     [MvxFragment(typeof(MainViewModel), Resource.Id.content_frame)]
-    [Register("example.droid.fragments.RecyclerViewFragment")]
+    [Register("paddlebuddy.droid.fragments.RecyclerViewFragment")]
     public class RecyclerViewFragment : MvxFragment<RecyclerViewModel>
     {
         private IDisposable _itemSelectedToken;

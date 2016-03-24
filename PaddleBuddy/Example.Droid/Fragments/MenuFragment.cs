@@ -7,17 +7,17 @@ using Android.Views;
 using MvvmCross.Binding.Droid.BindingContext;
 using MvvmCross.Droid.Support.V7.Fragging.Attributes;
 using MvvmCross.Droid.Support.V7.Fragging.Fragments;
-using Example.Droid.Activities;
 using PaddleBuddy.Core.ViewModels;
+using PaddleBuddy.Droid.Activities;
 
-namespace Example.Droid.Fragments
+namespace PaddleBuddy.Droid.Fragments
 {
     [MvxFragment(typeof(MainViewModel), Resource.Id.navigation_frame)]
-    [Register("example.droid.fragments.MenuFragment")]
+    [Register("paddlebuddy.droid.fragments.MenuFragment")]
     public class MenuFragment : MvxFragment<MenuViewModel>, NavigationView.IOnNavigationItemSelectedListener
     {
-        private NavigationView navigationView;
-        private IMenuItem previousMenuItem;
+        private NavigationView _navigationView;
+        private IMenuItem _previousMenuItem;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -25,9 +25,9 @@ namespace Example.Droid.Fragments
 
             var view = this.BindingInflate(Resource.Layout.fragment_navigation, null);
 
-            navigationView = view.FindViewById<NavigationView>(Resource.Id.navigation_view);
-            navigationView.SetNavigationItemSelectedListener(this);
-            navigationView.Menu.FindItem(Resource.Id.nav_home).SetChecked(true);
+            _navigationView = view.FindViewById<NavigationView>(Resource.Id.navigation_view);
+            _navigationView.SetNavigationItemSelectedListener(this);
+            _navigationView.Menu.FindItem(Resource.Id.nav_home).SetChecked(true);
 
             return view;
         }
@@ -36,10 +36,10 @@ namespace Example.Droid.Fragments
         {
             item.SetCheckable(true);
             item.SetChecked(true);
-            previousMenuItem?.SetChecked(false);
-            previousMenuItem = item;
+            _previousMenuItem?.SetChecked(false);
+            _previousMenuItem = item;
 
-            Navigate (item.ItemId);
+            Navigate(item.ItemId);
 
             return true;
         }
