@@ -11,10 +11,10 @@ namespace PaddleBuddy.Core
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 
-            bool isLoggedIn = true;
+            bool isLoggedIn = false;
             if (!isLoggedIn) RegisterAppStart<ViewModels.IntroViewModel>();
             else RegisterAppStart<ViewModels.HomeViewModel>();
-           
+
             MvvmCross.Plugins.Messenger.PluginLoader.Instance.EnsureLoaded();
         }
     }
