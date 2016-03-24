@@ -5,7 +5,11 @@ using Android.Support.V4.View;
 using Android.Support.V4.Widget;
 using Android.Views;
 using Android.Views.InputMethods;
+using Android.Widget;
 using MvvmCross.Droid.Support.V7.AppCompat;
+using MvvmCross.Platform;
+using MvvmCross.Plugins.Messenger;
+using PaddleBuddy.Core.Models.Messages;
 using PaddleBuddy.Core.ViewModels;
 
 namespace PaddleBuddy.Droid.Activities
@@ -24,6 +28,10 @@ namespace PaddleBuddy.Droid.Activities
         {
             base.OnCreate(bundle);
 
+
+            Messenger = Mvx.Resolve<IMvxMessenger>();
+            Messenger.Subscribe<ToastMessage>(DisplayToast);
+
             SetContentView(Resource.Layout.activity_main);
 
             DrawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
@@ -31,6 +39,13 @@ namespace PaddleBuddy.Droid.Activities
             if (bundle == null)
                 ViewModel.ShowMenuAndFirstDetail();
         }
+
+        public void DisplayToast(ToastMessage message)
+        {
+            Toast.MakeText(this, message.Text, message.IsShort ? ToastLength.Short : ToastLength.Long).Show();
+        }
+
+        protected IMvxMessenger Messenger { get; private set; }
 
         public override bool OnOptionsItemSelected(IMenuItem item)
         {

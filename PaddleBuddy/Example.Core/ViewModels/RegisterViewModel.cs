@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
+using PaddleBuddy.Core.Models.Messages;
 using PaddleBuddy.Models;
 using PaddleBuddy.Services;
 
@@ -21,16 +22,18 @@ namespace PaddleBuddy.Core.ViewModels
                 username = Username,
                 salt = "notasalt"
             };
-            var response = await ApiService.GetInstance().Register(user);
-            if (response.Success)
-            {
-                //Messenger.Publish(new ToastMessage(this, "Registered!", true));
-                ShowViewModel<HomeViewModel>();
-            }
-            else
-            {
-                //Messenger.Publish(new ToastMessage(this, response.Detail, true)); 
-            }
+            //TODO implement register
+            //var response = await ApiService.GetInstance().Register(user);
+            //if (response.Success)
+            //{
+            //    Messenger.Publish(new ToastMessage(this, "Registered!", true));
+            //    ShowViewModel<HomeViewModel>();
+            //}
+            //else
+            //{
+            //    Messenger.Publish(new ToastMessage(this, response.Detail, true)); 
+            //}
+            ShowViewModel<HomeViewModel>();
 
         }
 
