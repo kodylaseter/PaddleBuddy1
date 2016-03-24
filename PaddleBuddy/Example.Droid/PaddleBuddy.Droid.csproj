@@ -120,11 +120,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Activities\Caching\MessagesActivityFragmentCacheInfoFactory.cs" />
-    <Compile Include="Activities\Caching\MessagesFragmentCacheConfigurationCustomFragmentInfo.cs" />
     <Compile Include="Activities\MessagesActivity.cs" />
-    <Compile Include="Activities\Caching\FragmentCacheConfigurationCustomFragmentInfo.cs" />
-    <Compile Include="Activities\Caching\MainActivityFragmentCacheInfoFactory.cs" />
     <Compile Include="Bootstrap\JsonPluginBootstrap.cs" />
     <Compile Include="Bootstrap\VisibilityPluginBootstrap.cs" />
     <Compile Include="Fragments\BaseStateFragment.cs" />
