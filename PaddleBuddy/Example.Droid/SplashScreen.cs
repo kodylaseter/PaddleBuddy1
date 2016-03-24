@@ -5,7 +5,7 @@ using MvvmCross.Droid.Views;
 namespace PaddleBuddy.Droid
 {
     [Activity(
-        Label = "Example.Droid"
+        Label = "PaddleBuddy"
         , MainLauncher = true
         , Icon = "@drawable/icon"
         , Theme = "@style/AppTheme.Splash"

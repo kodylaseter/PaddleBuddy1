@@ -38,7 +38,6 @@
     <Compile Include="Services\ApiService.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\MapViewModel.cs" />
-    <Compile Include="ViewModels\MessagesViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="AppStart.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />

@@ -11,7 +11,7 @@ namespace PaddleBuddy.Droid.Activities
         Theme = "@style/AppTheme.Login",
         LaunchMode = LaunchMode.SingleTop,
         ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize,
-        Name = "example.droid.activities.LoginActivity"
+        Name = "paddlebuddy.droid.activities.LoginActivity"
     )]			
     public class LoginActivity : MvxAppCompatActivity<LoginViewModel>
     {

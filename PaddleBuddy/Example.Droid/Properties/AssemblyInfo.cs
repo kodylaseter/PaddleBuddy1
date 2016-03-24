@@ -8,7 +8,7 @@
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("dexyon")]
+[assembly: AssemblyCopyright("kodylaseter")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

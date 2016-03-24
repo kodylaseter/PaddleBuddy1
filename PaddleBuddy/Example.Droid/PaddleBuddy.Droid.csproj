@@ -120,7 +120,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Activities\MessagesActivity.cs" />
     <Compile Include="Bootstrap\JsonPluginBootstrap.cs" />
     <Compile Include="Bootstrap\VisibilityPluginBootstrap.cs" />
     <Compile Include="Fragments\BaseStateFragment.cs" />
@@ -153,21 +152,6 @@
     <AndroidResource Include="Resources\layout\fragment_home.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\fragment_example_viewpager.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\layout\fragment_example_recyclerview.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\layout\fragment_example_viewpager_state.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\layout\fragment_compose_message.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\layout\activity_messages.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
     <AndroidResource Include="Resources\layout\fragment_map.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -190,7 +174,6 @@
     </AndroidResource>
     <AndroidResource Include="Resources\layout\fragment_navigation_header.axml" />
     <AndroidResource Include="Resources\menu\navigation_drawer.axml" />
-    <AndroidResource Include="Resources\layout\fragment_recyclerview.axml" />
     <AndroidResource Include="Resources\layout\listitem_recyclerviewexample.axml" />
   </ItemGroup>
   <ItemGroup>
