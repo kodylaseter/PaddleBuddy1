@@ -1,7 +1,6 @@
 ﻿using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
 using PaddleBuddy.Models;
-using PaddleBuddy.Models.Messages;
 using PaddleBuddy.Services;
 
 namespace PaddleBuddy.Core.ViewModels
@@ -33,6 +32,7 @@ namespace PaddleBuddy.Core.ViewModels
             }
             else
             {
+                //TODO uncomment this when messenger is implemented
                 //Messenger.Publish(new ToastMessage(this, "Email or password not correct!", true));
             }
 

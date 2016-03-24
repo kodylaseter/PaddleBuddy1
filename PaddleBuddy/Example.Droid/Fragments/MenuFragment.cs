@@ -50,15 +50,18 @@ namespace PaddleBuddy.Droid.Fragments
             //await Task.Delay (TimeSpan.FromMilliseconds (250));
 
             switch (itemId) {
-            case Resource.Id.nav_home:
-                ViewModel.ShowViewModelAndroid(typeof(HomeViewModel));
-                break;
-            case Resource.Id.nav_settings:
-                ViewModel.ShowViewModelAndroid(typeof(SettingsViewModel));
-                break;
-            case Resource.Id.nav_helpfeedback:
-                ViewModel.ShowViewModelAndroid(typeof(SettingsViewModel));
-                break;
+                case Resource.Id.nav_home:
+                    ViewModel.ShowViewModelAndroid(typeof(HomeViewModel));
+                    break;
+                case Resource.Id.nav_map:
+                    ViewModel.ShowViewModelAndroid(typeof(MapViewModel));
+                    break;
+                case Resource.Id.nav_settings:
+                    ViewModel.ShowViewModelAndroid(typeof(SettingsViewModel));
+                    break;
+                case Resource.Id.nav_helpfeedback:
+                    ViewModel.ShowViewModelAndroid(typeof(SettingsViewModel));
+                    break;
             }
         }
     }
