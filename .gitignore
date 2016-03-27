@@ -1,8 +1,8 @@
 /packages
-/PaddleBuddy/Example.Core/obj
-/PaddleBuddy/Example.Core/bin
-/PaddleBuddy/Example.Droid/obj
-/PaddleBuddy/Example.Droid/bin
+/PaddleBuddy/PaddleBuddy.Core/obj
+/PaddleBuddy/PaddleBuddy.Core/bin
+/PaddleBuddy/PaddleBuddy.Droid/obj
+/PaddleBuddy/PaddleBuddy.Droid/bin
 /.vs
 /PaddleBuddy/PaddleBuddy.iOS/obj
 /PaddleBuddy/PaddleBuddy.iOS/bin
