@@ -194,7 +194,7 @@
     <AndroidResource Include="Resources\menu\navigation_drawer.axml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Example.Core\PaddleBuddy.Core.csproj">
+    <ProjectReference Include="..\PaddleBuddy.Core\PaddleBuddy.Core.csproj">
       <Project>{8B925961-5638-41B7-B5C0-FFD636328208}</Project>
       <Name>PaddleBuddy.Core</Name>
     </ProjectReference>
