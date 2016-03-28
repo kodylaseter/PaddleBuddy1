@@ -27,17 +27,18 @@ namespace PaddleBuddy.Core.ViewModels
                 password = Password,
 
             };
-            var resp = await ApiService.GetInstance().Login(user);
-            if (resp.Success)
-            {
-                ShowViewModel<HomeViewModel>();
-            }
-            else
-            {
-                Messenger.Publish(new ToastMessage(this, "Email or password not correct!", true));
-            }
+            //TODO fix this
+            //var resp = await ApiService.GetInstance().Login(user);
+            //if (resp.Success)
+            //{
+            //    ShowViewModel<HomeViewModel>();
+            //}
+            //else
+            //{
+            //    Messenger.Publish(new ToastMessage(this, "Email or password not correct!", true));
+            //}
+            ShowViewModel<HomeViewModel>();
             IsLoading = false;
-
         }
         public bool IsLoading { get; set; }
         public string Email
