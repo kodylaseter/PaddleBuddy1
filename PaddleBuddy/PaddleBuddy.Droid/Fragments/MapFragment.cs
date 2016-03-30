@@ -1,6 +1,8 @@
-﻿using Android.Gms.Maps;
+﻿
+using Android.Gms.Maps;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
 using MvvmCross.Binding.Droid.BindingContext;
@@ -14,8 +16,6 @@ namespace PaddleBuddy.Droid.Fragments
     public class MapFragment : BaseFragment<MapViewModel>
     {
         protected override int FragmentId => Resource.Layout.fragment_map;
-        //private GoogleMap _map;
-        //private FrameLayout _map;
 
         //public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         //{
@@ -23,9 +23,20 @@ namespace PaddleBuddy.Droid.Fragments
 
         //    var view = this.BindingInflate(Resource.Layout.fragment_map, null);
 
-        //    _map = view.FindViewById<FrameLayout>(Resource.Id.map);
-
-
+        //    if (view != null)
+        //    {
+        //        ViewGroup parent = (ViewGroup)view.getParent();
+        //        if (parent != null)
+        //            parent.removeView(view);
+        //    }
+        //    try
+        //    {
+        //        view = inflater.inflate(R.layout.map, container, false);
+        //    }
+        //    catch (InflateException e)
+        //    {
+        //        /* map is already there, just return view as it is */
+        //    }
 
         //    return View;
         //}
