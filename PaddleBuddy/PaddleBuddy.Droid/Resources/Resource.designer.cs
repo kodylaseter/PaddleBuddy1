@@ -3942,7 +3942,7 @@ namespace PaddleBuddy.Droid
 			public const int main_frame = 2131296381;
 			
 			// aapt resource value: 0x7f090088
-			public const int map = 2131296392;
+			public const int map_container = 2131296392;
 			
 			// aapt resource value: 0x7f090092
 			public const int media_actions = 2131296402;
