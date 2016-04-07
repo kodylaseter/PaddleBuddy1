@@ -1,8 +1,6 @@
 ﻿using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
-using PaddleBuddy.Core.Models.Messages;
-using PaddleBuddy.Models;
-using PaddleBuddy.Services;
+using PaddleBuddy.Core.Models;
 
 namespace PaddleBuddy.Core.ViewModels
 {
@@ -16,11 +14,11 @@ namespace PaddleBuddy.Core.ViewModels
         {
             User user = new User()
             {
-                admin = false,
-                email = Email,
-                password = Password,
-                username = Username,
-                salt = "notasalt"
+                Admin = false,
+                Email = Email,
+                Password = Password,
+                Username = Username,
+                Salt = "notasalt"
             };
             //TODO implement register
             //var response = await ApiService.GetInstance().Register(user);

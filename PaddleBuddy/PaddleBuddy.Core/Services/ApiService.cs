@@ -1,12 +1,19 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
 using System.Threading.Tasks;
-using PaddleBuddy.Core.Models.Messages;
-using PaddleBuddy.Models;
+using Flurl;
 using Flurl.Http;
-using MvvmCross.Plugins.Messenger;
 using MvvmCross.Platform;
+using MvvmCross.Plugins.Messenger;
+using PaddleBuddy.Core.Models;
+using PaddleBuddy.Core.Models.Map;
+using PaddleBuddy.Core.Models.Messages;
+using PaddleBuddy.Core.ViewModels;
 
-namespace PaddleBuddy.Services
+namespace PaddleBuddy.Core.Services
 {
     public abstract class ApiService
     {
@@ -32,6 +39,12 @@ namespace PaddleBuddy.Services
             return response;
         }
 
-        
+        public async Task<HttpResponseMessage> GetAsync(string uri)
+        {
+            var fullUri = ApiBase + uri;
+            var resp = await fullUri.GetAsync();
+
+            return resp;
+        }
     }
 }

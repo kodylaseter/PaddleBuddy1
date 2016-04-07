@@ -8,6 +8,6 @@ namespace PaddleBuddy.Core.Models.Map
 {
     public class River
     {
-        public List<Point> points { get; set; }
+        public List<Point> Points{ get; set; }
     }
 }

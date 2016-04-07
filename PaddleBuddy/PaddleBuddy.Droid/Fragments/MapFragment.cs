@@ -5,11 +5,14 @@ using Android.Gms.Maps.Model;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.App;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using MvvmCross.Binding.Droid.BindingContext;
 using MvvmCross.Droid.Support.V7.Fragging.Attributes;
+using PaddleBuddy.Core.Services;
 using PaddleBuddy.Core.ViewModels;
+using Debug = System.Diagnostics.Debug;
 
 namespace PaddleBuddy.Droid.Fragments
 {
@@ -36,6 +39,8 @@ namespace PaddleBuddy.Droid.Fragments
             _map = googleMap;
             //_map.AddMarker(new MarkerOptions().SetPosition(BRISBANE).SetTitle("Brisbane"));
             _map.MoveCamera(CameraUpdateFactory.NewLatLngZoom(new LatLng(33.7490, -84.3880), 10.0f));
+            var resp = MapService.GetInstance().GetRiver(1);
+            Log.Info("pb", resp.ToString());
         }
     }
 }

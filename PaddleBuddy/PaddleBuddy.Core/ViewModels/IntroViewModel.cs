@@ -1,8 +1,5 @@
 ﻿using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
-using PaddleBuddy.Models;
-using PaddleBuddy.Services;
-using PaddleBuddy.Core.Models.Messages;
 
 namespace PaddleBuddy.Core.ViewModels
 {

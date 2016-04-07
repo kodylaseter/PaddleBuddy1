@@ -1,11 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
-using PaddleBuddy.Core.Models.Messages;
-using PaddleBuddy.Models;
-using Flurl.Http;
-using MvvmCross.Plugins.Messenger;
-using MvvmCross.Platform;
-using PaddleBuddy.Services;
+﻿using System.Threading.Tasks;
+using PaddleBuddy.Core.Models;
 
 namespace PaddleBuddy.Core.Services
 {

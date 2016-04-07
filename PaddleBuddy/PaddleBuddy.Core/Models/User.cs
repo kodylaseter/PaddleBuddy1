@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PaddleBuddy.Models
+﻿namespace PaddleBuddy.Core.Models
 {
     public class User
     {
-        public string username { get; set; }
-        public string email { get; set; }
-        public string password { get; set; }
+        public string Username { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
 
-        public string salt { get; set; }
-        public bool admin { get; set; }
+        public string Salt { get; set; }
+        public bool Admin { get; set; }
     }
 }

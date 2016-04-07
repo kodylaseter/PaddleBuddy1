@@ -1,33 +1,21 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using PaddleBuddy.Core.Models;
 using PaddleBuddy.Core.Models.Map;
-using PaddleBuddy.Models;
-using PaddleBuddy.Services;
 
 namespace PaddleBuddy.Core.Services
 {
     public class MapService : ApiService
     {
-        private static UserService _userService;
+        private static MapService _mapService;
 
-        public static UserService GetInstance()
+        public static MapService GetInstance()
         {
-            return _userService ?? (_userService = new UserService());
+            return _mapService ?? (_mapService = new MapService());
         }
 
-        public async Task<Response> Login(User user)
+        public async Task<dynamic> GetRiver(int id)
         {
-            return await PostAsync("login", user);
+            return await GetAsync("river/" + id);
         }
-
-        public async Task<Response> Register(User user)
-        {
-            return await PostAsync("register", user);
-        }
-
-        //public async Task<River> GetRiver(int id)
-        //{
-        //    return await PostAsync("")
-        //}
     }
 }

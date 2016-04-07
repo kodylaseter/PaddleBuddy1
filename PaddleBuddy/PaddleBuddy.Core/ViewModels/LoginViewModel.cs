@@ -1,8 +1,6 @@
 ﻿using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
-using PaddleBuddy.Models;
-using PaddleBuddy.Services;
-using PaddleBuddy.Core.Models.Messages;
+using PaddleBuddy.Core.Models;
 
 namespace PaddleBuddy.Core.ViewModels
 {
@@ -23,8 +21,8 @@ namespace PaddleBuddy.Core.ViewModels
             IsLoading = true;
             var user = new User()
             {
-                email = Email,
-                password = Password,
+                Email = Email,
+                Password = Password,
 
             };
             //TODO fix this
