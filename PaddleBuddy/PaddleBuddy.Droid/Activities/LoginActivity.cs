@@ -1,11 +1,13 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Android.Util;
 using Android.Widget;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Platform;
 using MvvmCross.Plugins.Messenger;
 using PaddleBuddy.Core.Models.Messages;
+using PaddleBuddy.Core.Services;
 using PaddleBuddy.Core.ViewModels;
 
 namespace PaddleBuddy.Droid.Activities
@@ -25,6 +27,13 @@ namespace PaddleBuddy.Droid.Activities
             Messenger = Mvx.Resolve<IMvxMessenger>();
             Messenger.Subscribe<ToastMessage>(DisplayToast);
             SetContentView ( Resource.Layout.activity_login );
+            Test();
+        }
+
+        private async void Test()
+        {
+            var resp = await MapService.GetInstance().GetPoint(1);
+            DisplayToast(new ToastMessage(this, resp.ToString(), true));
         }
 
         public void DisplayToast(ToastMessage message)

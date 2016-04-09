@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Newtonsoft.Json;
 using PaddleBuddy.Core.Models;
 using PaddleBuddy.Core.Models.Map;
 
@@ -13,9 +14,11 @@ namespace PaddleBuddy.Core.Services
             return _mapService ?? (_mapService = new MapService());
         }
 
-        public async Task<dynamic> GetRiver(int id)
+        public async Task<Point> GetPoint(int id)
         {
-            return await GetAsync("river/" + id);
+            var resp = await GetAsync("point/" + id);
+            var ret = JsonConvert.DeserializeObject<Point>(resp.Data.ToString());
+            return ret;
         }
     }
 }

@@ -39,8 +39,6 @@ namespace PaddleBuddy.Droid.Fragments
             _map = googleMap;
             //_map.AddMarker(new MarkerOptions().SetPosition(BRISBANE).SetTitle("Brisbane"));
             _map.MoveCamera(CameraUpdateFactory.NewLatLngZoom(new LatLng(33.7490, -84.3880), 10.0f));
-            var resp = MapService.GetInstance().GetRiver(1);
-            Log.Info("pb", resp.ToString());
         }
     }
 }
