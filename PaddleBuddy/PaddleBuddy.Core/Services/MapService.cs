@@ -14,11 +14,11 @@ namespace PaddleBuddy.Core.Services
             return _mapService ?? (_mapService = new MapService());
         }
 
-        public async Task<Point> GetPoint(int id)
+        public async Task<River> GetRiver(int id)
         {
-            var resp = await GetAsync("point/" + id);
-            var ret = JsonConvert.DeserializeObject<Point>(resp.Data.ToString());
-            return ret;
+            var resp = await GetAsync("river/" + id);
+            var end = JsonConvert.DeserializeObject<River>(resp.Data.ToString());
+            return end;
         }
     }
 }

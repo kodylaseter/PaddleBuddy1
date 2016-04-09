@@ -27,13 +27,6 @@ namespace PaddleBuddy.Droid.Activities
             Messenger = Mvx.Resolve<IMvxMessenger>();
             Messenger.Subscribe<ToastMessage>(DisplayToast);
             SetContentView ( Resource.Layout.activity_login );
-            Test();
-        }
-
-        private async void Test()
-        {
-            var resp = await MapService.GetInstance().GetPoint(1);
-            DisplayToast(new ToastMessage(this, resp.ToString(), true));
         }
 
         public void DisplayToast(ToastMessage message)

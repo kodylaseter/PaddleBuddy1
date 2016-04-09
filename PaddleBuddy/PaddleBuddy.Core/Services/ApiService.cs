@@ -18,7 +18,7 @@ namespace PaddleBuddy.Core.Services
     public abstract class ApiService
     {
         //private const string ApiBase = "http://paddlebuddy-pbdb.rhcloud.com/";
-        private const string ApiBase = "http://192.168.1.129:4000/api/";
+        private const string ApiBase = "http://192.168.1.129:4000/api/mobile/";
         private const string ContentTypeJson = "application/json";
 
         public async Task<Response> PostAsync(string uri, object data)
