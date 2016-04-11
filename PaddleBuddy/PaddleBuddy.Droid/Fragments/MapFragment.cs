@@ -45,11 +45,12 @@ namespace PaddleBuddy.Droid.Fragments
 
         public async void DrawLine()
         {
-            var test = await MapService.GetInstance().GetRiver(2);
-            foreach (Point i in test.Points)
-            {
-                _map.AddMarker(new MarkerOptions().SetPosition(new LatLng(i.Lat, i.Lng)).SetTitle(i.Id.ToString()));
-            }
+            var river = await MapService.GetInstance().GetRiver(1);
+            var p0 = river.Points[0];
+            var p1 = river.Points[1];
+            _map.AddMarker(new MarkerOptions().SetTitle("test").SetPosition(new LatLng(p0.Lat, p0.Lng)));
+            _map.AddPolyline(new PolylineOptions().Add(new LatLng(p0.Lat, p0.Lng), new LatLng(p1.Lat, p1.Lng)).InvokeColor(Resource.Color.black).InvokeWidth(4));
+            //var a = new LatLng();
         }
     }
 }

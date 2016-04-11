@@ -17,7 +17,15 @@ namespace PaddleBuddy.Core.Services
         public async Task<River> GetRiver(int id)
         {
             var resp = await GetAsync("river/" + id);
-            var end = JsonConvert.DeserializeObject<River>(resp.Data.ToString());
+            River end;
+            try
+            {
+                end = JsonConvert.DeserializeObject<River>(resp.Data.ToString());
+            }
+            catch (JsonException e)
+            {
+                throw e;
+            }
             return end;
         }
     }
