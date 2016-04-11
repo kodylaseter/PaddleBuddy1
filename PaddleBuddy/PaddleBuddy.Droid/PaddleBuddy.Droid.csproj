@@ -146,9 +146,9 @@
     <Compile Include="Bootstrap\JsonPluginBootstrap.cs" />
     <Compile Include="Bootstrap\MessengerPluginBootstrap.cs" />
     <Compile Include="Bootstrap\VisibilityPluginBootstrap.cs" />
+    <Compile Include="Utilities\MapConverter.cs" />
     <Compile Include="Fragments\BaseStateFragment.cs" />
     <Compile Include="Fragments\MapFragment.cs" />
-    <Compile Include="Models\Point.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DebugTrace.cs" />
@@ -161,6 +161,7 @@
     <Compile Include="Fragments\SettingsFragment.cs" />
     <Compile Include="Activities\LoginActivity.cs" />
     <Compile Include="Fragments\HomeFragment.cs" />
+    <Compile Include="Utilities\MapDrawer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
