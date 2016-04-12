@@ -1,0 +1,26 @@
+﻿using MvvmCross.Platform;
+using PaddleBuddy.Core.DependencyServices;
+
+namespace PaddleBuddy.Core.Services
+{
+    public class LocationService
+    {
+        private static LocationService _locationService;
+        private ILocationProvider _locationProvider;
+
+        public LocationService()
+        {
+            _locationProvider = Mvx.Resolve<ILocationProvider>();
+        }
+
+        public static LocationService GetInstance()
+        {
+            return _locationService ?? (_locationService = new LocationService());
+        }
+
+        //public Point GetCurrentLocation()
+        //{
+        //    return _locationProvider.GetCurrentLocation();
+        //}
+    }
+}

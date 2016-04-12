@@ -6,8 +6,11 @@ using Android.Runtime;
 using Android.Support.V4.App;
 using Android.Views;
 using MvvmCross.Droid.Support.V7.Fragging.Attributes;
+using MvvmCross.Platform;
+using PaddleBuddy.Core.DependencyServices;
 using PaddleBuddy.Core.Services;
 using PaddleBuddy.Core.ViewModels;
+using PaddleBuddy.Droid.DependencyServices;
 using PaddleBuddy.Droid.Utilities;
 
 namespace PaddleBuddy.Droid.Fragments
@@ -19,7 +22,6 @@ namespace PaddleBuddy.Droid.Fragments
         private SupportMapFragment _fragment;
         private GoogleMap _map;
         protected override int FragmentId => Resource.Layout.fragment_map;
-        private static LatLng BRISBANE = new LatLng(-27.47093, 153.0235);
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -32,16 +34,8 @@ namespace PaddleBuddy.Droid.Fragments
 
         public void OnMapReady(GoogleMap googleMap)
         {
-            _map = googleMap;
-            //_map.AddMarker(new MarkerOptions().SetPosition(BRISBANE).SetTitle("Brisbane"));
-            //_map.MoveCamera(CameraUpdateFactory.NewLatLngZoom(new LatLng(33.7490, -84.3880), 10.0f));
-            //DrawLine();
-        }
-
-        public async void DrawLine()
-        {
-            var river = await MapService.GetInstance().GetRiver(1);
-            _map.AddPolyline(new PolylineOptions().AddAll(MapConverter.RiverToLatLngs(river)).InvokeColor(Resource.Color.black).InvokeWidth(4));
+            Mvx.RegisterSingleton<IMapDrawer>(new MapDrawerAndroid(googleMap));
+            ViewModel.Setup();
         }
     }
 }

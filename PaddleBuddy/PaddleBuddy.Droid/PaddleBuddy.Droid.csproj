@@ -146,6 +146,8 @@
     <Compile Include="Bootstrap\JsonPluginBootstrap.cs" />
     <Compile Include="Bootstrap\MessengerPluginBootstrap.cs" />
     <Compile Include="Bootstrap\VisibilityPluginBootstrap.cs" />
+    <Compile Include="DependencyServices\LocationProviderAndroid.cs" />
+    <Compile Include="DependencyServices\MapDrawerAndroid.cs" />
     <Compile Include="Utilities\Converter.cs" />
     <Compile Include="Fragments\BaseStateFragment.cs" />
     <Compile Include="Fragments\MapFragment.cs" />
