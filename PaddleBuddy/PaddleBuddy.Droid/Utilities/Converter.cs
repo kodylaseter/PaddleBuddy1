@@ -6,7 +6,7 @@ using PaddleBuddy.Core.Models.Map;
 
 namespace PaddleBuddy.Droid.Utilities
 {
-    public static class MapConverter
+    public static class Converter
     {
         public static IIterable RiverToLatLngs(River river)
         {
