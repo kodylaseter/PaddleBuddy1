@@ -1,6 +1,7 @@
 ﻿using MvvmCross.Platform;
 using PaddleBuddy.Core.DependencyServices;
 using PaddleBuddy.Core.Models.Map;
+using PaddleBuddy.Core.Services;
 
 namespace PaddleBuddy.Core.ViewModels
 {
@@ -18,8 +19,7 @@ namespace PaddleBuddy.Core.ViewModels
                 Lat = 33.7490,
                 Lng = -84.3880
             };
-            //MapDrawer.MoveCameraZoom(LocationService.GetInstance().GetCurrentLocation(), 9);
-            MapDrawer.MoveCameraZoom(atl, 9);
+            MapDrawer.MoveCameraZoom(LocationService.GetInstance().GetCurrentLocation(), 9);
 
         }
     }

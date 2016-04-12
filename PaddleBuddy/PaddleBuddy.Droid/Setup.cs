@@ -8,6 +8,8 @@ using MvvmCross.Droid.Views;
 using MvvmCross.Platform;
 using MvvmCross.Platform.Platform;
 using PaddleBuddy.Core;
+using PaddleBuddy.Core.DependencyServices;
+using PaddleBuddy.Droid.DependencyServices;
 
 namespace PaddleBuddy.Droid
 {
@@ -23,7 +25,13 @@ namespace PaddleBuddy.Droid
             return new App();
         }
 
-		protected override IEnumerable<Assembly> AndroidViewAssemblies => new List<Assembly>(base.AndroidViewAssemblies)
+        protected override void InitializeFirstChance()
+        {
+            Mvx.RegisterSingleton<ILocationProvider>(new LocationProviderAndroid());
+            base.InitializeFirstChance();
+        }
+
+        protected override IEnumerable<Assembly> AndroidViewAssemblies => new List<Assembly>(base.AndroidViewAssemblies)
 		{
 			typeof(Android.Support.Design.Widget.NavigationView).Assembly,
 			typeof(Android.Support.Design.Widget.FloatingActionButton).Assembly,
