@@ -16,7 +16,7 @@ namespace PaddleBuddy.Core.Services
 
         public async Task<River> GetRiver(int id)
         {
-            var resp = await GetAsync("river/" + id);
+            var resp = await GetAsync("river" + id);
             River end;
             try
             {
@@ -27,6 +27,23 @@ namespace PaddleBuddy.Core.Services
                 throw e;
             }
             return end;
+        }
+
+        public async Task<River> GetClosestRiver()
+        {
+            River result = new River();
+            try
+            {
+                var point = LocationService.GetInstance().GetCurrentLocation();
+                var resp =
+                    await PostAsync("closest_river", LocationService.GetInstance().GetCurrentLocation());
+                //result = JsonConvert.DeserializeObject<River>(resp.Data.ToString());
+            }
+            catch (JsonException e)
+            {
+                throw e;
+            }
+            return result;
         }
     }
 }

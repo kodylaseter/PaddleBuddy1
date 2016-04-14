@@ -24,23 +24,23 @@ namespace PaddleBuddy.Core.Services
         public async Task<Response> PostAsync(string uri, object data)
         {
             Response response;
-            var fullUri = ApiBase + "uri";
+            var fullUri = ApiBase + uri + "/";
             try
             {
                 response = await fullUri.WithHeader("ContentType", ContentTypeJson)
                 .PostJsonAsync(data).ReceiveJson<Response>();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 Mvx.Resolve<IMvxMessenger>().Publish(new ToastMessage(this, "Problem reaching remote server!", false));
-                throw;
+                throw e;
             }
             return response;
         }
 
         public async Task<Response> GetAsync(string uri)
         {
-            var fullUri = ApiBase + uri;
+            var fullUri = ApiBase + uri + "/";
             Response response;
             try
             {

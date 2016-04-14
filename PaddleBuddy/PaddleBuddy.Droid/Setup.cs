@@ -22,13 +22,9 @@ namespace PaddleBuddy.Droid
 
         protected override IMvxApplication CreateApp()
         {
-            return new App();
-        }
-
-        protected override void InitializeFirstChance()
-        {
+            var app = new App();
             Mvx.RegisterSingleton<ILocationProvider>(new LocationProviderAndroid());
-            base.InitializeFirstChance();
+            return app;
         }
 
         protected override IEnumerable<Assembly> AndroidViewAssemblies => new List<Assembly>(base.AndroidViewAssemblies)

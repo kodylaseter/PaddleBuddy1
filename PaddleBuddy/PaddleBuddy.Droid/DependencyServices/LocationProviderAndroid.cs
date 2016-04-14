@@ -3,48 +3,50 @@ using Android.App;
 using Android.Content;
 using Android.Locations;
 using Android.OS;
-using MvvmCross.Platform;
-using MvvmCross.Plugins.Messenger;
 using PaddleBuddy.Core.DependencyServices;
 using PaddleBuddy.Core.Models.Map;
 using PaddleBuddy.Core.Models.Messages;
 
 namespace PaddleBuddy.Droid.DependencyServices
 {
-    public class LocationProviderAndroid : ILocationProvider
+    public class LocationProviderAndroid : BaseDependencyServiceAndroid, ILocationProvider
     {
         private readonly Listener _locationListener;
+        private readonly LocationManager _locationManager;
+        private readonly Criteria _criteria;
+
         public LocationProviderAndroid()
         {
             _locationListener = new Listener();
-            var locationManager = Application.Context.GetSystemService(Context.LocationService) as LocationManager;
-            if (locationManager != null)
+            _locationManager = Application.Context.GetSystemService(Context.LocationService) as LocationManager;
+            if (_locationManager != null)
             {
-                var criteria = new Criteria();
-                criteria.Accuracy = Accuracy.Fine;
-                criteria.PowerRequirement = Power.NoRequirement;
-                var locationProvider = locationManager.GetBestProvider(criteria, true);
-                if (!String.IsNullOrEmpty(locationProvider))
+                _criteria = new Criteria
                 {
-                    locationManager.RequestLocationUpdates(locationProvider, 100, 0, _locationListener);
-                }
-                else
-                {
-                    Mvx.Resolve<IMvxMessenger>().Publish(new ToastMessage(this, "Location provider was null!", false));
-                }
+                    Accuracy = Accuracy.Fine,
+                    PowerRequirement = Power.NoRequirement
+                };
+                _locationManager.RequestSingleUpdate(_criteria, _locationListener, Looper.MainLooper);
             }
             else
             {
-                Mvx.Resolve<IMvxMessenger>().Publish(new ToastMessage(this, "could not create location manager", false));
+                Messenger.Publish(new ToastMessage(this, "could not create location manager", false));
             }
         }
 
         public Point GetCurrentLocation()
         {
-            while (_locationListener.CurrentLocation == null)
+            _locationManager.RequestSingleUpdate(_criteria, _locationListener, Looper.MainLooper);
+            if (_locationListener.CurrentLocation == null)
             {
-                var x = 0;
+                Messenger.Publish(new ToastMessage(this, "Current location not set!", true));
+                return new Point
+                {
+                    Lat = 0,
+                    Lng = 0
+                };
             }
+
             return new Point
             {
                 Lat = _locationListener.CurrentLocation.Latitude,
