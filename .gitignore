@@ -6,3 +6,4 @@
 /.vs
 /PaddleBuddy/PaddleBuddy.iOS/obj
 /PaddleBuddy/PaddleBuddy.iOS/bin
+/*.suo
