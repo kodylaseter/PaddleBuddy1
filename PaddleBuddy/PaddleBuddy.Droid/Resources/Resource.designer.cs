@@ -3632,52 +3632,19 @@ namespace PaddleBuddy.Droid
 			public const int design_snackbar_background = 2130837617;
 			
 			// aapt resource value: 0x7f020072
-			public const int ic_check_black_18dp = 2130837618;
+			public const int ic_search_white = 2130837618;
 			
 			// aapt resource value: 0x7f020073
-			public const int ic_check_black_24dp = 2130837619;
+			public const int Icon = 2130837619;
 			
 			// aapt resource value: 0x7f020074
-			public const int ic_check_black_36dp = 2130837620;
-			
-			// aapt resource value: 0x7f020075
-			public const int ic_check_black_48dp = 2130837621;
+			public const int MvvmCrossLogo = 2130837620;
 			
 			// aapt resource value: 0x7f020076
-			public const int ic_check_grey600_18dp = 2130837622;
+			public const int notification_template_icon_bg = 2130837622;
 			
-			// aapt resource value: 0x7f020077
-			public const int ic_check_grey600_24dp = 2130837623;
-			
-			// aapt resource value: 0x7f020078
-			public const int ic_check_grey600_36dp = 2130837624;
-			
-			// aapt resource value: 0x7f020079
-			public const int ic_check_grey600_48dp = 2130837625;
-			
-			// aapt resource value: 0x7f02007a
-			public const int ic_check_white_18dp = 2130837626;
-			
-			// aapt resource value: 0x7f02007b
-			public const int ic_check_white_24dp = 2130837627;
-			
-			// aapt resource value: 0x7f02007c
-			public const int ic_check_white_36dp = 2130837628;
-			
-			// aapt resource value: 0x7f02007d
-			public const int ic_check_white_48dp = 2130837629;
-			
-			// aapt resource value: 0x7f02007e
-			public const int Icon = 2130837630;
-			
-			// aapt resource value: 0x7f02007f
-			public const int MvvmCrossLogo = 2130837631;
-			
-			// aapt resource value: 0x7f020081
-			public const int notification_template_icon_bg = 2130837633;
-			
-			// aapt resource value: 0x7f020080
-			public const int splash = 2130837632;
+			// aapt resource value: 0x7f020075
+			public const int splash = 2130837621;
 			
 			static Drawable()
 			{
@@ -3751,6 +3718,9 @@ namespace PaddleBuddy.Droid
 			
 			// aapt resource value: 0x7f090049
 			public const int action_mode_close_button = 2131296329;
+			
+			// aapt resource value: 0x7f09009d
+			public const int action_search = 2131296413;
 			
 			// aapt resource value: 0x7f09004a
 			public const int activity_chooser_view_content = 2131296330;
@@ -3850,6 +3820,9 @@ namespace PaddleBuddy.Droid
 			
 			// aapt resource value: 0x7f090069
 			public const int edit_query = 2131296361;
+			
+			// aapt resource value: 0x7f09009c
+			public const int edtSearch = 2131296412;
 			
 			// aapt resource value: 0x7f090028
 			public const int end = 2131296296;
@@ -3956,26 +3929,26 @@ namespace PaddleBuddy.Droid
 			// aapt resource value: 0x7f090022
 			public const int multiply = 2131296290;
 			
-			// aapt resource value: 0x7f0900a0
-			public const int nav_footer = 2131296416;
-			
 			// aapt resource value: 0x7f0900a2
-			public const int nav_helpfeedback = 2131296418;
+			public const int nav_footer = 2131296418;
 			
-			// aapt resource value: 0x7f09009d
-			public const int nav_home = 2131296413;
-			
-			// aapt resource value: 0x7f09009c
-			public const int nav_items = 2131296412;
-			
-			// aapt resource value: 0x7f09009e
-			public const int nav_main = 2131296414;
+			// aapt resource value: 0x7f0900a4
+			public const int nav_helpfeedback = 2131296420;
 			
 			// aapt resource value: 0x7f09009f
-			public const int nav_map = 2131296415;
+			public const int nav_home = 2131296415;
+			
+			// aapt resource value: 0x7f09009e
+			public const int nav_items = 2131296414;
+			
+			// aapt resource value: 0x7f0900a0
+			public const int nav_main = 2131296416;
 			
 			// aapt resource value: 0x7f0900a1
-			public const int nav_settings = 2131296417;
+			public const int nav_map = 2131296417;
+			
+			// aapt resource value: 0x7f0900a3
+			public const int nav_settings = 2131296419;
 			
 			// aapt resource value: 0x7f09007f
 			public const int navigation_frame = 2131296383;
@@ -4405,6 +4378,9 @@ namespace PaddleBuddy.Droid
 			// aapt resource value: 0x7f03003a
 			public const int toolbar_actionbar = 2130903098;
 			
+			// aapt resource value: 0x7f03003b
+			public const int toolbar_search = 2130903099;
+			
 			static Layout()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -4419,7 +4395,10 @@ namespace PaddleBuddy.Droid
 		{
 			
 			// aapt resource value: 0x7f0c0000
-			public const int navigation_drawer = 2131492864;
+			public const int main_menu = 2131492864;
+			
+			// aapt resource value: 0x7f0c0001
+			public const int navigation_drawer = 2131492865;
 			
 			static Menu()
 			{
@@ -4610,6 +4589,9 @@ namespace PaddleBuddy.Droid
 			
 			// aapt resource value: 0x7f050032
 			public const int status_bar_notification_info_overflow = 2131034162;
+			
+			// aapt resource value: 0x7f05003b
+			public const int subtitle_test = 2131034171;
 			
 			static String()
 			{

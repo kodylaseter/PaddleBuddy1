@@ -1,17 +1,19 @@
 ﻿using System.Security.Authentication.ExtendedProtection;
+using Android.App;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Android.OS;
 using Android.Runtime;
-using Android.Support.V4.App;
 using Android.Views;
 using MvvmCross.Droid.Support.V7.Fragging.Attributes;
 using MvvmCross.Platform;
 using PaddleBuddy.Core.DependencyServices;
 using PaddleBuddy.Core.Services;
 using PaddleBuddy.Core.ViewModels;
+using PaddleBuddy.Droid.Activities;
 using PaddleBuddy.Droid.DependencyServices;
 using PaddleBuddy.Droid.Utilities;
+using FragmentTransaction = Android.Support.V4.App.FragmentTransaction;
 
 namespace PaddleBuddy.Droid.Fragments
 {

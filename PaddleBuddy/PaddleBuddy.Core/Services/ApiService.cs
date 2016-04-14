@@ -21,6 +21,7 @@ namespace PaddleBuddy.Core.Services
         private const string ApiBase = "http://10.0.3.3:4000/api/mobile/";
         private const string ContentTypeJson = "application/json";
 
+        //TODO implement internet checking mechanism
         public async Task<Response> PostAsync(string uri, object data)
         {
             Response response;

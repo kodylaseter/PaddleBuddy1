@@ -38,7 +38,6 @@ namespace PaddleBuddy.Core.Services
             try
             {
                 var resp = await PostAsync("closest_river/", LocationService.GetInstance().GetCurrentLocation());
-                //var resp = await GetAsync("river/" + 1);
                 if (resp.Success)
                 {
                     result = JsonConvert.DeserializeObject<River>(resp.Data.ToString());
