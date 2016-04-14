@@ -3,11 +3,13 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-  <EditText
+  <AppCompatEditText
     android:id="@+id/edtSearch"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:paddingLeft="10dp"
     android:inputType="text"
     android:hint="Search..."
-    android:imeOptions="actionSearch"/>
+    android:imeOptions="actionSearch"
+    android:background="@android:color/transparent"/>
 </LinearLayout>

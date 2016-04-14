@@ -1,22 +1,28 @@
-﻿using Android.Content.Res;
+﻿using System;
+using Android.Content.Res;
 using Android.OS;
-using Android.Support.V7.App;
+using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Views;
+using Android.Views.InputMethods;
 using MvvmCross.Binding.Droid.BindingContext;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Droid.Support.V7.Fragging.Fragments;
-using PaddleBuddy.Core.Models;
 using PaddleBuddy.Droid.Activities;
+using PaddleBuddy.Core.ViewModels;
 
 namespace PaddleBuddy.Droid.Fragments
 {
-    public abstract class BaseFragment : MvxFragment
+    public abstract class BaseFragment : MvxFragment, Android.Widget.TextView.IOnEditorActionListener
     {
-        private Toolbar _toolbar;
+        private Android.Support.V7.Widget.Toolbar _toolbar;
         private MvxActionBarDrawerToggle _drawerToggle;
         private bool _searchOpen;
+        private InputMethodManager _imm;
+        private Android.Support.V7.App.ActionBar _actionBar;
+        private View _edtSearch;
+        
 
         protected BaseFragment()
         {
@@ -28,6 +34,7 @@ namespace PaddleBuddy.Droid.Fragments
             base.OnCreate(savedInstanceState);
             _searchOpen = false;
             HasOptionsMenu = true;
+            _imm = (InputMethodManager)Context.ApplicationContext.GetSystemService(Android.Content.Context.InputMethodService);
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -51,9 +58,13 @@ namespace PaddleBuddy.Droid.Fragments
 				);
 				_drawerToggle.DrawerOpened += (sender, e) => ((MainActivity)Activity).HideSoftKeyboard ();
 				((MainActivity)Activity).DrawerLayout.SetDrawerListener(_drawerToggle);
-			}
+            }
+            _actionBar = ((MainActivity)Activity).SupportActionBar;
+            _actionBar.SetCustomView(Resource.Layout.toolbar_search);
+            _edtSearch = _actionBar.CustomView.FindViewById(Resource.Id.edtSearch);
+            ((AppCompatEditText)_edtSearch).SetOnEditorActionListener(this);
 
-			return view;
+            return view;
 		}
 
         public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
@@ -67,7 +78,7 @@ namespace PaddleBuddy.Droid.Fragments
             int id = item.ItemId;
             if (id == Resource.Id.action_search)
             {
-                HandleSearch();
+                HandleSearch(item);
             }
             return base.OnOptionsItemSelected(item);
         }
@@ -75,19 +86,22 @@ namespace PaddleBuddy.Droid.Fragments
 
         protected abstract int FragmentId { get; }
 
-        public void HandleSearch()
+        public void HandleSearch(IMenuItem item)
         {
-            var actionBar = ((MainActivity)Activity).SupportActionBar;
             if (_searchOpen)
             {
-                actionBar.SetDisplayShowTitleEnabled(true);
-                actionBar.SetDisplayShowCustomEnabled(false);
+                _actionBar.SetDisplayShowTitleEnabled(true);
+                _actionBar.SetDisplayShowCustomEnabled(false);
+                item.SetIcon(Resource.Drawable.ic_search_white);
+                _imm.HideSoftInputFromWindow(Activity.CurrentFocus.WindowToken, 0);
             }
             else
             {
-                actionBar.SetDisplayShowTitleEnabled(false);
-                actionBar.SetCustomView(Resource.Layout.toolbar_search);
-                actionBar.SetDisplayShowCustomEnabled(true);
+                _actionBar.SetDisplayShowTitleEnabled(false);
+                _actionBar.SetDisplayShowCustomEnabled(true);
+                _edtSearch.RequestFocus();
+                _imm.ShowSoftInput(_edtSearch, ShowFlags.Implicit);
+                item.SetIcon(Resource.Drawable.ic_clear_white);
             }
             _searchOpen = !_searchOpen;
 
@@ -105,6 +119,16 @@ namespace PaddleBuddy.Droid.Fragments
             base.OnActivityCreated(savedInstanceState);
             if (_toolbar != null)
                 _drawerToggle.SyncState();
+        }
+
+        public bool OnEditorAction(Android.Widget.TextView v, [GeneratedEnum] ImeAction actionId, KeyEvent e)
+        {
+            if (actionId == ImeAction.Search)
+            {
+                //TODO implement search
+                return true;
+            }
+            return false;
         }
     }
 
