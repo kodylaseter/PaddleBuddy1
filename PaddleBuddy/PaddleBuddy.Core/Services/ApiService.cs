@@ -21,19 +21,20 @@ namespace PaddleBuddy.Core.Services
         private const string ApiBase = "http://10.0.3.3:4000/api/mobile/";
         private const string ContentTypeJson = "application/json";
 
+        //TODO implement internet checking mechanism
         public async Task<Response> PostAsync(string uri, object data)
         {
             Response response;
-            var fullUri = ApiBase + "uri";
+            var fullUri = ApiBase + uri;
             try
             {
                 response = await fullUri.WithHeader("ContentType", ContentTypeJson)
                 .PostJsonAsync(data).ReceiveJson<Response>();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 Mvx.Resolve<IMvxMessenger>().Publish(new ToastMessage(this, "Problem reaching remote server!", false));
-                throw;
+                throw e;
             }
             return response;
         }

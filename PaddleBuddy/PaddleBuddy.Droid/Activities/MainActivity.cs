@@ -11,6 +11,7 @@ using MvvmCross.Platform;
 using MvvmCross.Plugins.Messenger;
 using PaddleBuddy.Core.Models.Messages;
 using PaddleBuddy.Core.ViewModels;
+using ActionBar = Android.Support.V7.App.ActionBar;
 
 namespace PaddleBuddy.Droid.Activities
 {
@@ -23,6 +24,7 @@ namespace PaddleBuddy.Droid.Activities
     public class MainActivity : MvxCachingFragmentCompatActivity<MainViewModel>
     {
         public DrawerLayout DrawerLayout;
+        public ActionBar _actionBar;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -38,6 +40,12 @@ namespace PaddleBuddy.Droid.Activities
 
             if (bundle == null)
                 ViewModel.ShowMenuAndFirstDetail();
+            _actionBar = SupportActionBar;
+        }
+
+        public void EnableSearch()
+        {
+            _actionBar.SetDisplayShowTitleEnabled(false);
         }
 
         public void DisplayToast(ToastMessage message)

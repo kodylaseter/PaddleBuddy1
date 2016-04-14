@@ -1,11 +1,13 @@
 ﻿using Android.Content.Res;
 using Android.OS;
+using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Views;
 using MvvmCross.Binding.Droid.BindingContext;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using MvvmCross.Droid.Support.V7.Fragging.Fragments;
+using PaddleBuddy.Core.Models;
 using PaddleBuddy.Droid.Activities;
 
 namespace PaddleBuddy.Droid.Fragments
@@ -14,10 +16,18 @@ namespace PaddleBuddy.Droid.Fragments
     {
         private Toolbar _toolbar;
         private MvxActionBarDrawerToggle _drawerToggle;
+        private bool _searchOpen;
 
         protected BaseFragment()
         {
-            this.RetainInstance = true;
+            RetainInstance = true;
+        }
+
+        public override void OnCreate(Bundle savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
+            _searchOpen = false;
+            HasOptionsMenu = true;
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -39,14 +49,49 @@ namespace PaddleBuddy.Droid.Fragments
 					Resource.String.drawer_open,            // "open drawer" description
 					Resource.String.drawer_close            // "close drawer" description
 				);
-				_drawerToggle.DrawerOpened += (object sender, ActionBarDrawerEventArgs e) => ((MainActivity)Activity).HideSoftKeyboard ();
+				_drawerToggle.DrawerOpened += (sender, e) => ((MainActivity)Activity).HideSoftKeyboard ();
 				((MainActivity)Activity).DrawerLayout.SetDrawerListener(_drawerToggle);
 			}
 
 			return view;
 		}
 
+        public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
+        {
+            inflater.Inflate(Resource.Menu.main_menu, menu);
+            base.OnCreateOptionsMenu(menu, inflater);
+        }
+
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            int id = item.ItemId;
+            if (id == Resource.Id.action_search)
+            {
+                HandleSearch();
+            }
+            return base.OnOptionsItemSelected(item);
+        }
+
+
         protected abstract int FragmentId { get; }
+
+        public void HandleSearch()
+        {
+            var actionBar = ((MainActivity)Activity).SupportActionBar;
+            if (_searchOpen)
+            {
+                actionBar.SetDisplayShowTitleEnabled(true);
+                actionBar.SetDisplayShowCustomEnabled(false);
+            }
+            else
+            {
+                actionBar.SetDisplayShowTitleEnabled(false);
+                actionBar.SetCustomView(Resource.Layout.toolbar_search);
+                actionBar.SetDisplayShowCustomEnabled(true);
+            }
+            _searchOpen = !_searchOpen;
+
+        }
 
         public override void OnConfigurationChanged(Configuration newConfig)
         {

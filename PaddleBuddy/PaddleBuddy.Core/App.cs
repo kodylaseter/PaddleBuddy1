@@ -11,7 +11,8 @@ namespace PaddleBuddy.Core
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 
-            bool isLoggedIn = false;
+            //TODO enable login
+            bool isLoggedIn = true;
             if (!isLoggedIn) RegisterAppStart<ViewModels.IntroViewModel>();
             else RegisterAppStart<ViewModels.HomeViewModel>();
 
