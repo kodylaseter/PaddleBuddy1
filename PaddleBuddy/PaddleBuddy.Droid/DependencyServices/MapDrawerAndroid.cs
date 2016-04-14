@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Java.Lang;
@@ -22,15 +23,22 @@ namespace PaddleBuddy.Droid.DependencyServices
 
         public GoogleMap Map { get; set; }
 
-        public void DrawLine(object _points, int width = 7, int color = Resource.Color.dark_gray,
-            int zindex = 1)
+        public void DrawLine(object _points)
         {
-            Map.AddPolyline(
-                    new PolylineOptions().AddAll(_points as IIterable)
-                        .InvokeColor(color)
-                        .InvokeWidth(width)
-                        .InvokeColor(color)
-                        .InvokeZIndex(zindex));
+            try
+            {
+                var points = _points as IIterable;
+                Map.AddPolyline(
+                    new PolylineOptions().AddAll(points)
+                        .InvokeColor(Resource.Color.black)
+                        .InvokeWidth(9)
+                        .InvokeZIndex(1));
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            
         }
 
         public void DrawMarker(Point p)

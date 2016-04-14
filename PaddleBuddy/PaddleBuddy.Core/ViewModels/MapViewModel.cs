@@ -17,7 +17,9 @@ namespace PaddleBuddy.Core.ViewModels
 
         public async void SetCamera()
         {
-            await MapService.GetInstance().GetClosestRiver();
+            var river = await MapService.GetInstance().GetClosestRiver();
+            MapDrawer.DrawLine(river.Points);
+
         }
     }
 }
