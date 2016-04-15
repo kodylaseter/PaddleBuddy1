@@ -1,4 +1,6 @@
 using MvvmCross.Platform.IoC;
+using PaddleBuddy.Core.Services;
+using System.Threading.Tasks;
 
 namespace PaddleBuddy.Core
 {
@@ -13,6 +15,7 @@ namespace PaddleBuddy.Core
 
             //TODO enable login
             bool isLoggedIn = true;
+            TaskEx.Run(() => SearchService.GetInstance());
             if (!isLoggedIn) RegisterAppStart<ViewModels.IntroViewModel>();
             else RegisterAppStart<ViewModels.HomeViewModel>();
 
