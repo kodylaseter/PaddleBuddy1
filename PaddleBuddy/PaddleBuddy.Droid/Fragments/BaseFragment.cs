@@ -25,7 +25,7 @@ namespace PaddleBuddy.Droid.Fragments
         private bool _searchOpen;
         private InputMethodManager _imm;
         private Android.Support.V7.App.ActionBar _actionBar;
-        private View _edtSearch;
+        private AppCompatEditText _edtSearch;
         
 
         protected BaseFragment()
@@ -65,9 +65,8 @@ namespace PaddleBuddy.Droid.Fragments
             }
             _actionBar = ((MainActivity)Activity).SupportActionBar;
             _actionBar.SetCustomView(Resource.Layout.toolbar_search);
-            _edtSearch = _actionBar.CustomView.FindViewById(Resource.Id.edtSearch);
-            //((AppCompatEditText)_edtSearch).SetOnEditorActionListener(this);
-            ((AppCompatEditText)_edtSearch).AddTextChangedListener(this);
+            _edtSearch = (AppCompatEditText)_actionBar.CustomView.FindViewById(Resource.Id.edtSearch);
+            _edtSearch.AddTextChangedListener(this);
 
             return view;
 		}
@@ -95,6 +94,7 @@ namespace PaddleBuddy.Droid.Fragments
         {
             if (_searchOpen)
             {
+                SetSearchString();
                 _actionBar.SetDisplayShowTitleEnabled(true);
                 _actionBar.SetDisplayShowCustomEnabled(false);
                 item.SetIcon(Resource.Drawable.ic_search_white);
@@ -102,6 +102,10 @@ namespace PaddleBuddy.Droid.Fragments
             }
             else
             {
+                if (!string.IsNullOrEmpty(_edtSearch.Text))
+                {
+                    SetSearchString(_edtSearch.Text);
+                }
                 _actionBar.SetDisplayShowTitleEnabled(false);
                 _actionBar.SetDisplayShowCustomEnabled(true);
                 _edtSearch.RequestFocus();
@@ -125,28 +129,24 @@ namespace PaddleBuddy.Droid.Fragments
                 _drawerToggle.SyncState();
         }
 
-        //public bool OnEditorAction(Android.Widget.TextView v, [GeneratedEnum] ImeAction actionId, KeyEvent e)
-        //{
-        //    if (actionId == ImeAction.Search)
-        //    {
-        //        //TODO implement search
-        //        return true;
-        //    }
-        //    return false;
-        //}
         public void AfterTextChanged(IEditable s)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void BeforeTextChanged(ICharSequence s, int start, int count, int after)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void OnTextChanged(ICharSequence s, int start, int before, int count)
         {
-            throw new NotImplementedException();
+            SetSearchString(s.ToString());
+        }
+
+        public void SetSearchString(string s = null)
+        {
+            ((BaseViewModel) ViewModel).SearchString = s;
         }
     }
 

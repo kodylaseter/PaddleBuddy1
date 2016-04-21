@@ -15,10 +15,11 @@ namespace PaddleBuddy.Core.ViewModels
     public class BaseViewModel : MvxViewModel
     {
         private ObservableCollection<River> _data;
+        private string _searchString;
 
         public ObservableCollection<River> Data
         {
-            get { return _data; }
+            get { return _data ?? (_data = SearchService.GetInstance().Data); }
             set
             {
                 _data = value;
@@ -26,11 +27,23 @@ namespace PaddleBuddy.Core.ViewModels
             }
         }
 
+        public string SearchString
+        {
+            get { return _searchString; }
+            set
+            {
+                _searchString = value;
+                RaisePropertyChanged(() => IsShown);
+            }
+        }
+
+        public bool IsShown => !string.IsNullOrEmpty(_searchString);
+
 
         public BaseViewModel()
         {
             Messenger = Mvx.Resolve<IMvxMessenger>();
-            Data = SearchService.GetInstance().Data;
+            
         }
 
         protected IMvxMessenger Messenger { get; private set; }
