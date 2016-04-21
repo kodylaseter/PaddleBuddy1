@@ -3,18 +3,22 @@ using Android.Content.Res;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V7.Widget;
+using Android.Text;
 using Android.Views;
 using Android.Views.InputMethods;
+using Java.Lang;
 using MvvmCross.Binding.Droid.BindingContext;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Droid.Support.V7.AppCompat;
+using MvvmCross.Droid.Support.V7.AppCompat.Widget;
 using MvvmCross.Droid.Support.V7.Fragging.Fragments;
+using PaddleBuddy.Core.Services;
 using PaddleBuddy.Droid.Activities;
 using PaddleBuddy.Core.ViewModels;
 
 namespace PaddleBuddy.Droid.Fragments
 {
-    public abstract class BaseFragment : MvxFragment, Android.Widget.TextView.IOnEditorActionListener
+    public abstract class BaseFragment : MvxFragment, ITextWatcher
     {
         private Android.Support.V7.Widget.Toolbar _toolbar;
         private MvxActionBarDrawerToggle _drawerToggle;
@@ -62,7 +66,8 @@ namespace PaddleBuddy.Droid.Fragments
             _actionBar = ((MainActivity)Activity).SupportActionBar;
             _actionBar.SetCustomView(Resource.Layout.toolbar_search);
             _edtSearch = _actionBar.CustomView.FindViewById(Resource.Id.edtSearch);
-            ((AppCompatEditText)_edtSearch).SetOnEditorActionListener(this);
+            //((AppCompatEditText)_edtSearch).SetOnEditorActionListener(this);
+            ((AppCompatEditText)_edtSearch).AddTextChangedListener(this);
 
             return view;
 		}
@@ -104,7 +109,6 @@ namespace PaddleBuddy.Droid.Fragments
                 item.SetIcon(Resource.Drawable.ic_clear_white);
             }
             _searchOpen = !_searchOpen;
-
         }
 
         public override void OnConfigurationChanged(Configuration newConfig)
@@ -121,14 +125,28 @@ namespace PaddleBuddy.Droid.Fragments
                 _drawerToggle.SyncState();
         }
 
-        public bool OnEditorAction(Android.Widget.TextView v, [GeneratedEnum] ImeAction actionId, KeyEvent e)
+        //public bool OnEditorAction(Android.Widget.TextView v, [GeneratedEnum] ImeAction actionId, KeyEvent e)
+        //{
+        //    if (actionId == ImeAction.Search)
+        //    {
+        //        //TODO implement search
+        //        return true;
+        //    }
+        //    return false;
+        //}
+        public void AfterTextChanged(IEditable s)
         {
-            if (actionId == ImeAction.Search)
-            {
-                //TODO implement search
-                return true;
-            }
-            return false;
+            throw new NotImplementedException();
+        }
+
+        public void BeforeTextChanged(ICharSequence s, int start, int count, int after)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnTextChanged(ICharSequence s, int start, int before, int count)
+        {
+            throw new NotImplementedException();
         }
     }
 
