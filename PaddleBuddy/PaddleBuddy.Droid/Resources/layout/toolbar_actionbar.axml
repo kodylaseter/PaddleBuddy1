@@ -22,7 +22,7 @@
   <Mvx.MvxListView
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    android:background="@color/black"
+    local:MvxItemTemplate="@layout/listitem_search"
     local:MvxBind="ItemsSource Data; Visible IsShown"/>
   
 </LinearLayout>
