@@ -141,7 +141,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Activities\BaseActivity.cs" />
     <Compile Include="Activities\IntroActivity.cs" />
     <Compile Include="Activities\RegisterActivity.cs" />
     <Compile Include="Bootstrap\JsonPluginBootstrap.cs" />
