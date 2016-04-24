@@ -36,7 +36,7 @@ namespace PaddleBuddy.Core.Services
                 Messenger.Publish(new ToastMessage(this, "Problem reaching remote server!", false));
                 response = new Response
                 {
-                    Success = true
+                    Success = false
                 };
             }
             return response;
@@ -55,7 +55,7 @@ namespace PaddleBuddy.Core.Services
                 Messenger.Publish(new ToastMessage(this, "Problem reaching remote server!", false));
                 response = new Response
                 {
-                    Success = true
+                    Success = false
                 };
             }
 

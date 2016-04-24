@@ -27,7 +27,7 @@ namespace PaddleBuddy.Droid.Fragments
 
             _navigationView = view.FindViewById<NavigationView>(Resource.Id.navigation_view);
             _navigationView.SetNavigationItemSelectedListener(this);
-            _navigationView.Menu.FindItem(Resource.Id.nav_home).SetChecked(true);
+            _navigationView.Menu.FindItem(Resource.Id.nav_map).SetChecked(true);
 
             return view;
         }
@@ -50,9 +50,6 @@ namespace PaddleBuddy.Droid.Fragments
             //await Task.Delay (TimeSpan.FromMilliseconds (250));
 
             switch (itemId) {
-                case Resource.Id.nav_home:
-                    ViewModel.ShowViewModelAndroid(typeof(HomeViewModel));
-                    break;
                 case Resource.Id.nav_map:
                     ViewModel.ShowViewModelAndroid(typeof(MapViewModel));
                     break;
@@ -61,6 +58,9 @@ namespace PaddleBuddy.Droid.Fragments
                     break;
                 case Resource.Id.nav_helpfeedback:
                     ViewModel.ShowViewModelAndroid(typeof(SettingsViewModel));
+                    break;
+                case Resource.Id.nav_plan:
+                    ViewModel.ShowViewModelAndroid(typeof(PlanViewModel));
                     break;
             }
         }

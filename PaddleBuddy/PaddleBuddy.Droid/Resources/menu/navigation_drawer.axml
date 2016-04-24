@@ -4,14 +4,14 @@
 
     <group android:id="@+id/nav_items">
         <item
-            android:id="@+id/nav_home"
-            android:title="Home" />        
+            android:id="@+id/nav_map"
+            android:title="Map" />        
     </group>
 
     <group android:id="@+id/nav_main">
       <item
-            android:id="@+id/nav_map"
-            android:title="Map" />
+            android:id="@+id/nav_plan"
+            android:title="Plan" />
     </group>
 
 	<group android:id="@+id/nav_footer">

@@ -35,7 +35,7 @@ namespace PaddleBuddy.Core.ViewModels
             //{
             //    Messenger.Publish(new ToastMessage(this, "Email or password not correct!", true));
             //}
-            ShowViewModel<HomeViewModel>();
+            ShowViewModel<MapViewModel>();
             IsLoading = false;
         }
         public bool IsLoading { get; set; }

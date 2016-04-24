@@ -141,6 +141,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activities\BaseActivity.cs" />
     <Compile Include="Activities\IntroActivity.cs" />
     <Compile Include="Activities\RegisterActivity.cs" />
     <Compile Include="Bootstrap\JsonPluginBootstrap.cs" />
@@ -149,6 +150,7 @@
     <Compile Include="DependencyServices\BaseDependencyServiceAndroid.cs" />
     <Compile Include="DependencyServices\LocationProviderAndroid.cs" />
     <Compile Include="DependencyServices\MapDrawerAndroid.cs" />
+    <Compile Include="Fragments\PlanFragment.cs" />
     <Compile Include="Utilities\Converter.cs" />
     <Compile Include="Fragments\BaseStateFragment.cs" />
     <Compile Include="Fragments\MapFragment.cs" />
@@ -201,6 +203,9 @@
     </AndroidResource>
     <AndroidResource Include="Resources\layout\listitem_search.axml">
       <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\fragment_plan.axml">
+      <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>

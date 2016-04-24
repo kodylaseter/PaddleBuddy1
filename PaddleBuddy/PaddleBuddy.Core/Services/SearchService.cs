@@ -29,10 +29,13 @@ namespace PaddleBuddy.Core.Services
             {
                 var resp = await GetAsync("rivers");
                 Data = new List<SearchItem>();
-                foreach(var item in JsonConvert.DeserializeObject<List<River>>(resp.Data.ToString()))
+                if (resp.Success)
                 {
-                    Data?.Add(new SearchItem {SearchString = item.Name, Item = item});
-                } 
+                    foreach (var item in JsonConvert.DeserializeObject<List<River>>(resp.Data.ToString()))
+                    {
+                        Data?.Add(new SearchItem { SearchString = item.Name, Item = item });
+                    }
+                }
             } catch (Exception)
             {
                 Messenger.Publish(new ToastMessage(this, "Failed to get search data", true));
