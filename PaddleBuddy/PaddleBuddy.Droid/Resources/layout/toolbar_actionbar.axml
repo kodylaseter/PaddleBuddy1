@@ -23,6 +23,6 @@
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
     local:MvxItemTemplate="@layout/listitem_search"
-    local:MvxBind="ItemsSource Data; Visible IsShown"/>
+    local:MvxBind="ItemsSource FilteredData; Visible IsShown"/>
   
 </LinearLayout>
