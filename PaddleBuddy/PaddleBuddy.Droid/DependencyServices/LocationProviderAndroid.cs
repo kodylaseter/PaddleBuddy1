@@ -42,8 +42,8 @@ namespace PaddleBuddy.Droid.DependencyServices
                 Messenger.Publish(new ToastMessage(this, "Current location not set!", true));
                 return new Point
                 {
-                    Lat = 0,
-                    Lng = 0
+                    Lat = 34.0754,
+                    Lng = -84.2941
                 };
             }
 
@@ -55,7 +55,6 @@ namespace PaddleBuddy.Droid.DependencyServices
         }
         class Listener : Java.Lang.Object, ILocationListener
         {
-
             public Location CurrentLocation { get; set; }
 
             public void OnLocationChanged(Location location)

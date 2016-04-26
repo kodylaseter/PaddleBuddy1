@@ -5,6 +5,6 @@
 /PaddleBuddy/PaddleBuddy.Droid/bin
 /PaddleBuddy/PaddleBuddy.iOS/obj
 /PaddleBuddy/PaddleBuddy.iOS/bin
-/*.suo
 /.vs
-/packages
+/*.suo
+/packages/PaddleBuddy/PaddleBuddy.Droid/Resources/Resource.designer.cs

@@ -1,4 +1,6 @@
 using MvvmCross.Platform.IoC;
+using PaddleBuddy.Core.Services;
+using System.Threading.Tasks;
 
 namespace PaddleBuddy.Core
 {
@@ -11,7 +13,9 @@ namespace PaddleBuddy.Core
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 
-            bool isLoggedIn = false;
+            //TODO enable login
+            bool isLoggedIn = true;
+            SearchService.GetInstance();
             if (!isLoggedIn) RegisterAppStart<ViewModels.IntroViewModel>();
             else RegisterAppStart<ViewModels.HomeViewModel>();
 

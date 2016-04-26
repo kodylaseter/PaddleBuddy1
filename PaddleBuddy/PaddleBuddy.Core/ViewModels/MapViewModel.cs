@@ -11,13 +11,14 @@ namespace PaddleBuddy.Core.ViewModels
         public void Setup()
         {
             MapDrawer = Mvx.Resolve<IMapDrawer>();
-            MapDrawer.MoveCameraZoom(LocationService.GetInstance().GetCurrentLocation(), 9);
             SetCamera();
         }
 
         public async void SetCamera()
         {
-            await MapService.GetInstance().GetClosestRiver();
+            MapDrawer.MoveCameraZoom(LocationService.GetInstance().GetCurrentLocation(), 11);
+            var river = await MapService.GetInstance().GetClosestRiver();
+            MapDrawer.DrawLine(river.Points.ToArray());
         }
     }
 }
