@@ -1,5 +1,7 @@
-﻿using MvvmCross.Platform;
+﻿using System;
+using MvvmCross.Platform;
 using PaddleBuddy.Core.DependencyServices;
+using PaddleBuddy.Core.Models.Messages;
 using PaddleBuddy.Core.Services;
 
 namespace PaddleBuddy.Core.ViewModels
@@ -17,8 +19,15 @@ namespace PaddleBuddy.Core.ViewModels
         public async void SetCamera()
         {
             MapDrawer.MoveCameraZoom(LocationService.GetInstance().GetCurrentLocation(), 11);
-            var river = await MapService.GetInstance().GetClosestRiver();
-            MapDrawer.DrawLine(river.Points.ToArray());
+            try
+            {
+                var river = await MapService.GetInstance().GetClosestRiver();
+                MapDrawer.DrawLine(river.Points.ToArray());
+            }
+            catch (Exception)
+            {
+                Messenger.Publish(new ToastMessage(this, "Failed to get nearest fiver", true));
+            }
         }
     }
 }

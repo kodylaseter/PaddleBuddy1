@@ -15,7 +15,7 @@ using PaddleBuddy.Core.ViewModels;
 
 namespace PaddleBuddy.Core.Services
 {
-    public abstract class ApiService
+    public abstract class ApiService : BaseService
     {
         //private const string ApiBase = "http://paddlebuddy-pbdb.rhcloud.com/";
         private const string ApiBase = "http://10.0.3.3:4000/api/mobile/";
@@ -33,8 +33,11 @@ namespace PaddleBuddy.Core.Services
             }
             catch (Exception e)
             {
-                Mvx.Resolve<IMvxMessenger>().Publish(new ToastMessage(this, "Problem reaching remote server!", false));
-                throw e;
+                Messenger.Publish(new ToastMessage(this, "Problem reaching remote server!", false));
+                response = new Response
+                {
+                    Success = false
+                };
             }
             return response;
         }
@@ -49,9 +52,11 @@ namespace PaddleBuddy.Core.Services
             }
             catch (Exception e)
             {
-                Mvx.Resolve<IMvxMessenger>().Publish(new ToastMessage(this, "Problem reaching remote server!", false));
-                Debug.WriteLine(e.Message);
-                throw e;
+                Messenger.Publish(new ToastMessage(this, "Problem reaching remote server!", false));
+                response = new Response
+                {
+                    Success = false
+                };
             }
 
             return response;

@@ -3,16 +3,15 @@ using PaddleBuddy.Core.Models.Map;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PaddleBuddy.Core.Models;
+using PaddleBuddy.Core.Models.Messages;
 
 namespace PaddleBuddy.Core.Services
 {
     public class SearchService : ApiService
     {
-        private static SearchService _searchService = new SearchService();
-        public ObservableCollection<River> Data { get; set; }
+        private static readonly SearchService _searchService = new SearchService();
+        public List<SearchItem> Data { get; set; }
 
         public static SearchService GetInstance()
         {
@@ -29,10 +28,17 @@ namespace PaddleBuddy.Core.Services
             try
             {
                 var resp = await GetAsync("rivers");
-                Data = JsonConvert.DeserializeObject<ObservableCollection<River>>(resp.Data.ToString());
-            } catch (Exception e)
+                Data = new List<SearchItem>();
+                if (resp.Success)
+                {
+                    foreach (var item in JsonConvert.DeserializeObject<List<River>>(resp.Data.ToString()))
+                    {
+                        Data?.Add(new SearchItem { SearchString = item.Name, Item = item });
+                    }
+                }
+            } catch (Exception)
             {
-                throw e;
+                Messenger.Publish(new ToastMessage(this, "Failed to get search data", true));
             }
         }
 

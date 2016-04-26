@@ -14,7 +14,7 @@ namespace PaddleBuddy.Core
                 .RegisterAsLazySingleton();
 
             //TODO enable login
-            bool isLoggedIn = true;
+            bool isLoggedIn = false;
             SearchService.GetInstance();
             if (!isLoggedIn) RegisterAppStart<ViewModels.IntroViewModel>();
             else RegisterAppStart<ViewModels.HomeViewModel>();

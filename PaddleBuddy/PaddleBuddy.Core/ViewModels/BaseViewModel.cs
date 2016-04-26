@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using MvvmCross.Plugins.Messenger;
-using PaddleBuddy.Core.Models.Map;
+using PaddleBuddy.Core.Models;
 using PaddleBuddy.Core.Services;
 
 namespace PaddleBuddy.Core.ViewModels
 {
     public class BaseViewModel : MvxViewModel
     {
-        private ObservableCollection<River> _data;
+        private List<SearchItem> _data;
         private string _searchString;
 
-        public ObservableCollection<River> Data
+        public List<SearchItem> Data
         {
             get { return _data ?? (_data = SearchService.GetInstance().Data); }
             set
@@ -27,12 +24,26 @@ namespace PaddleBuddy.Core.ViewModels
             }
         }
 
+        public ObservableCollection<SearchItem> FilteredData { get; set; }
+
+
         public string SearchString
         {
             get { return _searchString; }
             set
             {
                 _searchString = value;
+                if (_searchString != null)
+                {
+                    FilteredData?.Clear();
+                    FilteredData =
+                        new ObservableCollection<SearchItem>(Data?.Where(w => w.SearchString.Contains(SearchString)));
+                }
+                else
+                {
+                    FilteredData = new ObservableCollection<SearchItem>(Data);
+                }
+                RaisePropertyChanged(() => FilteredData);
                 RaisePropertyChanged(() => IsShown);
             }
         }
