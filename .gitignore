@@ -1,7 +1,10 @@
+/packages
+/PaddleBuddy/PaddleBuddy.Core/obj
+/PaddleBuddy/PaddleBuddy.Core/bin
+/PaddleBuddy/PaddleBuddy.Droid/obj
+/PaddleBuddy/PaddleBuddy.Droid/bin
+/PaddleBuddy/PaddleBuddy.iOS/obj
+/PaddleBuddy/PaddleBuddy.iOS/bin
+/*.suo
 /.vs
 /packages
-/PaddleBuddy/Example.Droid/obj
-/PaddleBuddy/Example.Droid/bin
-/PaddleBuddy/Example.Core/obj
-/PaddleBuddy/Example.Core/bin
-/PaddleBuddy/PaddleBuddy.Droid/Resources/Resource.designer.cs
