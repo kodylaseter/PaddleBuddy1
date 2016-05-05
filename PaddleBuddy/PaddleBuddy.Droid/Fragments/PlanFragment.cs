@@ -4,7 +4,7 @@ using PaddleBuddy.Core.ViewModels;
 
 namespace PaddleBuddy.Droid.Fragments
 {
-    [MvxFragment(typeof(PlanViewModel), Resource.Id.content_frame, true)]
+    [MvxFragment(typeof(MainViewModel), Resource.Id.content_frame)]
     [Register("paddlebuddy.droid.fragments.PlanFragment")]
     public class PlanFragment : BaseFragment<PlanViewModel>
     {
