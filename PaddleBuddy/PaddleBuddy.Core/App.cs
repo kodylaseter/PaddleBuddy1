@@ -15,7 +15,6 @@ namespace PaddleBuddy.Core
 
             //TODO enable login
             bool isLoggedIn = false;
-            SearchService.GetInstance();
             if (!isLoggedIn) RegisterAppStart<ViewModels.IntroViewModel>();
             else RegisterAppStart<ViewModels.HomeViewModel>();
 

@@ -1,20 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:local="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_content"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-  <include
-        layout="@layout/toolbar_actionbar" />
-  <TextView
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:scrollbars="vertical"
+    android:overScrollMode="ifContentScrolls">
+
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView1"
         android:layout_marginLeft="@dimen/element_margin_medium"
         android:layout_marginRight="@dimen/element_margin_medium"
-        android:text="Plan fragment"
-        android:textColor="@color/black"
-        android:layout_centerInParent="true" />
-  
+        android:layout_gravity="center_horizontal">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            local:MvxBind="Text StartID"
+            android:layout_gravity="center_vertical"
+            android:inputType="textNoSuggestions"
+            android:textColorHint="@color/colorPrimary"
+            android:textColorHighlight="@color/white"
+            android:textSize="@dimen/text_medium"
+            android:imeOptions="actionNext"
+            android:hint="Start ID" />
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/element_margin_large"
+        android:layout_marginLeft="@dimen/element_margin_medium"
+        android:layout_marginRight="@dimen/element_margin_medium"
+        android:layout_gravity="center_horizontal">
+        <EditText
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColorHint="@color/colorPrimary"
+            android:textSize="@dimen/text_medium"
+            android:imeOptions="actionGo" 
+            local:MvxBind="Text EndID"
+            android:hint="End ID"/>
+    </android.support.design.widget.TextInputLayout>
+    
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/bottom_button_height"
+        android:background="@color/colorPrimary"
+        android:layout_gravity="center_horizontal">
+        <ProgressBar
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            local:MvxBind="Visible IsLoading"/>
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            local:MvxBind="Click EstimateCommand"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_large"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_gravity="center_horizontal"
+            android:text="Estimate" />
+    </FrameLayout>
 </LinearLayout>

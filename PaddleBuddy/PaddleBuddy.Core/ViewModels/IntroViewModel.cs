@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
+using PaddleBuddy.Core.Services;
 
 namespace PaddleBuddy.Core.ViewModels
 {
@@ -13,6 +14,11 @@ namespace PaddleBuddy.Core.ViewModels
         public ICommand LoginCommand
         {
             get { return new MvxCommand(() => ShowViewModel<LoginViewModel>()); }
+        }
+
+        public IntroViewModel()
+        {
+            SearchService.GetInstance();
         }
     }
 }
