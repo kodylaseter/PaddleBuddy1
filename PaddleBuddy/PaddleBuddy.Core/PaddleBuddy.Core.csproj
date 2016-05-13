@@ -28,6 +28,7 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Converters\Converters.cs" />
     <Compile Include="DependencyServices\ILocationProvider.cs" />
     <Compile Include="DependencyServices\IMapDrawer.cs" />
     <Compile Include="Models\Map\Point.cs" />

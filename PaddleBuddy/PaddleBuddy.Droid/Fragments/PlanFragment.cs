@@ -1,5 +1,9 @@
+using Android.OS;
 using Android.Runtime;
 using MvvmCross.Droid.Support.V7.Fragging.Attributes;
+using MvvmCross.Platform;
+using MvvmCross.Plugins.Messenger;
+using PaddleBuddy.Core.Models.Messages;
 using PaddleBuddy.Core.ViewModels;
 
 namespace PaddleBuddy.Droid.Fragments

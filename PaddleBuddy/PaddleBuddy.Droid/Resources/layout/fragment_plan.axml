@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:local="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_content"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:scrollbars="vertical"
     android:overScrollMode="ifContentScrolls">
-
+    <include
+          layout="@layout/toolbar_actionbar" />
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,7 +18,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            local:MvxBind="Text StartID"
+            local:MvxBind="Text StartID; Enabled IsLoading,Converter=InverseBool"
             android:layout_gravity="center_vertical"
             android:inputType="textNoSuggestions"
             android:textColorHint="@color/colorPrimary"
@@ -33,14 +35,13 @@
         android:layout_marginRight="@dimen/element_margin_medium"
         android:layout_gravity="center_horizontal">
         <EditText
-            android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:textColorHint="@color/colorPrimary"
             android:textSize="@dimen/text_medium"
             android:imeOptions="actionGo" 
-            local:MvxBind="Text EndID"
+            local:MvxBind="Text EndID; Enabled IsLoading,Converter=InverseBool"
             android:hint="End ID"/>
     </android.support.design.widget.TextInputLayout>
     
@@ -56,13 +57,13 @@
             android:gravity="center"
             local:MvxBind="Visible IsLoading"/>
         <Button
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_width="fill_parent"
-            local:MvxBind="Click EstimateCommand"
+            local:MvxBind="Click EstimateCommand; Visible IsLoading,Converter=InverseBool"
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="@dimen/text_large"
-            android:background="?android:attr/selectableItemBackground"
+            android:background="@color/colorPrimary"
             android:layout_gravity="center_horizontal"
             android:text="Estimate" />
     </FrameLayout>
