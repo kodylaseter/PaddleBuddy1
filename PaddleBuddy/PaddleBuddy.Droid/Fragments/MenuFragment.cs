@@ -62,6 +62,9 @@ namespace PaddleBuddy.Droid.Fragments
                 case Resource.Id.nav_plan:
                     ViewModel.ShowViewModelAndroid(typeof(PlanViewModel));
                     break;
+                case Resource.Id.nav_recent:
+                    ViewModel.ShowViewModelAndroid(typeof(RecentViewModel));
+                    break;
             }
         }
     }

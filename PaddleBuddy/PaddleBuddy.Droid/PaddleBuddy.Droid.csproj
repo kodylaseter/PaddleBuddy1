@@ -149,6 +149,7 @@
     <Compile Include="DependencyServices\BaseDependencyServiceAndroid.cs" />
     <Compile Include="DependencyServices\LocationProviderAndroid.cs" />
     <Compile Include="DependencyServices\MapDrawerAndroid.cs" />
+    <Compile Include="Fragments\RecentFragment.cs" />
     <Compile Include="Fragments\PlanFragment.cs" />
     <Compile Include="Utilities\Converter.cs" />
     <Compile Include="Fragments\BaseStateFragment.cs" />
@@ -206,6 +207,7 @@
     <AndroidResource Include="Resources\layout\fragment_plan.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\fragment_recent.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
