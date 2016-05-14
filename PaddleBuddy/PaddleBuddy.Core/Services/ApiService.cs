@@ -22,13 +22,13 @@ namespace PaddleBuddy.Core.Services
         private const string ContentTypeJson = "application/json";
 
         //TODO implement internet checking mechanism
-        public async Task<Response> PostAsync(string uri, object data)
+        public async Task<Response> PostAsync(string url, object data)
         {
             Response response;
-            var fullUri = ApiBase + uri;
+            var fullUrl = ApiBase + url;
             try
             {
-                response = await fullUri.WithHeader("ContentType", ContentTypeJson)
+                response = await fullUrl.WithHeader("ContentType", ContentTypeJson)
                 .PostJsonAsync(data).ReceiveJson<Response>();
             }
             catch (Exception e)
@@ -42,13 +42,13 @@ namespace PaddleBuddy.Core.Services
             return response;
         }
 
-        public async Task<Response> GetAsync(string uri)
+        public async Task<Response> GetAsync(string url)
         {
-            var fullUri = ApiBase + uri;
+            var fullUrl = ApiBase + url;
             Response response;
             try
             {
-                response = await fullUri.GetJsonAsync<Response>();
+                response = await fullUrl.GetJsonAsync<Response>();
             }
             catch (Exception e)
             {
@@ -60,6 +60,32 @@ namespace PaddleBuddy.Core.Services
             }
 
             return response;
+        }
+
+        public async Task<Response> GetAsync(string url, object multiple)
+        {
+            var fullUrl = ApiBase + url;
+            Response response;
+            try
+            {
+                response = await fullUrl.WithHeaders(multiple).GetJsonAsync<Response>();
+            }
+            catch (Exception)
+            {
+                Messenger.Publish(new ToastMessage(this, "Problem reaching remote server!", false));
+                response = new Response
+                {
+                    Success = false
+                };
+            }
+
+            return response;
+        }
+
+        public async Task<Response> GetAsync(string url, string name, string value)
+        {
+            //TODO: implement single header api get
+            throw new NotImplementedException();
         }
     }
 }

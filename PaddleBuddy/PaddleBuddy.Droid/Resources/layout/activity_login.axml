@@ -80,15 +80,13 @@
         android:layout_height="0dp"
         android:layout_weight="2" />
     <FrameLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:layout_gravity="center_horizontal">
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/button_login_height"
-            android:maxWidth="400dp"
-            android:minWidth="400dp"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/bottom_button_height"
             android:id="@+id/BtnLogin"
             local:MvxBind="Click LoginCommand"
             android:gravity="center"

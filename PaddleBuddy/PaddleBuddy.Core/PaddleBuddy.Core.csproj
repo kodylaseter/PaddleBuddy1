@@ -28,6 +28,7 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Converters\Converters.cs" />
     <Compile Include="DependencyServices\ILocationProvider.cs" />
     <Compile Include="DependencyServices\IMapDrawer.cs" />
     <Compile Include="Models\Map\Point.cs" />
@@ -36,6 +37,7 @@
     <Compile Include="Models\Messages\ToastMessage.cs" />
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\SearchItem.cs" />
+    <Compile Include="Models\TimeEstimate.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App.cs" />
@@ -43,6 +45,7 @@
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\LocationServices.cs" />
     <Compile Include="Services\MapService.cs" />
+    <Compile Include="Services\PlanService.cs" />
     <Compile Include="Services\SearchService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\ApiService.cs" />

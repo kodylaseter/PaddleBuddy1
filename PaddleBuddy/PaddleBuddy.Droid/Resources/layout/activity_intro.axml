@@ -25,7 +25,7 @@
       android:layout_gravity="center_horizontal">
       <Button
           android:layout_width="wrap_content"
-          android:layout_height="@dimen/button_login_height"
+          android:layout_height="@dimen/bottom_button_height"
           android:maxWidth="400dp"
           android:minWidth="400dp"
           android:id="@+id/BtnLogin"
@@ -44,7 +44,7 @@
     android:layout_gravity="center_horizontal">
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/button_login_height"
+        android:layout_height="@dimen/bottom_button_height"
         android:maxWidth="400dp"
         android:minWidth="400dp"
         android:id="@+id/BtnLogin"

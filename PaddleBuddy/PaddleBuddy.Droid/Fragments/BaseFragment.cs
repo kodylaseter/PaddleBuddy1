@@ -1,20 +1,21 @@
-﻿using System;
-using Android.Content.Res;
+﻿using Android.Content.Res;
 using Android.OS;
-using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Text;
 using Android.Views;
 using Android.Views.InputMethods;
+using Android.Widget;
 using Java.Lang;
 using MvvmCross.Binding.Droid.BindingContext;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Droid.Support.V7.AppCompat;
-using MvvmCross.Droid.Support.V7.AppCompat.Widget;
 using MvvmCross.Droid.Support.V7.Fragging.Fragments;
-using PaddleBuddy.Core.Services;
+using MvvmCross.Plugins.Messenger;
+using PaddleBuddy.Core.Models.Messages;
 using PaddleBuddy.Droid.Activities;
 using PaddleBuddy.Core.ViewModels;
+using Toolbar = Android.Support.V7.Widget.Toolbar;
+using MvvmCross.Platform;
 
 namespace PaddleBuddy.Droid.Fragments
 {
@@ -68,8 +69,18 @@ namespace PaddleBuddy.Droid.Fragments
             _edtSearch = (AppCompatEditText)_actionBar.CustomView.FindViewById(Resource.Id.edtSearch);
             _edtSearch.AddTextChangedListener(this);
 
+            Messenger = Mvx.Resolve<IMvxMessenger>();
+            Messenger.Subscribe<ToastMessage>(DisplayToast);
+
             return view;
 		}
+
+        protected IMvxMessenger Messenger { get; private set; }
+
+        public void DisplayToast(ToastMessage message)
+        {
+            Toast.MakeText(Activity.ApplicationContext, message.Text, message.IsShort ? ToastLength.Short : ToastLength.Long).Show();
+        }
 
         public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
         {
