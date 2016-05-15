@@ -149,6 +149,7 @@
     <Compile Include="DependencyServices\BaseDependencyServiceAndroid.cs" />
     <Compile Include="DependencyServices\LocationProviderAndroid.cs" />
     <Compile Include="DependencyServices\MapDrawerAndroid.cs" />
+    <Compile Include="DependencyServices\NetworkAndroid.cs" />
     <Compile Include="Fragments\RecentFragment.cs" />
     <Compile Include="Fragments\PlanFragment.cs" />
     <Compile Include="Utilities\Converter.cs" />

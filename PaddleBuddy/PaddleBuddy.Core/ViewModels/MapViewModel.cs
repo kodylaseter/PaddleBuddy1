@@ -22,7 +22,14 @@ namespace PaddleBuddy.Core.ViewModels
             try
             {
                 var river = await MapService.GetInstance().GetClosestRiver();
-                MapDrawer.DrawLine(river.Points.ToArray());
+                if (river.Points != null)
+                {
+                    MapDrawer.DrawLine(river.Points.ToArray());
+                }
+                else
+                {
+                    Messenger.Publish(new ToastMessage(this, "Failed to get nearest river", true));
+                }
             }
             catch (Exception)
             {

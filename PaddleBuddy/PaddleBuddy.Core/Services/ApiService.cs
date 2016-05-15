@@ -8,6 +8,7 @@ using Flurl;
 using Flurl.Http;
 using MvvmCross.Platform;
 using MvvmCross.Plugins.Messenger;
+using PaddleBuddy.Core.DependencyServices;
 using PaddleBuddy.Core.Models;
 using PaddleBuddy.Core.Models.Map;
 using PaddleBuddy.Core.Models.Messages;
@@ -24,59 +25,87 @@ namespace PaddleBuddy.Core.Services
         //TODO implement internet checking mechanism
         public async Task<Response> PostAsync(string url, object data)
         {
-            Response response;
-            var fullUrl = ApiBase + url;
-            try
+            Response response = new Response();
+
+            if (NetworkService.GetInstance().IsOnline)
             {
-                response = await fullUrl.WithHeader("ContentType", ContentTypeJson)
-                .PostJsonAsync(data).ReceiveJson<Response>();
-            }
-            catch (Exception e)
-            {
-                Messenger.Publish(new ToastMessage(this, "Problem reaching remote server!", false));
-                response = new Response
+                var fullUrl = ApiBase + url;
+                try
                 {
-                    Success = false
-                };
+                    response = await fullUrl.WithHeader("ContentType", ContentTypeJson)
+                        .PostJsonAsync(data).ReceiveJson<Response>();
+                }
+                catch (Exception e)
+                {
+                    Messenger.Publish(new ToastMessage(this, "Problem reaching remote server!", false));
+                    response = new Response
+                    {
+                        Success = false
+                    };
+                }
+            }
+            else
+            {
+                response.Success = false;
+                response.Detail = "No network connection";
+                Messenger.Publish(new ToastMessage(this, "No network connection available!", true));
             }
             return response;
+
         }
 
         public async Task<Response> GetAsync(string url)
         {
-            var fullUrl = ApiBase + url;
-            Response response;
-            try
+            Response response = new Response();
+            if (NetworkService.GetInstance().IsOnline)
             {
-                response = await fullUrl.GetJsonAsync<Response>();
-            }
-            catch (Exception e)
-            {
-                Messenger.Publish(new ToastMessage(this, "Problem reaching remote server!", false));
-                response = new Response
+                var fullUrl = ApiBase + url;
+                try
                 {
-                    Success = false
-                };
+                    response = await fullUrl.GetJsonAsync<Response>();
+                }
+                catch (Exception e)
+                {
+                    Messenger.Publish(new ToastMessage(this, "Problem reaching remote server!", false));
+                    response = new Response
+                    {
+                        Success = false
+                    };
+                }
             }
-
+            else
+            {
+                response.Success = false;
+                response.Detail = "No network connection";
+                Messenger.Publish(new ToastMessage(this, "No network connection available!", true));
+            }
             return response;
         }
 
         public async Task<Response> GetAsync(string url, object multiple)
         {
-            var fullUrl = ApiBase + url;
-            Response response;
-            try
+            Response response = new Response();
+            if (NetworkService.GetInstance().IsOnline)
             {
-                response = await fullUrl.WithHeaders(multiple).GetJsonAsync<Response>();
-            }
-            catch (Exception)
-            {
-                Messenger.Publish(new ToastMessage(this, "Problem reaching remote server!", false));
-                response = new Response
+                var fullUrl = ApiBase + url;
+                try
                 {
-                    Success = false
-                };
+                    response = await fullUrl.WithHeaders(multiple).GetJsonAsync<Response>();
+                }
+                catch (Exception)
+                {
+                    Messenger.Publish(new ToastMessage(this, "Problem reaching remote server!", false));
+                    response = new Response
+                    {
+                        Success = false
+                    };
+                }
+            }
+            else
+            {
+                response.Success = false;
+                response.Detail = "No network connection";
+                Messenger.Publish(new ToastMessage(this, "No network connection available!", true));
             }
 
             return response;
