@@ -3,5 +3,7 @@
     public interface INetwork
     {
         bool IsOnline { get; }
+
+        bool IsServerAvailable { get; }
     }
 }

@@ -28,7 +28,7 @@ namespace PaddleBuddy.Core.Services
                 resp = await GetAsync("estimate_time/", new {p1 = startID, p2 = endID, river = riverID});
                 if (resp.Success)
                 {
-                    resp.Data = JsonConvert.DeserializeObject<TimeEstimate>(resp.Data.ToString());
+                    resp.Data = JsonConvert.DeserializeObject<TripEstimate>(resp.Data.ToString());
                 }
             }
             catch (JsonException)

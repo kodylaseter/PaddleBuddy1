@@ -1,28 +1,30 @@
-﻿using MvvmCross.Platform;
+﻿using System;
+using System.ServiceModel;
+using System.Threading.Tasks;
+using MvvmCross.Platform;
 using PaddleBuddy.Core.DependencyServices;
+using Plugin.Connectivity;
 
 namespace PaddleBuddy.Core.Services
 {
     public class NetworkService
     {
-        private static NetworkService _networkService;
-        private readonly INetwork _network;
-
-        public NetworkService()
+        private static INetwork _network;
+        private static INetwork Network
         {
-            _network = Mvx.Resolve<INetwork>();
+            get { return _network ?? (_network = Mvx.Resolve<INetwork>()); }
         }
 
-        public static NetworkService GetInstance()
+        public static bool IsOnline
         {
-            return _networkService ?? (_networkService = new NetworkService());
+            get { return Network.IsOnline; }
         }
 
-        public bool IsOnline
+        public static bool IsServerAvailable
         {
             get
             {
-                return _network.IsOnline;
+                return Network.IsServerAvailable;
             }
         }
     }

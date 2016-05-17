@@ -40,7 +40,7 @@ namespace PaddleBuddy.Core.ViewModels
             var resp = await PlanService.GetInstance().EstimateTime(int.Parse(_startID), int.Parse(_endID), 17);
             if (resp.Success)
             {
-                Messenger.Publish(new ToastMessage(this, "Estimated time: " + ((TimeEstimate)resp.Data).Time, true));
+                Messenger.Publish(new ToastMessage(this, "Estimated time: " + ((TripEstimate)resp.Data).Time, true));
             }
             IsLoading = false;
             RaisePropertyChanged(() => IsLoading);

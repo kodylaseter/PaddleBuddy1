@@ -1,18 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net.Http;
 using System.Threading.Tasks;
-using Flurl;
 using Flurl.Http;
-using MvvmCross.Platform;
-using MvvmCross.Plugins.Messenger;
-using PaddleBuddy.Core.DependencyServices;
 using PaddleBuddy.Core.Models;
-using PaddleBuddy.Core.Models.Map;
 using PaddleBuddy.Core.Models.Messages;
-using PaddleBuddy.Core.ViewModels;
 
 namespace PaddleBuddy.Core.Services
 {
@@ -27,7 +17,7 @@ namespace PaddleBuddy.Core.Services
         {
             Response response = new Response();
 
-            if (NetworkService.GetInstance().IsOnline)
+            if (NetworkService.IsServerAvailable)
             {
                 var fullUrl = ApiBase + url;
                 try
@@ -57,7 +47,7 @@ namespace PaddleBuddy.Core.Services
         public async Task<Response> GetAsync(string url)
         {
             Response response = new Response();
-            if (NetworkService.GetInstance().IsOnline)
+            if (NetworkService.IsServerAvailable)
             {
                 var fullUrl = ApiBase + url;
                 try
@@ -85,7 +75,7 @@ namespace PaddleBuddy.Core.Services
         public async Task<Response> GetAsync(string url, object multiple)
         {
             Response response = new Response();
-            if (NetworkService.GetInstance().IsOnline)
+            if (NetworkService.IsServerAvailable)
             {
                 var fullUrl = ApiBase + url;
                 try
