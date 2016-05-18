@@ -1,6 +1,5 @@
 ﻿using System;
 using Android.Gms.Maps;
-using Android.Locations;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -8,10 +7,8 @@ using MvvmCross.Droid.Support.V7.Fragging.Attributes;
 using MvvmCross.Platform;
 using PaddleBuddy.Core.DependencyServices;
 using PaddleBuddy.Core.Models.Map;
-using PaddleBuddy.Core.Services;
 using PaddleBuddy.Core.ViewModels;
 using PaddleBuddy.Droid.DependencyServices;
-using FragmentTransaction = Android.Support.V4.App.FragmentTransaction;
 
 namespace PaddleBuddy.Droid.Fragments
 {

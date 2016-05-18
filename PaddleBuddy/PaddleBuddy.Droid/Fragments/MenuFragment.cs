@@ -7,6 +7,7 @@ using Android.Views;
 using MvvmCross.Binding.Droid.BindingContext;
 using MvvmCross.Droid.Support.V7.Fragging.Attributes;
 using MvvmCross.Droid.Support.V7.Fragging.Fragments;
+using PaddleBuddy.Core.Services;
 using PaddleBuddy.Core.ViewModels;
 using PaddleBuddy.Droid.Activities;
 
@@ -47,6 +48,7 @@ namespace PaddleBuddy.Droid.Fragments
         private void Navigate(int itemId)
         {
             ((MainActivity)Activity).DrawerLayout.CloseDrawers ();
+            //TODO: check if navigate delay is necessary
             //await Task.Delay (TimeSpan.FromMilliseconds (250));
 
             switch (itemId) {
@@ -64,6 +66,12 @@ namespace PaddleBuddy.Droid.Fragments
                     break;
                 case Resource.Id.nav_recent:
                     ViewModel.ShowViewModelAndroid(typeof(RecentViewModel));
+                    break;
+                case Resource.Id.nav_points:
+                    ViewModel.ShowViewModelAndroid(typeof(PointViewModel));
+                    break;
+                default:
+                    MessengerService.Toast(this, "Invalid navigation!", true);
                     break;
             }
         }

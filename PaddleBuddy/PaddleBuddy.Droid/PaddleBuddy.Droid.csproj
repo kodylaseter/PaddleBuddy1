@@ -158,6 +158,7 @@
     <Compile Include="DependencyServices\LocationProviderAndroid.cs" />
     <Compile Include="DependencyServices\MapDrawerAndroid.cs" />
     <Compile Include="DependencyServices\NetworkAndroid.cs" />
+    <Compile Include="Fragments\PointFragment.cs" />
     <Compile Include="Fragments\RecentFragment.cs" />
     <Compile Include="Fragments\PlanFragment.cs" />
     <Compile Include="Utilities\Converter.cs" />
@@ -217,6 +218,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\fragment_recent.axml" />
+    <AndroidResource Include="Resources\layout\fragment_point.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />

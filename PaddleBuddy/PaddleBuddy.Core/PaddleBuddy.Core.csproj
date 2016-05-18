@@ -58,6 +58,7 @@
     <Compile Include="ViewModels\MapViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
+    <Compile Include="ViewModels\PointViewModel.cs" />
     <Compile Include="ViewModels\RecentViewModel.cs" />
     <Compile Include="ViewModels\PlanViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
