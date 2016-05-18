@@ -13,7 +13,6 @@ namespace PaddleBuddy.Core.ViewModels
 
         public LoginViewModel()
         {
-            
         }
 
         private async void Login()

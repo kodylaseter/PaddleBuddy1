@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Net;
 using System.Reflection;
 using Android.Content;
+using Android.Net;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Droid.Platform;
 using MvvmCross.Droid.Support.V7.Fragging.Presenter;
@@ -24,6 +26,8 @@ namespace PaddleBuddy.Droid
         {
             var app = new App();
             Mvx.RegisterSingleton<ILocationProvider>(new LocationProviderAndroid());
+            Mvx.RegisterSingleton<INetwork>(new NetworkAndroid());
+            Mvx.RegisterSingleton<IMapDrawer>(new MapDrawerAndroid());
             return app;
         }
 

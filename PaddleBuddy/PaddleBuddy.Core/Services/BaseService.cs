@@ -10,11 +10,5 @@ namespace PaddleBuddy.Core.Services
 {
     public class BaseService
     {
-        public IMvxMessenger Messenger { get; set; }
-
-        protected BaseService()
-        {
-            Messenger = Mvx.Resolve<IMvxMessenger>();
-        }
     }
 }

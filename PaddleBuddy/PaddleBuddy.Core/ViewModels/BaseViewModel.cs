@@ -49,14 +49,5 @@ namespace PaddleBuddy.Core.ViewModels
         }
 
         public bool IsShown => !string.IsNullOrEmpty(_searchString);
-
-
-        public BaseViewModel()
-        {
-            Messenger = Mvx.Resolve<IMvxMessenger>();
-            
-        }
-
-        protected IMvxMessenger Messenger { get; private set; }
     }
 }

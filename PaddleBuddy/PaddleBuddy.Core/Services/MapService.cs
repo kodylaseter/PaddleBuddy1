@@ -1,10 +1,6 @@
 ﻿using System.Threading.Tasks;
-using MvvmCross.Platform;
-using MvvmCross.Plugins.Messenger;
 using Newtonsoft.Json;
-using PaddleBuddy.Core.Models;
 using PaddleBuddy.Core.Models.Map;
-using PaddleBuddy.Core.Models.Messages;
 
 namespace PaddleBuddy.Core.Services
 {
@@ -19,11 +15,18 @@ namespace PaddleBuddy.Core.Services
 
         public async Task<River> GetRiver(int id)
         {
-            River end;
+            var end = new River();
             try
             {
                 var resp = await GetAsync("river/" + id);
-                end = JsonConvert.DeserializeObject<River>(resp.Data.ToString());
+                if (resp.Success)
+                {
+                    end = JsonConvert.DeserializeObject<River>(resp.Data.ToString());
+                }
+                else
+                {
+                    MessengerService.Toast(this, "Failed GetRiver api call!", true);
+                }
             }
             catch (JsonException e)
             {
@@ -34,7 +37,7 @@ namespace PaddleBuddy.Core.Services
 
         public async Task<River> GetClosestRiver()
         {
-            River result = new River();
+            var result = new River();
             try
             {
                 var resp = await PostAsync("closest_river/", LocationService.GetInstance().GetCurrentLocation());
@@ -44,14 +47,36 @@ namespace PaddleBuddy.Core.Services
                 }
                 else
                 {
-                    Mvx.Resolve<IMvxMessenger>().Publish(new ToastMessage(this, "Failed api call!", true));
+                    MessengerService.Toast(this, "Failed GetClosestRiver api call!", true);
                 }
             }
             catch (JsonException e)
             {
-                throw e;
+                MessengerService.Toast(this, "Failed GetClosestRiver api call!", true);
             }
             return result;
+        }
+
+        public async Task<Point> GetPoint(int id)
+        {
+            var p = new Point();
+            try
+            {
+                var resp = await GetAsync("point/" + id);
+                if (resp.Success)
+                {
+                    p = JsonConvert.DeserializeObject<Point>(resp.Data.ToString());
+                }
+                else
+                {
+                    MessengerService.Toast(this, "Failed GetPoint API call", true);
+                }
+            }
+            catch (JsonException)
+            {
+                MessengerService.Toast(this, "Failed GetPoint API call", true);
+            }
+            return p;
         }
     }
 }

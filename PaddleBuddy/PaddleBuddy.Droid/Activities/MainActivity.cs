@@ -30,10 +30,6 @@ namespace PaddleBuddy.Droid.Activities
         {
             base.OnCreate(bundle);
 
-
-            Messenger = Mvx.Resolve<IMvxMessenger>();
-            Messenger.Subscribe<ToastMessage>(DisplayToast);
-
             SetContentView(Resource.Layout.activity_main);
 
             DrawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
@@ -42,18 +38,6 @@ namespace PaddleBuddy.Droid.Activities
                 ViewModel.ShowMenuAndFirstDetail();
             _actionBar = SupportActionBar;
         }
-
-        public void EnableSearch()
-        {
-            _actionBar.SetDisplayShowTitleEnabled(false);
-        }
-
-        public void DisplayToast(ToastMessage message)
-        {
-            Toast.MakeText(this, message.Text, message.IsShort ? ToastLength.Short : ToastLength.Long).Show();
-        }
-
-        protected IMvxMessenger Messenger { get; private set; }
 
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
