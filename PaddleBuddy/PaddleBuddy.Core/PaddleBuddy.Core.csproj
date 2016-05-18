@@ -47,6 +47,7 @@
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\LocationServices.cs" />
     <Compile Include="Services\MapService.cs" />
+    <Compile Include="Services\MessengerService.cs" />
     <Compile Include="Services\NetworkService.cs" />
     <Compile Include="Services\PlanService.cs" />
     <Compile Include="Services\SearchService.cs" />

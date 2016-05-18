@@ -33,7 +33,7 @@ namespace PaddleBuddy.Core.Services
             }
             catch (JsonException)
             {
-                Mvx.Resolve<IMvxMessenger>().Publish(new ToastMessage(this, "Failed estimate_time call!", true));
+                MessengerService.Toast(this, "Failed estimate_time call!", true);
             }
             return resp;
         }

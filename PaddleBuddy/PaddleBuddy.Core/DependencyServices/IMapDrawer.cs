@@ -4,9 +4,10 @@ namespace PaddleBuddy.Core.DependencyServices
 {
     public interface IMapDrawer
     {
-        void DrawLine(object[] points);
+        void DrawLine(Point[] points);
         void DrawMarker(Point point);
         void MoveCamera(Point p);
         void MoveCameraZoom(Point p, int zoom);
+        void AnimateCameraBounds(Point[] points);
     }
 }

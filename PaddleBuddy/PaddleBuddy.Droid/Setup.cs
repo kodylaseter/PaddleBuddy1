@@ -27,6 +27,7 @@ namespace PaddleBuddy.Droid
             var app = new App();
             Mvx.RegisterSingleton<ILocationProvider>(new LocationProviderAndroid());
             Mvx.RegisterSingleton<INetwork>(new NetworkAndroid());
+            Mvx.RegisterSingleton<IMapDrawer>(new MapDrawerAndroid());
             return app;
         }
 

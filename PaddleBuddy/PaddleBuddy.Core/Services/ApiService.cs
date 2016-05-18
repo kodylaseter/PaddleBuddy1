@@ -27,7 +27,7 @@ namespace PaddleBuddy.Core.Services
                 }
                 catch (Exception e)
                 {
-                    Messenger.Publish(new ToastMessage(this, "Problem reaching remote server!", false));
+                    MessengerService.Toast(this, "Problem reaching remote server!", false);
                     response = new Response
                     {
                         Success = false
@@ -38,7 +38,7 @@ namespace PaddleBuddy.Core.Services
             {
                 response.Success = false;
                 response.Detail = "No network connection";
-                Messenger.Publish(new ToastMessage(this, "No network connection available!", true));
+                MessengerService.Toast(this, "No network connection available!", true);
             }
             return response;
 
@@ -56,7 +56,7 @@ namespace PaddleBuddy.Core.Services
                 }
                 catch (Exception e)
                 {
-                    Messenger.Publish(new ToastMessage(this, "Problem reaching remote server!", false));
+                    MessengerService.Toast(this, "Problem reaching remote server!", false);
                     response = new Response
                     {
                         Success = false
@@ -67,7 +67,7 @@ namespace PaddleBuddy.Core.Services
             {
                 response.Success = false;
                 response.Detail = "No network connection";
-                Messenger.Publish(new ToastMessage(this, "No network connection available!", true));
+                MessengerService.Toast(this, "No network connection available!", true);
             }
             return response;
         }
@@ -84,7 +84,7 @@ namespace PaddleBuddy.Core.Services
                 }
                 catch (Exception)
                 {
-                    Messenger.Publish(new ToastMessage(this, "Problem reaching remote server!", false));
+                    MessengerService.Toast(this, "Problem reaching remote server!", false);
                     response = new Response
                     {
                         Success = false
@@ -95,7 +95,7 @@ namespace PaddleBuddy.Core.Services
             {
                 response.Success = false;
                 response.Detail = "No network connection";
-                Messenger.Publish(new ToastMessage(this, "No network connection available!", true));
+                MessengerService.Toast(this, "No network connection available!", true);
             }
 
             return response;

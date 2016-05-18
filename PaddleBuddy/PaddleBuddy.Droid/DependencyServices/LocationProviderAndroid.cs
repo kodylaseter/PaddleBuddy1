@@ -6,6 +6,7 @@ using Android.OS;
 using PaddleBuddy.Core.DependencyServices;
 using PaddleBuddy.Core.Models.Map;
 using PaddleBuddy.Core.Models.Messages;
+using PaddleBuddy.Core.Services;
 
 namespace PaddleBuddy.Droid.DependencyServices
 {
@@ -30,7 +31,7 @@ namespace PaddleBuddy.Droid.DependencyServices
             }
             else
             {
-                Messenger.Publish(new ToastMessage(this, "could not create location manager", false));
+                MessengerService.Toast(this, "could not create location manager", false);
             }
         }
 
@@ -39,7 +40,7 @@ namespace PaddleBuddy.Droid.DependencyServices
             _locationManager.RequestSingleUpdate(_criteria, _locationListener, Looper.MainLooper);
             if (_locationListener.CurrentLocation == null)
             {
-                Messenger.Publish(new ToastMessage(this, "Current location not set!", true));
+                MessengerService.Toast(this, "Current location not set!", true);
                 return new Point
                 {
                     Lat = 34.0754,

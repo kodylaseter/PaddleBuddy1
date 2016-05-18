@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using MvvmCross.Plugins.Messenger;
@@ -10,46 +11,76 @@ namespace PaddleBuddy.Core.ViewModels
 {
     public class PlanViewModel : BaseViewModel
     {
-        private string _startID;
-        private string _endID;
+        private string _startId;
+        private string _endId;
+        private TripEstimate _trip;
+
+        public TripEstimate Trip
+        {
+            get { return _trip; }
+            set { _trip = value; }
+        }
+
 
         public PlanViewModel()
         {
-            StartID = 48.ToString();
-            EndID = 52.ToString();
+            StartId = 48.ToString();
+            EndId = 52.ToString();
         }
 
-        public string StartID
+        public string StartId
         {
-            get { return _startID; }
-            set { _startID = value; }
+            get { return _startId; }
+            set
+            {
+                _startId = value;
+                Estimate();
+            }
         }
 
-        public string EndID
+        public string EndId
         {
-            get { return _endID; }
-            set { _endID = value; }
+            get { return _endId; }
+            set
+            {
+                _endId = value;
+                Estimate();
+            }
         }
 
-        public bool IsLoading { get; set; }
+        public bool CanStart
+        {
+            get { return _trip != null; }
+        }
+
+        public void StartTrip()
+        {
+            ShowViewModel<MapViewModel>(new {initMode = MapInitModes.Plan, start = int.Parse(_startId), end = int.Parse(_endId) });
+        }
 
         public async void Estimate()
         {
-            IsLoading = true;
-            RaisePropertyChanged(() => IsLoading);
-            var resp = await PlanService.GetInstance().EstimateTime(int.Parse(_startID), int.Parse(_endID), 17);
-            if (resp.Success)
+            Trip = null;
+            if (!string.IsNullOrWhiteSpace(EndId) && !string.IsNullOrWhiteSpace(StartId))
             {
-                Messenger.Publish(new ToastMessage(this, "Estimated time: " + ((TripEstimate)resp.Data).Time, true));
+                var resp = await PlanService.GetInstance().EstimateTime(int.Parse(_startId), int.Parse(_endId), 17);
+                if (resp.Success)
+                {
+                    Trip = (TripEstimate) resp.Data;
+                    MessengerService.Toast(this, "Estimate: " + Trip.Time, true);
+                }
+                else
+                {
+                    MessengerService.Toast(this, "Error: " + resp.Detail, true);
+                }
             }
-            IsLoading = false;
-            RaisePropertyChanged(() => IsLoading);
+            RaisePropertyChanged(() => CanStart);
         }
 
 
-        public ICommand EstimateCommand
+        public ICommand StartCommand
         {
-            get { return new MvxCommand(Estimate); }
+            get { return new MvxCommand(StartTrip); }
         }
     }
 }

@@ -15,7 +15,7 @@ namespace PaddleBuddy.Core
 
             //TODO enable login
             bool isLoggedIn = false;
-            if (!isLoggedIn) RegisterAppStart<ViewModels.IntroViewModel>();
+            if (!isLoggedIn) RegisterAppStart<ViewModels.PlanViewModel>();
             else RegisterAppStart<ViewModels.HomeViewModel>();
 
             MvvmCross.Plugins.Messenger.PluginLoader.Instance.EnsureLoaded();

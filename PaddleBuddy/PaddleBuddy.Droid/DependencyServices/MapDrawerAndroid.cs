@@ -1,64 +1,70 @@
-using System.Collections.Generic;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Java.Lang;
 using Java.Util;
-using MvvmCross.Platform;
-using MvvmCross.Plugins.Messenger;
 using PaddleBuddy.Core.DependencyServices;
 using PaddleBuddy.Core.Models.Map;
-using PaddleBuddy.Core.Models.Messages;
+using PaddleBuddy.Core.Services;
 
 namespace PaddleBuddy.Droid.DependencyServices
 {
     public class MapDrawerAndroid : IMapDrawer
     {
-        public MapDrawerAndroid(object map)
-        {
-            Map = map as GoogleMap;
-            if (Map == null)
-            {
-                Mvx.Resolve<IMvxMessenger>().Publish(new ToastMessage(this, "Map is null!", false));
-            }
-        }
 
         public GoogleMap Map { get; set; }
 
-        public void DrawLine(object[] points)
+        public void DrawLine(Point[] points)
         {
-            try
-            {
-                var list = new ArrayList();
-                foreach (Point p in points)
-                {
-                    list.Add(new LatLng(p.Lat, p.Lng));
-                }
-                Map.AddPolyline(
-                    new PolylineOptions().AddAll(list)
+            if (IsMapNull) return;
+            var polyOpts = new PolylineOptions()
                         .InvokeColor(Resource.Color.black)
                         .InvokeWidth(9)
-                        .InvokeZIndex(1));
-            }
-            catch (Exception e)
+                        .InvokeZIndex(1);
+            foreach (var p in points)
             {
-                throw e;
+                polyOpts.Add(new LatLng(p.Lat, p.Lng));
             }
-            
         }
 
         public void DrawMarker(Point p)
         {
+            if (IsMapNull) return;
             Map.AddMarker(new MarkerOptions().SetPosition(new LatLng(p.Lat, p.Lng)).SetTitle("test"));
         }
 
         public void MoveCamera(Point p)
         {
-            Map.AnimateCamera(CameraUpdateFactory.NewLatLng(new LatLng(p.Lat, p.Lng)));
+            if (IsMapNull) return;
+            Map.MoveCamera(CameraUpdateFactory.NewLatLng(new LatLng(p.Lat, p.Lng)));
         }
 
         public void MoveCameraZoom(Point p, int zoom)
         {
-            Map.AnimateCamera(CameraUpdateFactory.NewLatLngZoom(new LatLng(p.Lat, p.Lng), zoom));
+            if (IsMapNull) return;
+            Map.MoveCamera(CameraUpdateFactory.NewLatLngZoom(new LatLng(p.Lat, p.Lng), zoom));
+        }
+
+        public void AnimateCameraBounds(Point[] points)
+        {
+            if (IsMapNull) return;
+            var builder = new LatLngBounds.Builder();
+            foreach (var p in points)
+            {
+                builder.Include(new LatLng(p.Lat, p.Lng));
+            }
+            var bounds = builder.Build();
+            var cameraUpdate = CameraUpdateFactory.NewLatLngBounds(bounds, 50);
+            Map.AnimateCamera(cameraUpdate);
+        }
+
+        private bool IsMapNull
+        {
+            get
+            {
+                if (Map != null) return false;
+                MessengerService.Toast(this, "Map is null!", true);
+                return true;
+            }
         }
     }
 }

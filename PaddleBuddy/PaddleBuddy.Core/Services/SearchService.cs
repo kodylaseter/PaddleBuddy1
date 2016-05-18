@@ -38,7 +38,7 @@ namespace PaddleBuddy.Core.Services
                 }
             } catch (Exception)
             {
-                Messenger.Publish(new ToastMessage(this, "Failed to get search data", true));
+                MessengerService.Toast(this, "Failed to get search data", true);
             }
         }
 
