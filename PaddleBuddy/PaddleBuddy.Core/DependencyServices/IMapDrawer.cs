@@ -6,8 +6,10 @@ namespace PaddleBuddy.Core.DependencyServices
     {
         void DrawLine(Point[] points);
         void DrawMarker(Point point);
+        void DrawCurrent(Point current = null);
         void MoveCamera(Point p);
         void MoveCameraZoom(Point p, int zoom);
         void AnimateCameraBounds(Point[] points);
+        bool IsMapNull { get; }
     }
 }

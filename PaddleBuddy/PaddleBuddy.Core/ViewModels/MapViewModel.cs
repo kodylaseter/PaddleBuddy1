@@ -22,6 +22,11 @@ namespace PaddleBuddy.Core.ViewModels
             EndPoint = new Point {Id = end};
         }
 
+        public void LocationChanged(Point p)
+        {
+            
+        }
+
         public void Setup()
         {
             MapDrawer = Mvx.Resolve<IMapDrawer>();
@@ -51,13 +56,13 @@ namespace PaddleBuddy.Core.ViewModels
                 MapDrawer.DrawMarker(StartPoint);
                 MapDrawer.DrawMarker(EndPoint);
                 MapDrawer.MoveCamera(current);
-                MapDrawer.AnimateCameraBounds( new[] { StartPoint, EndPoint });
+                MapDrawer.AnimateCameraBounds( new[] { StartPoint, EndPoint, current });
             }
         }
 
         public async void SetCamera()
         {
-            MapDrawer.MoveCameraZoom(LocationService.GetInstance().GetCurrentLocation(), 11);
+            MapDrawer.MoveCameraZoom(LocationService.GetInstance().GetCurrentLocation(), 8);
             try
             {
                 var river = await MapService.GetInstance().GetClosestRiver();

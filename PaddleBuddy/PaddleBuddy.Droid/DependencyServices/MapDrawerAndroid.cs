@@ -29,7 +29,16 @@ namespace PaddleBuddy.Droid.DependencyServices
         public void DrawMarker(Point p)
         {
             if (IsMapNull) return;
-            Map.AddMarker(new MarkerOptions().SetPosition(new LatLng(p.Lat, p.Lng)).SetTitle("test"));
+            Map.AddMarker(new MarkerOptions().SetPosition(new LatLng(p.Lat, p.Lng)));
+        }
+
+        public void DrawCurrent(Point current = null)
+        {
+            if (IsMapNull) return;
+            if (current == null) current = LocationService.GetInstance().GetCurrentLocation();
+            var markerOptions = new MarkerOptions();
+            markerOptions.SetPosition(new LatLng(current.Lat, current.Lng));
+            var icon = BitmapDescriptorFactory.FromResource(Resource.Drawable.current_circle);
         }
 
         public void MoveCamera(Point p)
@@ -53,11 +62,11 @@ namespace PaddleBuddy.Droid.DependencyServices
                 builder.Include(new LatLng(p.Lat, p.Lng));
             }
             var bounds = builder.Build();
-            var cameraUpdate = CameraUpdateFactory.NewLatLngBounds(bounds, 50);
+            var cameraUpdate = CameraUpdateFactory.NewLatLngBounds(bounds, 80);
             Map.AnimateCamera(cameraUpdate);
         }
 
-        private bool IsMapNull
+        public bool IsMapNull
         {
             get
             {
