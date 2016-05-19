@@ -15,7 +15,7 @@ namespace PaddleBuddy.Core.Services
         //TODO implement internet checking mechanism
         public async Task<Response> PostAsync(string url, object data)
         {
-            Response response = new Response();
+            var response = new Response();
 
             if (NetworkService.IsServerAvailable)
             {
@@ -46,7 +46,7 @@ namespace PaddleBuddy.Core.Services
 
         public async Task<Response> GetAsync(string url)
         {
-            Response response = new Response();
+            var response = new Response();
             if (NetworkService.IsServerAvailable)
             {
                 var fullUrl = ApiBase + url;
@@ -74,7 +74,7 @@ namespace PaddleBuddy.Core.Services
 
         public async Task<Response> GetAsync(string url, object multiple)
         {
-            Response response = new Response();
+            var response = new Response();
             if (NetworkService.IsServerAvailable)
             {
                 var fullUrl = ApiBase + url;

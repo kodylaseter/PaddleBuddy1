@@ -15,15 +15,15 @@
     <item
       android:id="@+id/nav_recent"
       android:title="Recent Trips" />
+    <item
+      android:id="@+id/nav_points"
+      android:title="Points"/>
   </group>
 
 	<group android:id="@+id/nav_footer">
-    <item 
-      android:id="@+id/nav_points"
-      android:title="Points"/>
     <item
-      android:id="@+id/nav_settings"
-      android:title="Settings" />
+      android:id="@+id/nav_preferences"
+      android:title="Preferences" />
     <item
       android:id="@+id/nav_helpfeedback"
       android:title="Help and Feedback" />

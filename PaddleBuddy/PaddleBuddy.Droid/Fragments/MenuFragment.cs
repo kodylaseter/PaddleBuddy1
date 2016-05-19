@@ -55,11 +55,11 @@ namespace PaddleBuddy.Droid.Fragments
                 case Resource.Id.nav_map:
                     ViewModel.ShowViewModelAndroid(typeof(MapViewModel));
                     break;
-                case Resource.Id.nav_settings:
-                    ViewModel.ShowViewModelAndroid(typeof(SettingsViewModel));
+                case Resource.Id.nav_preferences:
+                    ViewModel.ShowViewModelAndroid(typeof(PreferencesViewModel));
                     break;
                 case Resource.Id.nav_helpfeedback:
-                    ViewModel.ShowViewModelAndroid(typeof(SettingsViewModel));
+                    ViewModel.ShowViewModelAndroid(typeof(HelpFeedbackViewModel));
                     break;
                 case Resource.Id.nav_plan:
                     ViewModel.ShowViewModelAndroid(typeof(PlanViewModel));

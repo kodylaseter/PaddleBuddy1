@@ -13,7 +13,7 @@
           android:id="@+id/textView1"
           android:layout_marginLeft="@dimen/element_margin_medium"
           android:layout_marginRight="@dimen/element_margin_medium"
-          android:text="SEttings"
+          android:text="Preferences"
           android:textColor="@color/black"
           android:layout_centerInParent="true" />
 

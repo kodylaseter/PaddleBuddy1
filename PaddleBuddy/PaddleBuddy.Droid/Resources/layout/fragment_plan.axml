@@ -53,12 +53,18 @@
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="@dimen/bottom_button_height"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorAccent"
         android:layout_gravity="center_horizontal">
+        <ProgressBar
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            local:MvxBind="Visible IsLoading"/>
         <Button
             android:layout_height="fill_parent"
             android:layout_width="fill_parent"
-            local:MvxBind="Click StartCommand; Visible CanStart"
+            local:MvxBind="Click StartCommand; Visible IsLoading, Converter=InverseBool"
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="@dimen/text_large"

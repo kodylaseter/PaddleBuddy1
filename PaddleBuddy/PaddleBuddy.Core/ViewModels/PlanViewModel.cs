@@ -14,6 +14,7 @@ namespace PaddleBuddy.Core.ViewModels
         private string _startId;
         private string _endId;
         private TripEstimate _trip;
+        private bool _isLoading;
 
         public TripEstimate Trip
         {
@@ -53,27 +54,44 @@ namespace PaddleBuddy.Core.ViewModels
             get { return _trip != null; }
         }
 
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set
+            {
+                _isLoading = value; 
+                RaisePropertyChanged(() => IsLoading);
+            }
+        }
+
+
         public void StartTrip()
         {
+            if (!CanStart)
+            {
+                MessengerService.Toast(this, "Invalid trip data", true);
+                return;
+            }
             ShowViewModel<MapViewModel>(new {initMode = MapInitModes.Plan, start = int.Parse(_startId), end = int.Parse(_endId) });
         }
 
         public async void Estimate()
         {
             Trip = null;
+            IsLoading = true;
             if (!string.IsNullOrWhiteSpace(EndId) && !string.IsNullOrWhiteSpace(StartId))
             {
                 var resp = await PlanService.GetInstance().EstimateTime(int.Parse(_startId), int.Parse(_endId), 17);
                 if (resp.Success)
                 {
                     Trip = (TripEstimate) resp.Data;
-                    MessengerService.Toast(this, "Estimate: " + Trip.Time, true);
                 }
                 else
                 {
                     MessengerService.Toast(this, "Error: " + resp.Detail, true);
                 }
             }
+            IsLoading = false;
             RaisePropertyChanged(() => CanStart);
         }
 
