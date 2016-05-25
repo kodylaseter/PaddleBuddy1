@@ -32,6 +32,7 @@
     <Compile Include="DependencyServices\ILocationProvider.cs" />
     <Compile Include="DependencyServices\IMapDrawer.cs" />
     <Compile Include="DependencyServices\INetwork.cs" />
+    <Compile Include="Models\Map\Link.cs" />
     <Compile Include="Models\Map\Point.cs" />
     <Compile Include="Models\Map\River.cs" />
     <Compile Include="Models\MenuItem.cs" />
@@ -45,6 +46,7 @@
     <Compile Include="App.cs" />
     <Compile Include="ListItem.cs" />
     <Compile Include="Services\BaseService.cs" />
+    <Compile Include="Services\DatabaseService.cs" />
     <Compile Include="Services\LocationServices.cs" />
     <Compile Include="Services\MapService.cs" />
     <Compile Include="Services\MessengerService.cs" />
@@ -53,6 +55,7 @@
     <Compile Include="Services\SearchService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\ApiService.cs" />
+    <Compile Include="SysPrefs.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\HelpFeedbackViewModel.cs" />
     <Compile Include="ViewModels\IntroViewModel.cs" />
