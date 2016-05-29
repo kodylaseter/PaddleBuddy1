@@ -18,7 +18,7 @@ namespace PaddleBuddy.Core.Services
             var end = new River();
             try
             {
-                var resp = await GetAsync("river/" + id);
+                var resp = await GetAsync("all_rivers/" + id);
                 if (resp.Success)
                 {
                     end = JsonConvert.DeserializeObject<River>(resp.Data.ToString());

@@ -7,7 +7,7 @@
         public double Lng { get; set; }
         public int RiverId { get; set; }
         public string Label { get; set; }
-        public bool Type { get; set; }
+        public bool IsLaunchSite { get; set; }
 
         public override string ToString()
         {

@@ -27,7 +27,7 @@ namespace PaddleBuddy.Core.Services
         {
             try
             {
-                var resp = await GetAsync("rivers");
+                var resp = await GetAsync("all_rivers");
                 Data = new List<SearchItem>();
                 if (resp.Success)
                 {

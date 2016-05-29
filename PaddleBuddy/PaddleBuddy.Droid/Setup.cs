@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Reflection;
+using System.Threading;
 using Android.Content;
 using Android.Net;
 using MvvmCross.Core.ViewModels;
@@ -11,6 +12,7 @@ using MvvmCross.Platform;
 using MvvmCross.Platform.Platform;
 using PaddleBuddy.Core;
 using PaddleBuddy.Core.DependencyServices;
+using PaddleBuddy.Core.Services;
 using PaddleBuddy.Droid.DependencyServices;
 
 namespace PaddleBuddy.Droid
@@ -28,6 +30,8 @@ namespace PaddleBuddy.Droid
             Mvx.RegisterSingleton<ILocationProvider>(new LocationProviderAndroid());
             Mvx.RegisterSingleton<INetwork>(new NetworkAndroid());
             Mvx.RegisterSingleton<IMapDrawer>(new MapDrawerAndroid());
+
+            ThreadPool.QueueUserWorkItem(o => DatabaseService.GetInstance().UpdateAll());
             return app;
         }
 

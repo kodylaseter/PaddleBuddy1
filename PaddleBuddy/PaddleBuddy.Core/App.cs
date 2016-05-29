@@ -1,4 +1,5 @@
 using MvvmCross.Platform.IoC;
+using PaddleBuddy.Core.Services;
 
 namespace PaddleBuddy.Core
 {
