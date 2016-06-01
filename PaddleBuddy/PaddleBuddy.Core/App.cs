@@ -17,6 +17,11 @@ namespace PaddleBuddy.Core
             if (!isLoggedIn) RegisterAppStart<ViewModels.PlanViewModel>();
             else RegisterAppStart<ViewModels.HomeViewModel>();
 
+            if (!DatabaseService.GetInstance().UpdateAll().Result)
+            {
+                MessengerService.Toast(this, "Unable to fetch data", false);
+            }
+
             MvvmCross.Plugins.Messenger.PluginLoader.Instance.EnsureLoaded();
         }
     }

@@ -4,7 +4,7 @@
     {
         //used for local server and genymotion
         //public static string ApiBase => "http://10.0.3.3:4000/api/mobile/";
-        public static bool UseLocalDB => true;
+        public static bool UseLocalDB => false;
 
         public static string ApiBase
         {

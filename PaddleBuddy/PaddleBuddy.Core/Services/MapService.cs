@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PaddleBuddy.Core.Models.Map;
+using System.Linq;
 
 namespace PaddleBuddy.Core.Services
 {
@@ -13,26 +14,27 @@ namespace PaddleBuddy.Core.Services
             return _mapService ?? (_mapService = new MapService());
         }
 
-        public async Task<River> GetRiver(int id)
+        public River GetRiver(int id)
         {
-            var end = new River();
-            try
-            {
-                var resp = await GetAsync("all_rivers/" + id);
-                if (resp.Success)
-                {
-                    end = JsonConvert.DeserializeObject<River>(resp.Data.ToString());
-                }
-                else
-                {
-                    MessengerService.Toast(this, "Failed GetRiver api call!", true);
-                }
-            }
-            catch (JsonException e)
-            {
-                throw e;
-            }
-            return end;
+            return (from river in DatabaseService.GetInstance().Rivers where river.Id == id select river).Single();
+            //var end = new River();
+            //try
+            //{
+            //    var resp = await GetAsync("all_rivers/" + id);
+            //    if (resp.Success)
+            //    {
+            //        end = JsonConvert.DeserializeObject<River>(resp.Data.ToString());
+            //    }
+            //    else
+            //    {
+            //        MessengerService.Toast(this, "Failed GetRiver api call!", true);
+            //    }
+            //}
+            //catch (JsonException e)
+            //{
+            //    throw e;
+            //}
+            //return end;
         }
 
         public async Task<River> GetClosestRiver()
@@ -57,26 +59,27 @@ namespace PaddleBuddy.Core.Services
             return result;
         }
 
-        public async Task<Point> GetPoint(int id)
+        public Point GetPoint(int id)
         {
-            var p = new Point();
-            try
-            {
-                var resp = await GetAsync("point/" + id);
-                if (resp.Success)
-                {
-                    p = JsonConvert.DeserializeObject<Point>(resp.Data.ToString());
-                }
-                else
-                {
-                    MessengerService.Toast(this, "Failed GetPoint API call", true);
-                }
-            }
-            catch (JsonException)
-            {
-                MessengerService.Toast(this, "Failed GetPoint API call", true);
-            }
-            return p;
+            return (from point in DatabaseService.GetInstance().Points where point.Id == id select point).Single();
+            //var p = new Point();
+            //try
+            //{
+            //    var resp = await GetAsync("point/" + id);
+            //    if (resp.Success)
+            //    {
+            //        p = JsonConvert.DeserializeObject<Point>(resp.Data.ToString());
+            //    }
+            //    else
+            //    {
+            //        MessengerService.Toast(this, "Failed GetPoint API call", true);
+            //    }
+            //}
+            //catch (JsonException)
+            //{
+            //    MessengerService.Toast(this, "Failed GetPoint API call", true);
+            //}
+            //return p;
         }
     }
 }

@@ -50,8 +50,8 @@ namespace PaddleBuddy.Core.ViewModels
             }
             else
             {
-                StartPoint = await MapService.GetInstance().GetPoint(StartPoint.Id);
-                EndPoint = await MapService.GetInstance().GetPoint(EndPoint.Id);
+                StartPoint = MapService.GetInstance().GetPoint(StartPoint.Id);
+                EndPoint = MapService.GetInstance().GetPoint(EndPoint.Id);
                 var current = LocationService.GetInstance().GetCurrentLocation();
                 MapDrawer.DrawMarker(StartPoint);
                 MapDrawer.DrawMarker(EndPoint);

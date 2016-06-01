@@ -1,9 +1,7 @@
 using System.Collections.Generic;
-using System.Net;
 using System.Reflection;
 using System.Threading;
 using Android.Content;
-using Android.Net;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Droid.Platform;
 using MvvmCross.Droid.Support.V7.Fragging.Presenter;
@@ -31,6 +29,7 @@ namespace PaddleBuddy.Droid
             Mvx.RegisterSingleton<IMapDrawer>(new MapDrawerAndroid());
 
             //ThreadPool.QueueUserWorkItem(o => DatabaseService.GetInstance().UpdateAll());
+            
             return app;
         }
 

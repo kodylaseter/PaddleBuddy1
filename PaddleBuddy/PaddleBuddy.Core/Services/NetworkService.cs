@@ -1,6 +1,4 @@
-﻿using MvvmCross.Platform;
-using PaddleBuddy.Core.DependencyServices;
-using Plugin.Connectivity;
+﻿using Plugin.Connectivity;
 
 namespace PaddleBuddy.Core.Services
 {
@@ -15,6 +13,7 @@ namespace PaddleBuddy.Core.Services
         {
             get
             {
+                //TODO: implement server checking
                 return IsOnline;
             }
         }

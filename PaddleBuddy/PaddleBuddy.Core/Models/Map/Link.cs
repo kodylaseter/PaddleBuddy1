@@ -5,6 +5,7 @@
         public int Id { get; set; }
         public int Begin { get; set; }
         public int End { get; set; }
+        public int River { get; set; }
         public float Speed { get; set; }
     }
 }
