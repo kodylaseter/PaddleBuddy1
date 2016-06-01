@@ -101,7 +101,8 @@ namespace PaddleBuddy.Core.ViewModels
             var endList = (from point in DatabaseService.GetInstance().Points where point.RiverId == riverId select new { end_id = point.Id, end_lat = point.Lat, end_lng = point.Lng }).ToList();
             var result = (from link in DatabaseService.GetInstance().Links join p1 in beginList on link.Begin equals p1.begin_id join p2 in endList on link.End equals p2.end_id select new { link.Id, link.Begin, link.End, link.Speed, link.River, p1.begin_id, p1.begin_lat, p1.begin_lng, p2.end_id, p2.end_lat, p2.end_lng}).ToList();
 
-            var first = (from temp in result where temp.Begin == startId select temp).First();
+            var temp = (from first in result where first.Begin == startId select first).First();
+            
             IsLoading = false;
             RaisePropertyChanged(() => CanStart);
         }
