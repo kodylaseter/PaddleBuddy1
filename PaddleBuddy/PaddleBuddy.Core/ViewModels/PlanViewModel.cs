@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
-using MvvmCross.Platform;
-using MvvmCross.Plugins.Messenger;
 using PaddleBuddy.Core.Models;
-using PaddleBuddy.Core.Models.Messages;
 using PaddleBuddy.Core.Services;
 using System.Linq;
+using System.Collections.Generic;
 using PaddleBuddy.Core.Models.Map;
 
 namespace PaddleBuddy.Core.ViewModels
@@ -99,17 +95,38 @@ namespace PaddleBuddy.Core.ViewModels
             int endId = 52;//int.Parse(_endId);
             int riverId = 17;
             //from river in DatabaseService.GetInstance().Rivers where river.Id == id select river
-            var beginList = (from point in DatabaseService.GetInstance().Points where point.RiverId == riverId select new { begin_id = point.Id, begin_lat = point.Lat, begin_lng = point.Lng }).ToList() ;
-            var endList = (from point in DatabaseService.GetInstance().Points where point.RiverId == riverId select new { end_id = point.Id, end_lat = point.Lat, end_lng = point.Lng }).ToList();
-            var result = (from link in DatabaseService.GetInstance().Links join p1 in beginList on link.Begin equals p1.begin_id join p2 in endList on link.End equals p2.end_id select new { link.Id, link.Begin, link.End, link.Speed, link.River, p1.begin_lat, p1.begin_lng, p2.end_lat, p2.end_lng}).ToList();
+            var beginList = (from point in DatabaseService.GetInstance().Points where point.RiverId == riverId select new { BeginId = point.Id, BeginLat = point.Lat, BeginLng = point.Lng }).ToList() ;
+            var endList = (from point in DatabaseService.GetInstance().Points where point.RiverId == riverId select new { EndId = point.Id, EndLat = point.Lat, EndLng = point.Lng }).ToList();
+            var result = (from link in DatabaseService.GetInstance().Links join p1 in beginList on link.Begin equals p1.BeginId join p2 in endList on link.End equals p2.EndId select new { link.Id, link.Begin, link.End, link.Speed, link.River, p1.BeginLat, p1.BeginLng, p2.EndLat, p2.EndLng}).ToList();
 
             var temp = (from first in result where first.Begin == startId select first).First();
-            var x = typeof (temp);
-            var links = new List<typeof(temp)>();
+            if (temp == null)
+            {
+                MessengerService.Toast(this, "Could not find first point", true);
+                return;
+            }
+            int newId;
+            var list = new[] { temp}.ToList();
+            list.Remove(temp);
             while (temp != null && temp.End != endId)
             {
-                links.Add(temp);
-
+                list.Add(temp);
+                newId = temp.End;
+                result.Remove(temp);
+                temp = (from f in result where f.Begin == newId select f).First();
+            }
+            if (temp == null)
+            {
+                MessengerService.Toast(this, "Did not reach end point", true);
+                return;
+            }
+            if (temp.End == endId)
+            {
+                list.Add(temp);
+            }
+            if (list.ElementAt(0).Begin == startId && list.Last().End == endId)
+            {
+                var trip = new TripEstimate();
             }
             
             IsLoading = false;

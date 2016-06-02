@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PaddleBuddy.Core.Models;
+using System;
+using System.Collections.Generic;
 
 namespace PaddleBuddy.Core.Services
 {
@@ -29,6 +31,18 @@ namespace PaddleBuddy.Core.Services
                 MessengerService.Toast(this, "Failed estimate_time call!", true);
             }
             return resp;
+        }
+
+        public TripEstimate LinksToEstimate(List<dynamic> list)
+        {
+            //float time = 0;
+            //float distance = 0;
+            //dynamic temp;
+            //foreach (var link in list)
+            //{
+
+            //}
+            //return new TripEstimate();
         }
     }
 }
