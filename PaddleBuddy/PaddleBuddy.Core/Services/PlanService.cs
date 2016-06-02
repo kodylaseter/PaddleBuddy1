@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MvvmCross.Platform;
-using MvvmCross.Plugins.Messenger;
+﻿using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PaddleBuddy.Core.Models;
-using PaddleBuddy.Core.Models.Messages;
 
 namespace PaddleBuddy.Core.Services
 {
