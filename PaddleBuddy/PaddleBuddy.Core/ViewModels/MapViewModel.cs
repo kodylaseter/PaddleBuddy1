@@ -33,16 +33,16 @@ namespace PaddleBuddy.Core.ViewModels
             switch (InitMode)
             {
                 case MapInitModes.Init:
-                    SetCamera();
+                    SetupInit();
                     break;
                 case MapInitModes.Plan:
-                    PlanSetup();
+                    SetupPlan();
                     break;
                 default: throw new ArgumentOutOfRangeException();
             }
         }
 
-        public async void PlanSetup()
+        public async void SetupPlan()
         {
             if (StartPoint.Id == int.MaxValue || EndPoint.Id == int.MaxValue)
             {
@@ -60,7 +60,7 @@ namespace PaddleBuddy.Core.ViewModels
             }
         }
 
-        public async void SetCamera()
+        public async void SetupInit()
         {
             MapDrawer.MoveCameraZoom(LocationService.GetInstance().GetCurrentLocation(), 8);
             try

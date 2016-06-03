@@ -5,39 +5,33 @@ namespace PaddleBuddy.Core.Services
 {
     public class SearchService
     {
-        private static readonly SearchService _searchService = new SearchService();
-        public List<SearchItem> Data { get; set; }
+        private static SearchService _searchService;
+        private List<SearchItem> _data;
 
         public static SearchService GetInstance()
         {
-            return _searchService;
+            return _searchService ?? (_searchService = new SearchService());
         }
         
         public SearchService()
         {
+            Data = new List<SearchItem>();
             SetData();
         }
 
         private void SetData()
         {
+            if (Data.Count > 0) Data.Clear();
             foreach (var item in DatabaseService.GetInstance().Rivers)
             {
-                Data?.Add(new SearchItem { SearchString = item.Name, Item = item });
+                Data.Add(new SearchItem { SearchString = item.Name, Item = item });
             }
-            //try
-            //{
-            //    var resp = await GetAsync("all_rivers");
-            //    Data = new List<SearchItem>();
-            //    if (resp.Success)
-            //    {
-
-            //    }
-            //} catch (Exception)
-            //{
-            //    MessengerService.Toast(this, "Failed to get search data", true);
-            //}
         }
 
-
+        public List<SearchItem> Data
+        {
+            get { return _data; }
+            set { _data = value; }
+        }
     }
 }

@@ -1,5 +1,7 @@
 using MvvmCross.Platform.IoC;
 using PaddleBuddy.Core.Services;
+using PaddleBuddy.Core.ViewModels;
+using System.Threading.Tasks;
 
 namespace PaddleBuddy.Core
 {
@@ -13,16 +15,19 @@ namespace PaddleBuddy.Core
                 .RegisterAsLazySingleton();
 
             //TODO enable login
-            bool isLoggedIn = false;
-            if (!isLoggedIn) RegisterAppStart<ViewModels.PlanViewModel>();
-            else RegisterAppStart<ViewModels.HomeViewModel>();
+            bool isLoggedIn = true;
+            if (!isLoggedIn) RegisterAppStart<PlanViewModel>();
+            else RegisterAppStart<MapViewModel>();
 
-            if (!DatabaseService.GetInstance().UpdateAll().Result)
-            {
-                MessengerService.Toast(this, "Unable to fetch data", false);
-            }
+            Task.Run(() => SetupData());
 
             MvvmCross.Plugins.Messenger.PluginLoader.Instance.EnsureLoaded();
+        }
+
+        private async void SetupData()
+        {
+            await DatabaseService.GetInstance().UpdateAll();
+            SearchService.GetInstance();
         }
     }
 }

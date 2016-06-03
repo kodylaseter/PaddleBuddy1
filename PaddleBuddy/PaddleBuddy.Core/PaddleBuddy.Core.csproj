@@ -31,6 +31,7 @@
     <Compile Include="Converters\Converters.cs" />
     <Compile Include="DependencyServices\ILocationProvider.cs" />
     <Compile Include="DependencyServices\IMapDrawer.cs" />
+    <Compile Include="Models\LinqModels\LinkPoint.cs" />
     <Compile Include="Models\Map\Link.cs" />
     <Compile Include="Models\Map\Point.cs" />
     <Compile Include="Models\Map\River.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\ApiService.cs" />
     <Compile Include="SysPrefs.cs" />
+    <Compile Include="Utilities\PBUtilities.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\HelpFeedbackViewModel.cs" />
     <Compile Include="ViewModels\IntroViewModel.cs" />

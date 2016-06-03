@@ -22,6 +22,7 @@ namespace PaddleBuddy.Core.Services
         public async Task<bool> UpdateAll()
         {
             var result = await UpdatePoints() && await UpdateRivers() && await UpdateLinks();
+            MessengerService.Toast(this, "DBs updated", true);
             return result;
         }
 

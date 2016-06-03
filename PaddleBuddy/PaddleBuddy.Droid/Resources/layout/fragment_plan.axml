@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             local:MvxBind="Text StartId"
             android:layout_gravity="center_vertical"
-            android:inputType="textNoSuggestions"
+            android:inputType="number"
             android:textColorHint="@color/colorPrimary"
             android:textColorHighlight="@color/white"
             android:textSize="@dimen/text_medium"
@@ -39,11 +39,31 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:textColorHint="@color/colorPrimary"
+            android:inputType="number"
             android:textSize="@dimen/text_medium"
             android:imeOptions="actionGo" 
             local:MvxBind="Text EndId"
             android:hint="End ID"/>
     </android.support.design.widget.TextInputLayout>
+
+  <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/element_margin_large"
+        android:layout_marginLeft="@dimen/element_margin_medium"
+        android:layout_marginRight="@dimen/element_margin_medium"
+        android:layout_gravity="center_horizontal">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textColorHint="@color/colorPrimary"
+        android:inputType="number"
+        android:textSize="@dimen/text_medium"
+        android:imeOptions="actionGo"
+        local:MvxBind="Text RiverId"
+        android:hint="River ID"/>
+  </android.support.design.widget.TextInputLayout>
 
     <View
       android:layout_width="fill_parent"
@@ -53,7 +73,7 @@
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="@dimen/bottom_button_height"
-        android:background="@color/colorAccent"
+        android:background="@color/colorPrimary"
         android:layout_gravity="center_horizontal">
         <ProgressBar
             android:layout_width="fill_parent"
