@@ -3,6 +3,7 @@ using MvvmCross.Platform;
 using PaddleBuddy.Core.DependencyServices;
 using PaddleBuddy.Core.Models.Map;
 using PaddleBuddy.Core.Services;
+using System.Threading.Tasks;
 
 namespace PaddleBuddy.Core.ViewModels
 {
@@ -13,8 +14,19 @@ namespace PaddleBuddy.Core.ViewModels
         public Point EndPoint { get; set; }
         public bool MapReady { get; set; }
         public MapInitModes InitMode { get; set; }
+        private bool _isLoading;
 
-        
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set
+            {
+                _isLoading = value;
+                RaisePropertyChanged(() => IsLoading);
+            }
+        }
+
+
         public void Init(MapInitModes initMode = MapInitModes.Init, int start = int.MaxValue, int end = int.MaxValue)
         {
             InitMode = initMode;
@@ -27,8 +39,11 @@ namespace PaddleBuddy.Core.ViewModels
             
         }
 
-        public void Setup()
+        public async Task Setup()
         {
+            IsLoading = true;
+            await Task.Run(() => LetDBSetup());
+            IsLoading = false;
             MapDrawer = Mvx.Resolve<IMapDrawer>();
             switch (InitMode)
             {
@@ -39,6 +54,20 @@ namespace PaddleBuddy.Core.ViewModels
                     SetupPlan();
                     break;
                 default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public async Task LetDBSetup()
+        {
+            var times = 0;
+            while (!DatabaseService.GetInstance().IsReady)
+            {
+                if (times == 20)
+                {
+                    MessengerService.Toast(this, "DB not updating. Consider restarting app", false);
+                }
+                await Task.Delay(TimeSpan.FromMilliseconds(300));
+                times++;
             }
         }
 
@@ -65,10 +94,11 @@ namespace PaddleBuddy.Core.ViewModels
             MapDrawer.MoveCameraZoom(LocationService.GetInstance().GetCurrentLocation(), 8);
             try
             {
-                var river = await MapService.GetInstance().GetClosestRiver();
-                if (river.Points != null)
+                //var river = await MapService.GetInstance().GetClosestRiver();
+                var path = MapService.GetInstance().GetClosestRiver();
+                if (path.Points != null)
                 {
-                    MapDrawer.DrawLine(river.Points.ToArray());
+                    MapDrawer.DrawLine(path.Points.ToArray());
                 }
                 else
                 {

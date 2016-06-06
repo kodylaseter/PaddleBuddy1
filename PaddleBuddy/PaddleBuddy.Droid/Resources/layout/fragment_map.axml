@@ -7,6 +7,10 @@
     android:layout_height="match_parent">
   <include
         layout="@layout/toolbar_actionbar" />
+  <ProgressBar 
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    local:MvxBind="Visible IsLoading"/>
   <FrameLayout
     android:id="@+id/map_container"
     android:layout_width="fill_parent"

@@ -1,7 +1,4 @@
-﻿using System.Threading.Tasks;
-using Newtonsoft.Json;
-using PaddleBuddy.Core.Models;
-using System;
+﻿using PaddleBuddy.Core.Models;
 using System.Collections.Generic;
 using PaddleBuddy.Core.Models.LinqModels;
 using PaddleBuddy.Core.Utilities;

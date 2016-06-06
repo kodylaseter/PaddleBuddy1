@@ -2,11 +2,6 @@
 using MvvmCross.Core.ViewModels;
 using PaddleBuddy.Core.Models;
 using PaddleBuddy.Core.Services;
-using System.Linq;
-using System.Collections.Generic;
-using PaddleBuddy.Core.Models.Map;
-using PaddleBuddy.Core.Models.LinqModels;
-using PaddleBuddy.Core.Utilities;
 using System.Threading.Tasks;
 
 namespace PaddleBuddy.Core.ViewModels

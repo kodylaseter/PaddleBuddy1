@@ -24,6 +24,7 @@ namespace PaddleBuddy.Droid.DependencyServices
             {
                 polyOpts.Add(new LatLng(p.Lat, p.Lng));
             }
+            Map.AddPolyline(polyOpts);
         }
 
         public void DrawMarker(Point p)

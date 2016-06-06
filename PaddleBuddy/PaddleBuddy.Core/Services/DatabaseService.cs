@@ -21,9 +21,18 @@ namespace PaddleBuddy.Core.Services
 
         public async Task<bool> UpdateAll()
         {
-            var result = await UpdatePoints() && await UpdateRivers() && await UpdateLinks();
-            MessengerService.Toast(this, "DBs updated", true);
+            var result = await UpdateRivers() && await UpdateLinks() && await UpdatePoints();
             return result;
+        }
+
+        public bool IsReady
+        {
+            get
+            {
+                return (_rivers != null && _rivers.Count > 0) &&
+                    (_points != null && _points.Count > 0) &&
+                    (_links != null && _links.Count > 0);
+            }
         }
 
         public List<Point> Points
@@ -48,6 +57,8 @@ namespace PaddleBuddy.Core.Services
 
         public async Task<bool> UpdatePoints()
         {
+            Stopwatch stop = new Stopwatch();
+            stop.Start();
             try
             {
                 var resp = await GetAsync("all_points/");
@@ -67,11 +78,15 @@ namespace PaddleBuddy.Core.Services
                 MessengerService.Toast(this, "Failed to update points", true);
                 return false;
             }
+            stop.Stop();
+            Debug.WriteLine("pbuddy points: " + stop.Elapsed);
             return true;
         }
 
         public async Task<bool> UpdateRivers()
         {
+            Stopwatch stop = new Stopwatch();
+            stop.Start();
             try
             {
                 var resp = await GetAsync("all_rivers/");
@@ -91,11 +106,15 @@ namespace PaddleBuddy.Core.Services
                 MessengerService.Toast(this, "Failed to update rivers", true);
                 return false;
             }
+            stop.Stop();
+            Debug.WriteLine("pbuddy rivers: " + stop.Elapsed);
             return true;
         }
 
         public async Task<bool> UpdateLinks()
         {
+            Stopwatch stop = new Stopwatch();
+            stop.Start();
             try
             {
                 var resp = await GetAsync("all_links/");
@@ -115,6 +134,8 @@ namespace PaddleBuddy.Core.Services
                 MessengerService.Toast(this, "Failed to update links", true);
                 return false;
             }
+            stop.Stop();
+            Debug.WriteLine("pbuddy links: " + stop.Elapsed);
             return true;
         }
     }
