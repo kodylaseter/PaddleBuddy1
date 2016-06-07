@@ -4,6 +4,9 @@ using System.Diagnostics;
 using Newtonsoft.Json;
 using PaddleBuddy.Core.Models.Map;
 using System.Threading.Tasks;
+using MvvmCross.Core.Platform;
+using MvvmCross.Platform;
+using PaddleBuddy.Core.DependencyServices;
 
 namespace PaddleBuddy.Core.Services
 {
@@ -13,16 +16,46 @@ namespace PaddleBuddy.Core.Services
         private List<River> _rivers;
         private List<Point> _points;
         private List<Link> _links;
+        private IStorageService storageService;
+        private string[] names;
 
         public static DatabaseService GetInstance()
         {
             return _databaseService ?? (_databaseService = new DatabaseService());
         }
 
+        public async Task<bool> Setup()
+        {
+            names = new[] {"points", "rivers", "links"};
+            storageService = Mvx.Resolve<IStorageService>();
+            
+            if (storageService.HasData(names))
+            {
+                Points = JsonConvert.DeserializeObject<List<Point>>(storageService.ReadSerializedFromFile("points"));
+                Rivers = JsonConvert.DeserializeObject<List<River>>(storageService.ReadSerializedFromFile("points"));
+                Links = JsonConvert.DeserializeObject<List<Link>>(storageService.ReadSerializedFromFile("points"));
+                var isUpdated = storageService.HasData(names);
+                MessengerService.Toast(this, isUpdated ? "Data obtained from local copy" : "Data not updated", false);
+                return isUpdated;
+            }
+            return await UpdateAll();
+        }
+
         public async Task<bool> UpdateAll()
         {
             var result = await UpdateRivers() && await UpdateLinks() && await UpdatePoints();
+            Task.Run(() => SaveData());
             return result;
+        }
+
+        public void SaveData()
+        {
+            var points = JsonConvert.SerializeObject(_points);
+            var rivers = JsonConvert.SerializeObject(_rivers);
+            var links = JsonConvert.SerializeObject(_links);
+            storageService.SaveSerializedToFile(points, "points");
+            storageService.SaveSerializedToFile(rivers, "rivers");
+            storageService.SaveSerializedToFile(links, "links");
         }
 
         public bool IsReady

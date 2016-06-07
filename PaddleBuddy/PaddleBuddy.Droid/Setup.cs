@@ -27,9 +27,7 @@ namespace PaddleBuddy.Droid
             var app = new App();
             Mvx.RegisterSingleton<ILocationProvider>(new LocationProviderAndroid());
             Mvx.RegisterSingleton<IMapDrawer>(new MapDrawerAndroid());
-
-            //ThreadPool.QueueUserWorkItem(o => DatabaseService.GetInstance().UpdateAll());
-            
+            Mvx.RegisterSingleton<IStorageService>(new StorageServiceAndroid());
             return app;
         }
 

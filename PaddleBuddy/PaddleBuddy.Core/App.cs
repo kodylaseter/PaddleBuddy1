@@ -26,7 +26,7 @@ namespace PaddleBuddy.Core
 
         private async void SetupData()
         {
-            await DatabaseService.GetInstance().UpdateAll();
+            await DatabaseService.GetInstance().Setup();
             SearchService.GetInstance();
         }
     }
