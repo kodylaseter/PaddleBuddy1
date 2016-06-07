@@ -4,7 +4,6 @@ using System.Diagnostics;
 using Newtonsoft.Json;
 using PaddleBuddy.Core.Models.Map;
 using System.Threading.Tasks;
-using MvvmCross.Core.Platform;
 using MvvmCross.Platform;
 using PaddleBuddy.Core.DependencyServices;
 
@@ -17,28 +16,26 @@ namespace PaddleBuddy.Core.Services
         private List<Point> _points;
         private List<Link> _links;
         private IStorageService storageService;
-        private string[] names;
+        private string[] names = new[] { "points", "rivers", "links" };
 
         public static DatabaseService GetInstance()
         {
             return _databaseService ?? (_databaseService = new DatabaseService());
         }
 
-        public async Task<bool> Setup()
+        public async Task<bool> Setup(bool sync = false)
         {
-            names = new[] {"points", "rivers", "links"};
-            storageService = Mvx.Resolve<IStorageService>();
-            
+            if (storageService == null) storageService = Mvx.Resolve<IStorageService>();
+            if (sync) return await UpdateAll();
             if (storageService.HasData(names))
             {
                 Points = JsonConvert.DeserializeObject<List<Point>>(storageService.ReadSerializedFromFile("points"));
-                Rivers = JsonConvert.DeserializeObject<List<River>>(storageService.ReadSerializedFromFile("points"));
-                Links = JsonConvert.DeserializeObject<List<Link>>(storageService.ReadSerializedFromFile("points"));
-                var isUpdated = storageService.HasData(names);
-                MessengerService.Toast(this, isUpdated ? "Data obtained from local copy" : "Data not updated", false);
-                return isUpdated;
+                Rivers = JsonConvert.DeserializeObject<List<River>>(storageService.ReadSerializedFromFile("rivers"));
+                Links = JsonConvert.DeserializeObject<List<Link>>(storageService.ReadSerializedFromFile("links"));
             }
-            return await UpdateAll();
+            var isUpdated = (Points != null && Rivers != null && Links != null && Points.Count > 0 && Rivers.Count > 0 && Links.Count > 0);
+            MessengerService.Toast(this, isUpdated ? "Data obtained from local copy" : "Data not updated", false);
+            return isUpdated ? true : await UpdateAll();
         }
 
         public async Task<bool> UpdateAll()
