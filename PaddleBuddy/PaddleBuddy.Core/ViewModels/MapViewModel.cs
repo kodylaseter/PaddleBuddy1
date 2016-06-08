@@ -71,7 +71,7 @@ namespace PaddleBuddy.Core.ViewModels
             }
         }
 
-        public async void SetupPlan()
+        public void SetupPlan()
         {
             if (StartPoint.Id == int.MaxValue || EndPoint.Id == int.MaxValue)
             {
@@ -89,12 +89,11 @@ namespace PaddleBuddy.Core.ViewModels
             }
         }
 
-        public async void SetupInit()
+        public void SetupInit()
         {
             MapDrawer.MoveCameraZoom(LocationService.GetInstance().GetCurrentLocation(), 8);
             try
             {
-                //var river = await MapService.GetInstance().GetClosestRiver();
                 var path = MapService.GetInstance().GetClosestRiver();
                 if (path.Points != null)
                 {
