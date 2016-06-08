@@ -1,7 +1,5 @@
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
-using Java.Lang;
-using Java.Util;
 using PaddleBuddy.Core.DependencyServices;
 using PaddleBuddy.Core.Models.Map;
 using PaddleBuddy.Core.Services;
@@ -30,7 +28,9 @@ namespace PaddleBuddy.Droid.DependencyServices
         public void DrawMarker(Point p)
         {
             if (IsMapNull) return;
-            Map.AddMarker(new MarkerOptions().SetPosition(new LatLng(p.Lat, p.Lng)));
+            var marker = new MarkerOptions().SetPosition(new LatLng(p.Lat, p.Lng));
+            if (p.IsLaunchSite) marker.SetTitle(p.Label).SetSnippet(p.Id.ToString());
+            Map.AddMarker(marker);
         }
 
         public void DrawCurrent(Point current = null)

@@ -33,16 +33,12 @@ namespace PaddleBuddy.Core.ViewModels
             get { return _searchString; }
             set
             {
+                FilteredData?.Clear();
                 _searchString = value;
                 if (!string.IsNullOrWhiteSpace(_searchString))
                 {
-                    FilteredData?.Clear();
                     FilteredData =
                         new ObservableCollection<SearchItem>(Data?.Where(w => w.SearchString.Contains(SearchString)));
-                }
-                else
-                {
-                    FilteredData.Clear();
                 }
                 RaisePropertyChanged(() => FilteredData);
                 RaisePropertyChanged(() => SpacerText);

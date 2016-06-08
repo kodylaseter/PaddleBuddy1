@@ -4,6 +4,9 @@ using PaddleBuddy.Core.DependencyServices;
 using PaddleBuddy.Core.Models.Map;
 using PaddleBuddy.Core.Services;
 using System.Threading.Tasks;
+using System.Linq;
+using System.Windows.Input;
+using MvvmCross.Core.ViewModels;
 
 namespace PaddleBuddy.Core.ViewModels
 {
@@ -24,6 +27,19 @@ namespace PaddleBuddy.Core.ViewModels
                 _isLoading = value;
                 RaisePropertyChanged(() => IsLoading);
             }
+        }
+
+        public ICommand TestCommand
+        {
+            get
+            {
+                return new MvxCommand(Test);
+            }
+        }
+
+        public void Test()
+        {
+            MessengerService.Toast(this, "testtt", true);
         }
 
 
@@ -98,6 +114,11 @@ namespace PaddleBuddy.Core.ViewModels
                 if (path.Points != null)
                 {
                     MapDrawer.DrawLine(path.Points.ToArray());
+                    var launchSites = from p in DatabaseService.GetInstance().Points where p.RiverId == MapService.GetInstance().ClosestRiverId && p.IsLaunchSite select p;
+                    foreach (var site in launchSites)
+                    {
+                        MapDrawer.DrawMarker(site);
+                    }
                 }
                 else
                 {

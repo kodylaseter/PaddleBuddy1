@@ -1,8 +1,5 @@
-﻿using System.Threading.Tasks;
-using Newtonsoft.Json;
-using PaddleBuddy.Core.Models.Map;
+﻿using PaddleBuddy.Core.Models.Map;
 using System.Linq;
-using System;
 using PaddleBuddy.Core.Utilities;
 
 namespace PaddleBuddy.Core.Services
@@ -10,6 +7,7 @@ namespace PaddleBuddy.Core.Services
     public class MapService : ApiService
     {
         private static MapService _mapService;
+        public int ClosestRiverId { get; set; }
 
         public static MapService GetInstance()
         {
@@ -25,6 +23,7 @@ namespace PaddleBuddy.Core.Services
         {
             var curr = LocationService.GetInstance().GetCurrentLocation();
             var point = (from p in DatabaseService.GetInstance().Points let dist = PBUtilities.Distance(curr, p) orderby dist ascending select p).First();
+            ClosestRiverId = point.RiverId;
             return GetPath(point.RiverId);
         }
 
