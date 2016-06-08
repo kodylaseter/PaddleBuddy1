@@ -13,6 +13,7 @@ namespace PaddleBuddy.Core.ViewModels
     {
         private List<SearchItem> _data;
         private string _searchString;
+        private bool _showSpacer;
 
         public List<SearchItem> Data
         {
@@ -33,7 +34,7 @@ namespace PaddleBuddy.Core.ViewModels
             set
             {
                 _searchString = value;
-                if (_searchString != null)
+                if (!string.IsNullOrWhiteSpace(_searchString))
                 {
                     FilteredData?.Clear();
                     FilteredData =
@@ -41,12 +42,36 @@ namespace PaddleBuddy.Core.ViewModels
                 }
                 else
                 {
-                    FilteredData = new ObservableCollection<SearchItem>(Data);
+                    FilteredData.Clear();
                 }
                 RaisePropertyChanged(() => FilteredData);
+                RaisePropertyChanged(() => SpacerText);
                 RaisePropertyChanged(() => IsShown);
             }
         }
+
+
+        public bool ShowSpacer
+        {
+            get { return _showSpacer; }
+            set
+            {
+                _showSpacer = value;
+                RaisePropertyChanged(() => ShowSpacer);
+                RaisePropertyChanged(() => SpacerText);
+            }
+        }
+
+        public string SpacerText
+        {
+            get
+            {
+                var text = FilteredData == null || FilteredData.Count < 1 ? "No results" : "";
+                return text;
+            }
+        }
+
+
 
         public bool IsShown => !string.IsNullOrEmpty(_searchString);
     }

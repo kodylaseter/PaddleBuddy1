@@ -21,8 +21,15 @@
   <!--TODO: maybe change this to wrap_content-->
   <Mvx.MvxListView
     android:layout_width="match_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
     local:MvxItemTemplate="@layout/listitem_search"
     local:MvxBind="ItemsSource FilteredData; Visible IsShown"/>
+  <TextView
+    android:layout_width="match_parent"
+    android:layout_height="1000dp"
+    android:layout_marginTop="10dp"
+    android:gravity="center_horizontal"
+    android:background="@color/white"
+    local:MvxBind="Visible ShowSpacer; Text SpacerText"/>
   
 </LinearLayout>
