@@ -18,6 +18,19 @@ namespace PaddleBuddy.Core.ViewModels
         public bool MapReady { get; set; }
         public MapInitModes InitMode { get; set; }
         private bool _isLoading;
+        private bool _showMarkerOptions;
+
+
+        public bool ShowMarkerOptions
+        {
+            get { return _showMarkerOptions; }
+            set
+            {
+                _showMarkerOptions = value; 
+                RaisePropertyChanged(() => ShowMarkerOptions);
+            }
+        }
+
 
         public bool IsLoading
         {
@@ -29,17 +42,17 @@ namespace PaddleBuddy.Core.ViewModels
             }
         }
 
-        public ICommand TestCommand
+        public ICommand StartPlanCommand
         {
             get
             {
-                return new MvxCommand(Test);
+                return new MvxCommand(StartPlan);
             }
         }
 
-        public void Test()
+        public void StartPlan()
         {
-            MessengerService.Toast(this, "testtt", true);
+            ShowViewModel<PlanViewModel>();
         }
 
 
