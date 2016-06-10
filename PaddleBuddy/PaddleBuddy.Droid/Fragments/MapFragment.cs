@@ -60,9 +60,8 @@ namespace PaddleBuddy.Droid.Fragments
             try
             {
                 var id = int.Parse(marker.Snippet);
-                var p = MapService.GetInstance().GetPoint(id);
                 marker.ShowInfoWindow();
-                ViewModel.ShowMarkerOptions = true;
+                ViewModel.SelectedMarker = MapService.GetInstance().GetPoint(id);
                 return true;
 
             }
@@ -75,7 +74,7 @@ namespace PaddleBuddy.Droid.Fragments
 
         public void OnMapClick(LatLng point)
         {
-            ViewModel.ShowMarkerOptions = false;
+            ViewModel.SelectedMarker = null;
         }
 
         public class CustomMarkerWindowAdapter : Java.Lang.Object, GoogleMap.IInfoWindowAdapter

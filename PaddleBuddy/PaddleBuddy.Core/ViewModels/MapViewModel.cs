@@ -18,16 +18,16 @@ namespace PaddleBuddy.Core.ViewModels
         public bool MapReady { get; set; }
         public MapInitModes InitMode { get; set; }
         private bool _isLoading;
-        private bool _showMarkerOptions;
+        private Point _selectedMarker;
 
 
-        public bool ShowMarkerOptions
+        public Point SelectedMarker
         {
-            get { return _showMarkerOptions; }
+            get { return _selectedMarker; }
             set
             {
-                _showMarkerOptions = value; 
-                RaisePropertyChanged(() => ShowMarkerOptions);
+                _selectedMarker = value; 
+                RaisePropertyChanged(() => SelectedMarker);
             }
         }
 

@@ -3,22 +3,26 @@ using MvvmCross.Core.ViewModels;
 using PaddleBuddy.Core.Models;
 using PaddleBuddy.Core.Services;
 using System.Threading.Tasks;
+using PaddleBuddy.Core.Models.Map;
 
 namespace PaddleBuddy.Core.ViewModels
 {
     public class PlanViewModel : BaseViewModel
     {
-        private string _startId;
-        private string _endId;
+        private Point _startPoint;
+        private Point _endPoint;
         private TripEstimate _trip;
         private bool _isLoading;
         private string _riverId;
 
+        public PlanViewModel(Point start)
+        {
+            StartPoint = start;
+        }
+
         public PlanViewModel()
         {
-            StartId = 48.ToString();
-            EndId = 52.ToString();
-            RiverId = 17.ToString();
+
         }
 
         public TripEstimate Trip
@@ -27,22 +31,23 @@ namespace PaddleBuddy.Core.ViewModels
             set { _trip = value; }
         }
 
-        public string StartId
+        public Point StartPoint
         {
-            get { return _startId; }
+            get { return _startPoint; }
             set
             {
-                _startId = value;
+                _startPoint = value;
                 Estimate();
             }
         }
 
-        public string EndId
+        public Point EndPoint
         {
-            get { return _endId; }
+            get { return _endPoint; }
             set
             {
-                _endId = value;
+
+                _endPoint = value;
                 Estimate();
             }
         }
@@ -80,17 +85,17 @@ namespace PaddleBuddy.Core.ViewModels
                 MessengerService.Toast(this, "Invalid trip data", true);
                 return;
             }
-            ShowViewModel<MapViewModel>(new {initMode = MapInitModes.Plan, start = int.Parse(_startId), end = int.Parse(_endId) });
+            ShowViewModel<MapViewModel>(new {initMode = MapInitModes.Plan, start = int.Parse(_start), end = int.Parse(_end) });
         }
 
         public async void Estimate()
         {
             Trip = null;
             IsLoading = true;
-            if (_startId != null && _endId != null && _riverId != null)
+            if (_start != null && _end != null && _riverId != null)
             {
-                int startId = int.Parse(_startId);
-                int endId = int.Parse(_endId);
+                int startId = int.Parse(_start);
+                int endId = int.Parse(_end);
                 int riverId = int.Parse(_riverId);
                 await Task.Run(() =>
                     Trip = PlanService.GetInstance().EstimateTrip(startId, endId, riverId));
