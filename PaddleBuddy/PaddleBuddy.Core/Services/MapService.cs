@@ -1,82 +1,45 @@
-﻿using System.Threading.Tasks;
-using Newtonsoft.Json;
-using PaddleBuddy.Core.Models.Map;
+﻿using PaddleBuddy.Core.Models.Map;
+using System.Linq;
+using PaddleBuddy.Core.Utilities;
 
 namespace PaddleBuddy.Core.Services
 {
     public class MapService : ApiService
     {
         private static MapService _mapService;
+        public int ClosestRiverId { get; set; }
 
         public static MapService GetInstance()
         {
             return _mapService ?? (_mapService = new MapService());
         }
 
-        public async Task<River> GetRiver(int id)
+        public River GetRiver(int id)
         {
-            var end = new River();
-            try
-            {
-                var resp = await GetAsync("river/" + id);
-                if (resp.Success)
-                {
-                    end = JsonConvert.DeserializeObject<River>(resp.Data.ToString());
-                }
-                else
-                {
-                    MessengerService.Toast(this, "Failed GetRiver api call!", true);
-                }
-            }
-            catch (JsonException e)
-            {
-                throw e;
-            }
-            return end;
+            return (from river in DatabaseService.GetInstance().Rivers where river.Id == id select river).Single();
         }
 
-        public async Task<River> GetClosestRiver()
+        public Path GetClosestRiver()
         {
-            var result = new River();
-            try
-            {
-                var resp = await PostAsync("closest_river/", LocationService.GetInstance().GetCurrentLocation());
-                if (resp.Success)
-                {
-                    result = JsonConvert.DeserializeObject<River>(resp.Data.ToString());
-                }
-                else
-                {
-                    MessengerService.Toast(this, "Failed GetClosestRiver api call!", true);
-                }
-            }
-            catch (JsonException e)
-            {
-                MessengerService.Toast(this, "Failed GetClosestRiver api call!", true);
-            }
-            return result;
+            var curr = LocationService.GetInstance().GetCurrentLocation();
+            var point = (from p in DatabaseService.GetInstance().Points let dist = PBUtilities.Distance(curr, p) orderby dist ascending select p).First();
+            ClosestRiverId = point.RiverId;
+            return GetPath(point.RiverId);
         }
 
-        public async Task<Point> GetPoint(int id)
+        public Point GetPoint(int id)
         {
-            var p = new Point();
-            try
+            return (from point in DatabaseService.GetInstance().Points where point.Id == id select point).Single();
+        }
+
+        public Path GetPath(int riverId)
+        {
+            var points = (from p in DatabaseService.GetInstance().Points where p.RiverId == riverId select p).ToList();
+            return new Path
             {
-                var resp = await GetAsync("point/" + id);
-                if (resp.Success)
-                {
-                    p = JsonConvert.DeserializeObject<Point>(resp.Data.ToString());
-                }
-                else
-                {
-                    MessengerService.Toast(this, "Failed GetPoint API call", true);
-                }
-            }
-            catch (JsonException)
-            {
-                MessengerService.Toast(this, "Failed GetPoint API call", true);
-            }
-            return p;
+                RiverId = riverId,
+                Points = points
+            };
         }
     }
 }

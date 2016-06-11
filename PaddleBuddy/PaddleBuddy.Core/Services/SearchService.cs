@@ -1,47 +1,37 @@
-﻿using Newtonsoft.Json;
-using PaddleBuddy.Core.Models.Map;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using PaddleBuddy.Core.Models;
-using PaddleBuddy.Core.Models.Messages;
 
 namespace PaddleBuddy.Core.Services
 {
-    public class SearchService : ApiService
+    public class SearchService
     {
-        private static readonly SearchService _searchService = new SearchService();
-        public List<SearchItem> Data { get; set; }
+        private static SearchService _searchService;
+        private List<SearchItem> _data;
 
         public static SearchService GetInstance()
         {
-            return _searchService;
+            return _searchService ?? (_searchService = new SearchService());
         }
         
         public SearchService()
         {
-            GetData();
+            Data = new List<SearchItem>();
+            SetData();
         }
 
-        private async void GetData()
+        private void SetData()
         {
-            try
+            if (Data.Count > 0) Data.Clear();
+            foreach (var item in DatabaseService.GetInstance().Rivers)
             {
-                var resp = await GetAsync("rivers");
-                Data = new List<SearchItem>();
-                if (resp.Success)
-                {
-                    foreach (var item in JsonConvert.DeserializeObject<List<River>>(resp.Data.ToString()))
-                    {
-                        Data?.Add(new SearchItem { SearchString = item.Name, Item = item });
-                    }
-                }
-            } catch (Exception)
-            {
-                MessengerService.Toast(this, "Failed to get search data", true);
+                Data.Add(new SearchItem { SearchString = item.Name, Item = item });
             }
         }
 
-
+        public List<SearchItem> Data
+        {
+            get { return _data; }
+            set { _data = value; }
+        }
     }
 }

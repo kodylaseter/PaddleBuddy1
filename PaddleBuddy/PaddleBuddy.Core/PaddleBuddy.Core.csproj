@@ -31,7 +31,10 @@
     <Compile Include="Converters\Converters.cs" />
     <Compile Include="DependencyServices\ILocationProvider.cs" />
     <Compile Include="DependencyServices\IMapDrawer.cs" />
-    <Compile Include="DependencyServices\INetwork.cs" />
+    <Compile Include="DependencyServices\IStorageService.cs" />
+    <Compile Include="Models\LinqModels\LinkPoint.cs" />
+    <Compile Include="Models\Map\Link.cs" />
+    <Compile Include="Models\Map\Path.cs" />
     <Compile Include="Models\Map\Point.cs" />
     <Compile Include="Models\Map\River.cs" />
     <Compile Include="Models\MenuItem.cs" />
@@ -45,6 +48,7 @@
     <Compile Include="App.cs" />
     <Compile Include="ListItem.cs" />
     <Compile Include="Services\BaseService.cs" />
+    <Compile Include="Services\DatabaseService.cs" />
     <Compile Include="Services\LocationServices.cs" />
     <Compile Include="Services\MapService.cs" />
     <Compile Include="Services\MessengerService.cs" />
@@ -53,15 +57,19 @@
     <Compile Include="Services\SearchService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\ApiService.cs" />
+    <Compile Include="SysPrefs.cs" />
+    <Compile Include="Utilities\PBUtilities.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\HelpFeedbackViewModel.cs" />
     <Compile Include="ViewModels\IntroViewModel.cs" />
     <Compile Include="ViewModels\MapViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
+    <Compile Include="ViewModels\PointViewModel.cs" />
     <Compile Include="ViewModels\RecentViewModel.cs" />
     <Compile Include="ViewModels\PlanViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
-    <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\PreferencesViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
   </ItemGroup>

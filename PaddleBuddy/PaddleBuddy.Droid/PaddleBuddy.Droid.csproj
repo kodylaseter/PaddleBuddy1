@@ -157,7 +157,9 @@
     <Compile Include="DependencyServices\BaseDependencyServiceAndroid.cs" />
     <Compile Include="DependencyServices\LocationProviderAndroid.cs" />
     <Compile Include="DependencyServices\MapDrawerAndroid.cs" />
-    <Compile Include="DependencyServices\NetworkAndroid.cs" />
+    <Compile Include="DependencyServices\StorageServiceAndroid.cs" />
+    <Compile Include="Fragments\PointFragment.cs" />
+    <Compile Include="Fragments\HelpFeedbackFragment.cs" />
     <Compile Include="Fragments\RecentFragment.cs" />
     <Compile Include="Fragments\PlanFragment.cs" />
     <Compile Include="Utilities\Converter.cs" />
@@ -172,7 +174,7 @@
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Fragments\MenuFragment.cs" />
     <Compile Include="Fragments\BaseFragment.cs" />
-    <Compile Include="Fragments\SettingsFragment.cs" />
+    <Compile Include="Fragments\PreferencesFragment.cs" />
     <Compile Include="Activities\LoginActivity.cs" />
     <Compile Include="Fragments\HomeFragment.cs" />
     <Compile Include="Utilities\MapDrawer.cs" />
@@ -182,7 +184,7 @@
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="packages.config" />
     <AndroidResource Include="Resources\drawable-hdpi\ic_search_white.png" />
-    <AndroidResource Include="Resources\layout\fragment_settings.axml" />
+    <AndroidResource Include="Resources\layout\fragment_preferences.axml" />
     <AndroidResource Include="Resources\layout\activity_login.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -211,12 +213,22 @@
       <SubType>AndroidResource</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\listitem_search.axml">
-      <SubType>AndroidResource</SubType>
+      <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\fragment_plan.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\fragment_recent.axml" />
+    <AndroidResource Include="Resources\layout\fragment_point.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\fragment_helpfeedback.axml" />
+    <AndroidResource Include="Resources\layout\infowindow_custom_marker.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\layout_marker_options.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -278,6 +290,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_clear_white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\current_circle.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

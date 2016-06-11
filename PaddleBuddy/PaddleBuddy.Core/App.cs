@@ -1,5 +1,6 @@
 using MvvmCross.Platform.IoC;
 using PaddleBuddy.Core.Services;
+using PaddleBuddy.Core.ViewModels;
 using System.Threading.Tasks;
 
 namespace PaddleBuddy.Core
@@ -14,11 +15,19 @@ namespace PaddleBuddy.Core
                 .RegisterAsLazySingleton();
 
             //TODO enable login
-            bool isLoggedIn = false;
-            if (!isLoggedIn) RegisterAppStart<ViewModels.PlanViewModel>();
-            else RegisterAppStart<ViewModels.HomeViewModel>();
+            bool isLoggedIn = true;
+            if (!isLoggedIn) RegisterAppStart<PlanViewModel>();
+            else RegisterAppStart<MapViewModel>();
+
+            Task.Run(() => SetupData());
 
             MvvmCross.Plugins.Messenger.PluginLoader.Instance.EnsureLoaded();
+        }
+
+        private async void SetupData()
+        {
+            await DatabaseService.GetInstance().Setup();
+            SearchService.GetInstance();
         }
     }
 }

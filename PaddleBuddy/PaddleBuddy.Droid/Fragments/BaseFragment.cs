@@ -105,6 +105,7 @@ namespace PaddleBuddy.Droid.Fragments
         {
             if (_searchOpen)
             {
+                ((BaseViewModel) ViewModel).ShowSpacer = false;
                 SetSearchString();
                 _actionBar.SetDisplayShowTitleEnabled(true);
                 _actionBar.SetDisplayShowCustomEnabled(false);
@@ -113,6 +114,7 @@ namespace PaddleBuddy.Droid.Fragments
             }
             else
             {
+                ((BaseViewModel) ViewModel).ShowSpacer = true;
                 if (!string.IsNullOrEmpty(_edtSearch.Text))
                 {
                     SetSearchString(_edtSearch.Text);

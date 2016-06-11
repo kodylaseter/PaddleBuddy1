@@ -1,23 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PaddleBuddy.Core.Models.Map;
 
 namespace PaddleBuddy.Core.Models
 {
     public class TripEstimate
     {
-        public float Time { get; set; }
+        public TimeSpan Time { get; set; }
+        //public double Time { get; set; }
         public string TimeUnit { get; set; }
-        public float Distance { get; set; }
+        //todo: implement distanceunit of some sort?
+        public double Distance { get; set; }
         public string DistanceUnit { get; set; }
 
         public int StartId { get; set; }
         public int EndId { get; set; }
         public int RiverId { get; set; }
 
-
+        public override string ToString()
+        {
+            return Time.ToString(@"hh\:mm\:ss") + " for " + Distance.ToString("#.##") + " " + DistanceUnit;
+        }
     }
 }

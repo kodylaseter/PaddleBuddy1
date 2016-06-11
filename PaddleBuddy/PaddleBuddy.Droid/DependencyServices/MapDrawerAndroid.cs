@@ -1,7 +1,5 @@
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
-using Java.Lang;
-using Java.Util;
 using PaddleBuddy.Core.DependencyServices;
 using PaddleBuddy.Core.Models.Map;
 using PaddleBuddy.Core.Services;
@@ -24,12 +22,24 @@ namespace PaddleBuddy.Droid.DependencyServices
             {
                 polyOpts.Add(new LatLng(p.Lat, p.Lng));
             }
+            Map.AddPolyline(polyOpts);
         }
 
         public void DrawMarker(Point p)
         {
             if (IsMapNull) return;
-            Map.AddMarker(new MarkerOptions().SetPosition(new LatLng(p.Lat, p.Lng)).SetTitle("test"));
+            var marker = new MarkerOptions().SetPosition(new LatLng(p.Lat, p.Lng));
+            if (p.IsLaunchSite) marker.SetTitle(p.Label).SetSnippet(p.Id.ToString());
+            Map.AddMarker(marker);
+        }
+
+        public void DrawCurrent(Point current = null)
+        {
+            if (IsMapNull) return;
+            if (current == null) current = LocationService.GetInstance().GetCurrentLocation();
+            var markerOptions = new MarkerOptions();
+            markerOptions.SetPosition(new LatLng(current.Lat, current.Lng));
+            var icon = BitmapDescriptorFactory.FromResource(Resource.Drawable.current_circle);
         }
 
         public void MoveCamera(Point p)
@@ -53,11 +63,11 @@ namespace PaddleBuddy.Droid.DependencyServices
                 builder.Include(new LatLng(p.Lat, p.Lng));
             }
             var bounds = builder.Build();
-            var cameraUpdate = CameraUpdateFactory.NewLatLngBounds(bounds, 50);
+            var cameraUpdate = CameraUpdateFactory.NewLatLngBounds(bounds, 80);
             Map.AnimateCamera(cameraUpdate);
         }
 
-        private bool IsMapNull
+        public bool IsMapNull
         {
             get
             {

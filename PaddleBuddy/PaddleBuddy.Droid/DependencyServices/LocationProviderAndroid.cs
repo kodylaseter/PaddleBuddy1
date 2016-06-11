@@ -5,7 +5,6 @@ using Android.Locations;
 using Android.OS;
 using PaddleBuddy.Core.DependencyServices;
 using PaddleBuddy.Core.Models.Map;
-using PaddleBuddy.Core.Models.Messages;
 using PaddleBuddy.Core.Services;
 
 namespace PaddleBuddy.Droid.DependencyServices
