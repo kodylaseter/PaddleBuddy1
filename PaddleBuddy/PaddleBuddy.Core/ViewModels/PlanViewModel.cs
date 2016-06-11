@@ -13,7 +13,7 @@ namespace PaddleBuddy.Core.ViewModels
         private Point _endPoint;
         private TripEstimate _trip;
         private bool _isLoading;
-        private string _riverId;
+        private int _riverId;
 
         public PlanViewModel(Point start)
         {
@@ -22,7 +22,9 @@ namespace PaddleBuddy.Core.ViewModels
 
         public PlanViewModel()
         {
-
+            StartPoint = new Point {Id = 48};
+            EndPoint = new Point {Id = 52};
+            RiverId = 17;
         }
 
         public TripEstimate Trip
@@ -52,7 +54,7 @@ namespace PaddleBuddy.Core.ViewModels
             }
         }
 
-        public string RiverId
+        public int RiverId
         {
             get { return _riverId; }
             set
@@ -85,20 +87,17 @@ namespace PaddleBuddy.Core.ViewModels
                 MessengerService.Toast(this, "Invalid trip data", true);
                 return;
             }
-            ShowViewModel<MapViewModel>(new {initMode = MapInitModes.Plan, start = int.Parse(_start), end = int.Parse(_end) });
+            ShowViewModel<MapViewModel>(new {initMode = MapInitModes.Plan, start = StartPoint, end = EndPoint});
         }
 
         public async void Estimate()
         {
             Trip = null;
             IsLoading = true;
-            if (_start != null && _end != null && _riverId != null)
+            if (StartPoint != null && EndPoint != null && _riverId != null)
             {
-                int startId = int.Parse(_start);
-                int endId = int.Parse(_end);
-                int riverId = int.Parse(_riverId);
                 await Task.Run(() =>
-                    Trip = PlanService.GetInstance().EstimateTrip(startId, endId, riverId));
+                    Trip = PlanService.GetInstance().EstimateTrip(StartPoint.Id, EndPoint.Id, _riverId));
                 MessengerService.Toast(this, "Time estimate: " + Trip, false);
             }
             IsLoading = false;

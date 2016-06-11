@@ -56,11 +56,11 @@ namespace PaddleBuddy.Core.ViewModels
         }
 
 
-        public void Init(MapInitModes initMode = MapInitModes.Init, int start = int.MaxValue, int end = int.MaxValue)
+        public void Init(MapInitModes initMode = MapInitModes.Init, Point start = null, Point end = null)
         {
             InitMode = initMode;
-            StartPoint = new Point {Id = start};
-            EndPoint = new Point {Id = end};
+            StartPoint = start;
+            EndPoint = end;
         }
 
         public void LocationChanged(Point p)
