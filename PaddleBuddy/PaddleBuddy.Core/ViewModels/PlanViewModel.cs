@@ -14,17 +14,19 @@ namespace PaddleBuddy.Core.ViewModels
         private TripEstimate _trip;
         private bool _isLoading;
         private int _riverId;
+        private string _startText;
+        private string _endText;
 
-        public PlanViewModel(Point start)
+        public PlanViewModel(Point start = null, Point end = null)
         {
             StartPoint = start;
+            EndPoint = end;
         }
 
         public PlanViewModel()
         {
             StartPoint = new Point {Id = 48};
             EndPoint = new Point {Id = 52};
-            RiverId = 17;
         }
 
         public TripEstimate Trip
@@ -54,14 +56,17 @@ namespace PaddleBuddy.Core.ViewModels
             }
         }
 
-        public int RiverId
+        public string StartText
         {
-            get { return _riverId; }
-            set
-            {
-                _riverId = value;
-                Estimate();
-            }
+            get { return _startText; }
+            set { _startText = value; }
+        }
+
+
+        public string EndText
+        {
+            get { return _endText; }
+            set { _endText = value; }
         }
 
         public bool CanStart
