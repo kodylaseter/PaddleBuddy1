@@ -18,13 +18,12 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            local:MvxBind="Text StartText"
             android:layout_gravity="center_vertical"
-            android:inputType="number"
             android:textColorHint="@color/colorPrimary"
             android:textColorHighlight="@color/white"
             android:textSize="@dimen/text_medium"
             android:imeOptions="actionNext"
+            local:MvxBind="Text StartText"
             android:hint="Start" />
     </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
@@ -39,11 +38,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:textColorHint="@color/colorPrimary"
-            android:inputType="number"
             android:textSize="@dimen/text_medium"
             android:imeOptions="actionGo" 
             local:MvxBind="Text EndText"
-            android:hint="End ID"/>
+            android:hint="End"/>
     </android.support.design.widget.TextInputLayout>
 
     <View

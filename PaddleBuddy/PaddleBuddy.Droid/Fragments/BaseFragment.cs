@@ -21,7 +21,7 @@ namespace PaddleBuddy.Droid.Fragments
 {
     public abstract class BaseFragment : MvxFragment, ITextWatcher
     {
-        private Android.Support.V7.Widget.Toolbar _toolbar;
+        private Toolbar _toolbar;
         private MvxActionBarDrawerToggle _drawerToggle;
         private bool _searchOpen;
         private InputMethodManager _imm;
