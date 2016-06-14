@@ -33,5 +33,19 @@ namespace PaddleBuddy.Core.Services
             get { return _data; }
             set { _data = value; }
         }
+
+        public void Search(string searchText)
+        {
+            
+        }
+
+        private List<SearchItem> myVar;
+
+        public List<SearchItem> MyProperty
+        {
+            get { return myVar; }
+            set { myVar = value; }
+        }
+
     }
 }
