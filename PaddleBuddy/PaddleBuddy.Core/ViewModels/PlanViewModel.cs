@@ -16,23 +16,29 @@ namespace PaddleBuddy.Core.ViewModels
         private TripEstimate _trip;
         private bool _isLoading;
         private ObservableCollection<SearchItem> _filteredStart;
+        private ObservableCollection<SearchItem> _filteredEnd;
         private string _startText;
         private string _endText;
+        private SearchItem _selectedStart;
+        private SearchItem _selectedEnd;
 
         public SearchService StartSearchService { get; set; }
+        public SearchService EndSearchService { get; set; }
 
-        //public PlanViewModel(Point start, Point end)
-        //{
-        //    StartPoint = start;
-        //    EndPoint = end;
-        //}
+        public void Init(Point start)
+        {
+            if (start.Lat != 0)
+            {
+                StartPoint = start;
+            }
+        }
 
         public PlanViewModel()
         {
-            StartPoint = MapService.GetInstance().GetPoint(48);
-            EndPoint = MapService.GetInstance().GetPoint(52);
             StartSearchService = new SearchService();
             StartSearchService.SetData(SearchService.ArrayToSearchSource((from p in DatabaseService.GetInstance().Points where p.IsLaunchSite select p).ToArray()));
+            EndSearchService = new SearchService();
+            EndSearchService.SetData(SearchService.ArrayToSearchSource((from p in DatabaseService.GetInstance().Points where p.IsLaunchSite select p).ToArray()));
         }
 
         public TripEstimate Trip
@@ -64,16 +70,41 @@ namespace PaddleBuddy.Core.ViewModels
             }
         }
 
+        public SearchItem SelectedStart
+        {
+            get { return _selectedStart; }
+            set
+            {
+                _selectedStart = value;
+                _startText = _selectedStart.SearchString;
+                RaisePropertyChanged(() => StartText);
+                FilteredStart.Clear();
+                RaisePropertyChanged(() => FilteredStart);
+            }
+        }
+
+        public SearchItem SelectedEnd
+        {
+            get { return _selectedEnd; }
+            set
+            {
+                _selectedEnd = value;
+                _endText = _selectedEnd.SearchString;
+                RaisePropertyChanged(() => EndText);
+                FilteredEnd.Clear();
+                RaisePropertyChanged(() => FilteredEnd);
+            }
+        }
+
         public string StartText
         {
             get { return _startText; }
             set
             {
                 _startText = value;
-                Search(_startText);
+                StartSearch();
             }
         }
-
 
         public string EndText
         {
@@ -81,7 +112,7 @@ namespace PaddleBuddy.Core.ViewModels
             set
             {
                 _endText = value;
-                RaisePropertyChanged(() => EndText);
+                EndSearch();
             }
         }
 
@@ -112,9 +143,24 @@ namespace PaddleBuddy.Core.ViewModels
             }
         }
 
-        public void Search(string searchText)
+        public ObservableCollection<SearchItem> FilteredEnd
         {
-            FilteredStart = StartSearchService.Filter(searchText);
+            get { return _filteredEnd; }
+            set
+            {
+                _filteredEnd = value;
+                RaisePropertyChanged(() => FilteredEnd);
+            }
+        }
+
+        public void StartSearch()
+        {
+            FilteredStart = StartSearchService.Filter(_startText);
+        }
+
+        public void EndSearch()
+        {
+            FilteredEnd = StartSearchService.Filter(_endText);
         }
 
         public void StartTrip()
@@ -152,6 +198,29 @@ namespace PaddleBuddy.Core.ViewModels
         public ICommand StartCommand
         {
             get { return new MvxCommand(StartTrip); }
+        }
+
+        public void StartChanged(SearchItem searchItem)
+        {
+            SelectedStart = searchItem;
+        }
+
+        public void EndChanged(SearchItem searchItem)
+        {
+            SelectedEnd = searchItem;
+        }
+
+        public ICommand StartChangedCommand
+        {
+            get
+            {
+                return new MvxCommand<SearchItem>(StartChanged);
+            }
+        }
+
+        public ICommand EndChangedCommand
+        {
+            get { return new MvxCommand<SearchItem>(EndChanged); }
         }
     }
 }

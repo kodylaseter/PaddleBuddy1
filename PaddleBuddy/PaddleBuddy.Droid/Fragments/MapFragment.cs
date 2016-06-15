@@ -11,12 +11,13 @@ using PaddleBuddy.Core.Models.Map;
 using PaddleBuddy.Core.ViewModels;
 using PaddleBuddy.Droid.DependencyServices;
 using PaddleBuddy.Core.Services;
+using Android.Widget;
 
 namespace PaddleBuddy.Droid.Fragments
 {
     [MvxFragment(typeof(MainViewModel), Resource.Id.content_frame, true)]
     [Register("paddlebuddy.droid.fragments.MapFragment")]
-    public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, GoogleMap.IOnMarkerClickListener, GoogleMap.IOnMapClickListener
+    public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, GoogleMap.IOnMarkerClickListener, GoogleMap.IOnMapClickListener, GoogleMap.IInfoWindowAdapter
     {
         public SupportMapFragment Fragment { get; set; }
 
@@ -40,8 +41,9 @@ namespace PaddleBuddy.Droid.Fragments
             googleMap.MyLocationChange += LocationChanged;
             googleMap.SetOnMapClickListener(this);
             googleMap.SetOnMarkerClickListener(this);
-            googleMap.SetInfoWindowAdapter(new CustomMarkerWindowAdapter(GetLayoutInflater(null)));
+            googleMap.SetInfoWindowAdapter(this);
             ((MapDrawerAndroid) Mvx.Resolve<IMapDrawer>()).Map = googleMap;
+            ViewModel.SelectedMarker = null;
             ViewModel.MapReady = true;
             ViewModel.Setup();
         }
@@ -60,8 +62,8 @@ namespace PaddleBuddy.Droid.Fragments
             try
             {
                 var id = int.Parse(marker.Snippet);
-                marker.ShowInfoWindow();
                 ViewModel.SelectedMarker = MapService.GetInstance().GetPoint(id);
+                marker.ShowInfoWindow();
                 return true;
 
             }
@@ -77,24 +79,38 @@ namespace PaddleBuddy.Droid.Fragments
             ViewModel.SelectedMarker = null;
         }
 
-        public class CustomMarkerWindowAdapter : Java.Lang.Object, GoogleMap.IInfoWindowAdapter
+        public View GetInfoContents(Marker marker)
         {
-            private LayoutInflater _layoutInflater;
-
-            public CustomMarkerWindowAdapter(LayoutInflater layoutInflater)
-            {
-                _layoutInflater = layoutInflater;
-            }
-
-            public View GetInfoContents(Marker marker)
-            {
-                return _layoutInflater.Inflate(Resource.Layout.infowindow_custom_marker, null);
-            }
-
-            public View GetInfoWindow(Marker marker)
-            {
-                return null;
-            }
+            var view = GetLayoutInflater(null).Inflate(Resource.Layout.infowindow_custom_marker, null);
+            ((TextView)view.FindViewById(Resource.Id.markerTitle)).Text = ViewModel.SelectedMarker.Label;
+            return view;
         }
+
+        public View GetInfoWindow(Marker marker)
+        {
+            return null;
+        }
+
+        //public class CustomMarkerWindowAdapter : Java.Lang.Object, GoogleMap.IInfoWindowAdapter
+        //{
+        //    private LayoutInflater _layoutInflater;
+
+        //    public CustomMarkerWindowAdapter(LayoutInflater layoutInflater)
+        //    {
+        //        _layoutInflater = layoutInflater;
+        //    }
+
+        //    public View GetInfoContents(Marker marker)
+        //    {
+        //        var view = _layoutInflater.Inflate(Resource.Layout.infowindow_custom_marker, null);
+        //        ((TextView)view.FindViewById(Resource.Id.markerTitle)).Text = 
+        //        return view;
+        //    }
+
+        //    public View GetInfoWindow(Marker marker)
+        //    {
+        //        return null;
+        //    }
+        //}
     }
 }

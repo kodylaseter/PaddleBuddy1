@@ -30,7 +30,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     local:MvxItemTemplate="@layout/listitem_search"
-    local:MvxBind="ItemsSource FilteredStart; Visible FilteredStart, Converter=ItemsSourceNotEmpty"/>
+    local:MvxBind="ItemsSource FilteredStart; Visible FilteredStart, Converter=ItemsSourceNotEmpty; ItemClick StartChangedCommand"/>
   <android.support.design.widget.TextInputLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
@@ -49,6 +49,11 @@
           android:hint="End"/>
   </android.support.design.widget.TextInputLayout>
 
+  <Mvx.MvxListView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    local:MvxItemTemplate="@layout/listitem_search"
+    local:MvxBind="ItemsSource FilteredEnd; Visible FilteredEnd, Converter=ItemsSourceNotEmpty; ItemClick EndChangedCommand"/>
   <View
     android:layout_width="fill_parent"
     android:layout_height="0dp"

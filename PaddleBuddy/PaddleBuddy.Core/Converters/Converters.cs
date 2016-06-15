@@ -21,4 +21,12 @@ namespace PaddleBuddy.Core.Converters
             return (value != null && value.Count > 0);
         }
     }
+
+    public class ObjectNotNullValueConverter : MvxValueConverter
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value != null;
+        }
+    }
 }
