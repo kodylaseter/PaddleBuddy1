@@ -8,3 +8,4 @@
 /.vs
 /*.suo
 /packages/PaddleBuddy/PaddleBuddy.Droid/Resources/Resource.designer.cs
+/PaddleBuddy/PaddleBuddy.Droid/Resources/Resource.designer.cs
