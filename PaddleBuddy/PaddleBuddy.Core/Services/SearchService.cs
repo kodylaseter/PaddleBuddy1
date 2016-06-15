@@ -37,15 +37,26 @@ namespace PaddleBuddy.Core.Services
                 if (item.GetType() == typeof(River))
                 {
                     var river = item as River;
-                    list.Add(new SearchItem
+                    if (river != null)
                     {
-                        SearchString = river.Name,
-                        Item = river
-                    });
+                        list.Add(new SearchItem
+                        {
+                            SearchString = river.Name,
+                            Item = river
+                        });
+                    }
                 }
-                else
+                else if (item.GetType() == typeof (Point))
                 {
-                    var a = 4;
+                    var point = item as Point;
+                    if (point != null)
+                    {
+                        list.Add(new SearchItem
+                        {
+                            SearchString = point.Label,
+                            Item = point
+                        });
+                    }
                 }
             }
             return list;

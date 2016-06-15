@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MvvmCross.Platform.Converters;
+using PaddleBuddy.Core.Models;
 
 namespace PaddleBuddy.Core.Converters
 {
@@ -13,6 +11,14 @@ namespace PaddleBuddy.Core.Converters
         protected override bool Convert(bool value, Type targetType, object parameter, CultureInfo culture)
         {
             return !value;
+        }
+    }
+
+    public class ItemsSourceNotEmptyValueConverter : MvxValueConverter<ObservableCollection<SearchItem>, bool>
+    {
+        protected override bool Convert(ObservableCollection<SearchItem> value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (value != null && value.Count > 0);
         }
     }
 }

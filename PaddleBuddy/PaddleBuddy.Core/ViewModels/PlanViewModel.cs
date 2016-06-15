@@ -1,4 +1,6 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
 using PaddleBuddy.Core.Models;
 using PaddleBuddy.Core.Services;
@@ -13,6 +15,11 @@ namespace PaddleBuddy.Core.ViewModels
         private Point _endPoint;
         private TripEstimate _trip;
         private bool _isLoading;
+        private ObservableCollection<SearchItem> _filteredStart;
+        private string _startText;
+        private string _endText;
+
+        public SearchService StartSearchService { get; set; }
 
         //public PlanViewModel(Point start, Point end)
         //{
@@ -24,6 +31,8 @@ namespace PaddleBuddy.Core.ViewModels
         {
             StartPoint = MapService.GetInstance().GetPoint(48);
             EndPoint = MapService.GetInstance().GetPoint(52);
+            StartSearchService = new SearchService();
+            StartSearchService.SetData(SearchService.ArrayToSearchSource((from p in DatabaseService.GetInstance().Points where p.IsLaunchSite select p).ToArray()));
         }
 
         public TripEstimate Trip
@@ -57,13 +66,23 @@ namespace PaddleBuddy.Core.ViewModels
 
         public string StartText
         {
-            get { return StartPoint != null ? StartPoint.Id.ToString() : ""; }
+            get { return _startText; }
+            set
+            {
+                _startText = value;
+                Search(_startText);
+            }
         }
 
 
         public string EndText
         {
-            get { return EndPoint != null ? EndPoint.Id.ToString() : ""; }
+            get { return _endText; }
+            set
+            {
+                _endText = value;
+                RaisePropertyChanged(() => EndText);
+            }
         }
 
         public int RiverId { get; set; }
@@ -83,6 +102,20 @@ namespace PaddleBuddy.Core.ViewModels
             }
         }
 
+        public ObservableCollection<SearchItem> FilteredStart
+        {
+            get { return _filteredStart; }
+            set
+            {
+                _filteredStart = value; 
+                RaisePropertyChanged(() => FilteredStart);
+            }
+        }
+
+        public void Search(string searchText)
+        {
+            FilteredStart = StartSearchService.Filter(searchText);
+        }
 
         public void StartTrip()
         {
