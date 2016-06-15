@@ -13,20 +13,17 @@ namespace PaddleBuddy.Core.ViewModels
         private Point _endPoint;
         private TripEstimate _trip;
         private bool _isLoading;
-        private int _riverId;
-        private string _startText;
-        private string _endText;
 
-        public PlanViewModel(Point start = null, Point end = null)
-        {
-            StartPoint = start;
-            EndPoint = end;
-        }
+        //public PlanViewModel(Point start, Point end)
+        //{
+        //    StartPoint = start;
+        //    EndPoint = end;
+        //}
 
         public PlanViewModel()
         {
-            StartPoint = new Point {Id = 48};
-            EndPoint = new Point {Id = 52};
+            StartPoint = MapService.GetInstance().GetPoint(48);
+            EndPoint = MapService.GetInstance().GetPoint(52);
         }
 
         public TripEstimate Trip
@@ -41,6 +38,7 @@ namespace PaddleBuddy.Core.ViewModels
             set
             {
                 _startPoint = value;
+                RaisePropertyChanged(() => StartText);
                 Estimate();
             }
         }
@@ -52,22 +50,23 @@ namespace PaddleBuddy.Core.ViewModels
             {
 
                 _endPoint = value;
+                RaisePropertyChanged(() => EndText);
                 Estimate();
             }
         }
 
         public string StartText
         {
-            get { return _startText; }
-            set { _startText = value; }
+            get { return StartPoint != null ? StartPoint.Id.ToString() : ""; }
         }
 
 
         public string EndText
         {
-            get { return _endText; }
-            set { _endText = value; }
+            get { return EndPoint != null ? EndPoint.Id.ToString() : ""; }
         }
+
+        public int RiverId { get; set; }
 
         public bool CanStart
         {
@@ -99,11 +98,18 @@ namespace PaddleBuddy.Core.ViewModels
         {
             Trip = null;
             IsLoading = true;
-            if (StartPoint != null && EndPoint != null && _riverId != null)
+            if (StartPoint != null && EndPoint != null)
             {
-                await Task.Run(() =>
-                    Trip = PlanService.GetInstance().EstimateTrip(StartPoint.Id, EndPoint.Id, _riverId));
-                MessengerService.Toast(this, "Time estimate: " + Trip, false);
+                if (StartPoint.RiverId == EndPoint.RiverId)
+                {
+                    await Task.Run(() =>
+                    Trip = PlanService.GetInstance().EstimateTrip(StartPoint.Id, EndPoint.Id, StartPoint.RiverId));
+                    MessengerService.Toast(this, "Time estimate: " + Trip, false);
+                } else
+                {
+                    MessengerService.Toast(this, "River Ids don't match", true);
+                }
+                
             }
             IsLoading = false;
             RaisePropertyChanged(() => IsLoading);

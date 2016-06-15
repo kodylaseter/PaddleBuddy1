@@ -20,6 +20,23 @@ namespace PaddleBuddy.Core.ViewModels
         private bool _isLoading;
         private Point _selectedMarker;
 
+        public string StartText
+        {
+            get
+            {
+                return "teststart";
+            }
+        }
+
+        public string EndText
+        {
+            get
+            {
+                return "test end";
+            }
+        }
+
+
 
         public Point SelectedMarker
         {

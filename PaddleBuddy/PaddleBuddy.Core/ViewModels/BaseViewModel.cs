@@ -2,8 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using MvvmCross.Core.ViewModels;
-using MvvmCross.Platform;
-using MvvmCross.Plugins.Messenger;
 using PaddleBuddy.Core.Models;
 using PaddleBuddy.Core.Services;
 
@@ -14,15 +12,13 @@ namespace PaddleBuddy.Core.ViewModels
         private List<SearchItem> _data;
         private string _searchString;
         private bool _showSpacer;
+        public SearchService SearchService { get; set; }
 
-        public List<SearchItem> Data
+        public override void Start()
         {
-            get { return _data ?? (_data = SearchService.GetInstance().Data); }
-            set
-            {
-                _data = value;
-                RaisePropertyChanged(() => Data);
-            }
+            base.Start();
+            SearchService = new SearchService();
+            SearchService.SetData(SearchService.ArrayToSearchSource(DatabaseService.GetInstance().Rivers.ToArray()));
         }
 
         public ObservableCollection<SearchItem> FilteredData { get; set; }
@@ -33,13 +29,8 @@ namespace PaddleBuddy.Core.ViewModels
             get { return _searchString; }
             set
             {
-                FilteredData?.Clear();
                 _searchString = value;
-                if (!string.IsNullOrWhiteSpace(_searchString))
-                {
-                    FilteredData =
-                        new ObservableCollection<SearchItem>(Data?.Where(w => w.SearchString.Contains(SearchString)));
-                }
+                FilteredData = SearchService.Filter(_searchString);
                 RaisePropertyChanged(() => FilteredData);
                 RaisePropertyChanged(() => SpacerText);
                 RaisePropertyChanged(() => IsShown);
