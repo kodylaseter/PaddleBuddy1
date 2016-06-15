@@ -69,7 +69,7 @@ namespace PaddleBuddy.Core.ViewModels
 
         public void StartPlan()
         {
-            ShowViewModel<PlanViewModel>( new { start = SelectedMarker});
+            ShowViewModel<PlanViewModel>( new { startPoint = _selectedMarker});
         }
 
 

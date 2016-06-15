@@ -25,11 +25,11 @@ namespace PaddleBuddy.Core.ViewModels
         public SearchService StartSearchService { get; set; }
         public SearchService EndSearchService { get; set; }
 
-        public void Init(Point start)
+        public void Init(Point startPoint = null)
         {
-            if (start.Lat != 0)
+            if (startPoint?.Lat != 0)
             {
-                StartPoint = start;
+                StartPoint = startPoint;
             }
         }
 
