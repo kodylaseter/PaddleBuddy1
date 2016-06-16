@@ -15,6 +15,14 @@ namespace PaddleBuddy.Core.Models
         public int EndId { get; set; }
         public int RiverId { get; set; }
 
+        public string TimeString
+        {
+            get
+            {
+                return Time.ToString();
+            }
+        }
+
         public override string ToString()
         {
             return Time.ToString(@"hh\:mm\:ss") + " for " + Distance.ToString("#.##") + " " + DistanceUnit;

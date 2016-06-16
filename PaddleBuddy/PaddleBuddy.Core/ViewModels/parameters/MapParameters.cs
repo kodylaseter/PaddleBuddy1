@@ -1,8 +1,6 @@
-﻿using PaddleBuddy.Core.Models.Map;
-
-namespace PaddleBuddy.Core.ViewModels.parameters
+﻿namespace PaddleBuddy.Core.ViewModels.parameters
 {
-    public class MapParameters
+    public class MapParameters : BaseParameter
     {
         public MapInitModes InitMode { get; set; }
         public int StartId { get; set; }

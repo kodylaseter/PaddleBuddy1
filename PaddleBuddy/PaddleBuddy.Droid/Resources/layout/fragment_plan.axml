@@ -38,22 +38,29 @@
       android:layout_marginLeft="@dimen/element_margin_medium"
       android:layout_marginRight="@dimen/element_margin_medium"
       android:layout_gravity="center_horizontal">
-      <EditText
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_gravity="center_vertical"
-          android:textColorHint="@color/colorPrimary"
-          android:textSize="@dimen/text_medium"
-          android:imeOptions="actionGo" 
-          local:MvxBind="Text EndText"
-          android:hint="End"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textColorHint="@color/colorPrimary"
+        android:textSize="@dimen/text_medium"
+        android:imeOptions="actionGo"
+        local:MvxBind="Text EndText"
+        android:hint="End"/>
   </android.support.design.widget.TextInputLayout>
-
   <Mvx.MvxListView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     local:MvxItemTemplate="@layout/listitem_search"
     local:MvxBind="ItemsSource FilteredEnd; Visible FilteredEnd, Converter=ItemsSourceNotEmpty; ItemClick EndChangedCommand"/>
+  <Mvx.MvxListView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    local:MvxItemTemplate="@layout/listitem_search"
+    local:MvxBind="ItemsSource Trips; Visible Trips, Converter=ItemsSourceNotEmpty; ItemClick TripSelectedCommand"/>
+
+  
+  
   <View
     android:layout_width="fill_parent"
     android:layout_height="0dp"

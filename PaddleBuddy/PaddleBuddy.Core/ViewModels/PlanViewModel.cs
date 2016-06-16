@@ -14,7 +14,6 @@ namespace PaddleBuddy.Core.ViewModels
     {
         private Point _startPoint;
         private Point _endPoint;
-        private TripEstimate _trip;
         private bool _isLoading;
         private ObservableCollection<SearchItem> _filteredStart;
         private ObservableCollection<SearchItem> _filteredEnd;
@@ -25,10 +24,12 @@ namespace PaddleBuddy.Core.ViewModels
 
         public SearchService StartSearchService { get; set; }
         public SearchService EndSearchService { get; set; }
+        public ObservableCollection<TripEstimate> Trips { get; set; }
+        public TripEstimate Trip { get; set; }
 
         public void Init(PlanParameters planParams)
         {
-            if (planParams != null)
+            if (planParams != null && planParams.Set)
             {
                 StartPoint = DatabaseService.GetInstance().GetPoint(planParams.StartId);
                 _startText = StartPoint.Label;
@@ -41,12 +42,6 @@ namespace PaddleBuddy.Core.ViewModels
             StartSearchService.SetData(SearchService.ArrayToSearchSource((from p in DatabaseService.GetInstance().Points where p.IsLaunchSite select p).ToArray()));
             EndSearchService = new SearchService();
             EndSearchService.SetData(SearchService.ArrayToSearchSource((from p in DatabaseService.GetInstance().Points where p.IsLaunchSite select p).ToArray()));
-        }
-
-        public TripEstimate Trip
-        {
-            get { return _trip; }
-            set { _trip = value; }
         }
 
         public Point StartPoint
@@ -78,10 +73,12 @@ namespace PaddleBuddy.Core.ViewModels
             set
             {
                 _selectedStart = value;
+                StartPoint = _selectedStart.Item as Point;
                 _startText = _selectedStart.SearchString;
                 RaisePropertyChanged(() => StartText);
                 FilteredStart.Clear();
                 RaisePropertyChanged(() => FilteredStart);
+                Estimate();
             }
         }
 
@@ -91,10 +88,12 @@ namespace PaddleBuddy.Core.ViewModels
             set
             {
                 _selectedEnd = value;
+                EndPoint = _selectedEnd.Item as Point;
                 _endText = _selectedEnd.SearchString;
                 RaisePropertyChanged(() => EndText);
                 FilteredEnd.Clear();
                 RaisePropertyChanged(() => FilteredEnd);
+                Estimate();
             }
         }
 
@@ -118,11 +117,9 @@ namespace PaddleBuddy.Core.ViewModels
             }
         }
 
-        public int RiverId { get; set; }
-
         public bool CanStart
         {
-            get { return _trip != null; }
+            get { return Trip != null; }
         }
 
         public bool IsLoading
@@ -172,21 +169,21 @@ namespace PaddleBuddy.Core.ViewModels
                 MessengerService.Toast(this, "Invalid trip data", true);
                 return;
             }
-            //ShowViewModel<MapViewModel>(new MapParameters() {InitMode = MapInitModes.Plan, Start = StartPoint, End = EndPoint});
+            ShowViewModel<MapViewModel>(new MapParameters(){ InitMode = MapInitModes.Plan, StartId = Trip.StartId, EndId = Trip.EndId, Set = true });
         }
 
         public async void Estimate()
         {
-            Trip = null;
             IsLoading = true;
-            if (StartPoint != null && EndPoint != null)
+            if (_startPoint != null && _endPoint != null)
             {
-                if (StartPoint.RiverId == EndPoint.RiverId)
+                if (_startPoint.RiverId == _endPoint.RiverId)
                 {
                     await Task.Run(() =>
-                    Trip = PlanService.GetInstance().EstimateTrip(StartPoint.Id, EndPoint.Id, StartPoint.RiverId));
-                    MessengerService.Toast(this, "Time estimate: " + Trip, false);
-                } else
+                    Trips.Add(PlanService.GetInstance().EstimateTrip(_startPoint.Id, _endPoint.Id, _startPoint.RiverId)));
+                    RaisePropertyChanged(() => Trips);
+                }
+                else
                 {
                     MessengerService.Toast(this, "River Ids don't match", true);
                 }
@@ -212,6 +209,11 @@ namespace PaddleBuddy.Core.ViewModels
             SelectedEnd = searchItem;
         }
 
+        public void TripSelected(TripEstimate trip)
+        {
+            Trip = trip;
+        }
+
         public ICommand StartChangedCommand
         {
             get
@@ -223,6 +225,14 @@ namespace PaddleBuddy.Core.ViewModels
         public ICommand EndChangedCommand
         {
             get { return new MvxCommand<SearchItem>(EndChanged); }
+        }
+
+        public ICommand TripSelectedCommand
+        {
+            get
+            {
+                return new MvxCommand<TripEstimate>(TripSelected);
+            }
         }
     }
 }

@@ -16,11 +16,7 @@ namespace PaddleBuddy.Core.Services
 
         public void SetData(ObservableCollection<SearchItem> items)
         {
-            if (Data.Count > 0) Data.Clear();
-            foreach (var item in DatabaseService.GetInstance().Rivers)
-            {
-                Data.Add(new SearchItem { SearchString = item.Name, Item = item });
-            }
+            Data = items;
         }
 
         public ObservableCollection<SearchItem> Filter(string searchText)

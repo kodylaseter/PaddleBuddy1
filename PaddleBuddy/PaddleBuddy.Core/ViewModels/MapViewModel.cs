@@ -21,6 +21,16 @@ namespace PaddleBuddy.Core.ViewModels
         private bool _isLoading;
         private Point _selectedMarker;
 
+        public void Init(MapParameters mapParameters)
+        {
+            if (mapParameters != null && mapParameters.Set)
+            {
+                InitMode = mapParameters.InitMode;
+                StartPoint = DatabaseService.GetInstance().GetPoint(mapParameters.StartId);
+                EndPoint = DatabaseService.GetInstance().GetPoint(mapParameters.EndId);
+            }
+        }
+
         public string StartText
         {
             get
@@ -70,19 +80,7 @@ namespace PaddleBuddy.Core.ViewModels
 
         public void StartPlan()
         {
-            ShowViewModel<PlanViewModel>(new PlanParameters() { StartId = _selectedMarker.Id } );
-        }
-
-
-        public void Init(MapParameters mapParameters)
-        {
-            if (mapParameters != null)
-            {
-                InitMode = mapParameters.InitMode;
-                //todo: fix this
-                //StartPoint = mapParameters.Start;
-                //EndPoint = mapParameters.End;
-            }
+            ShowViewModel<PlanViewModel>(new PlanParameters() { StartId = _selectedMarker.Id, Set = true } );
         }
 
         public void LocationChanged(Point p)
