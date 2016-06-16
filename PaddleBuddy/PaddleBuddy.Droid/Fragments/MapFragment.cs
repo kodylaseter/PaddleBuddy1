@@ -62,7 +62,7 @@ namespace PaddleBuddy.Droid.Fragments
             try
             {
                 var id = int.Parse(marker.Snippet);
-                ViewModel.SelectedMarker = MapService.GetInstance().GetPoint(id);
+                ViewModel.SelectedMarker = DatabaseService.GetInstance().GetPoint(id);
                 marker.ShowInfoWindow();
                 return true;
 

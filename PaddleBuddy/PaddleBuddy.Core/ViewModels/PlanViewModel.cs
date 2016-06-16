@@ -6,6 +6,7 @@ using PaddleBuddy.Core.Models;
 using PaddleBuddy.Core.Services;
 using System.Threading.Tasks;
 using PaddleBuddy.Core.Models.Map;
+using PaddleBuddy.Core.ViewModels.parameters;
 
 namespace PaddleBuddy.Core.ViewModels
 {
@@ -25,11 +26,12 @@ namespace PaddleBuddy.Core.ViewModels
         public SearchService StartSearchService { get; set; }
         public SearchService EndSearchService { get; set; }
 
-        public void Init(Point startPoint = null)
+        public void Init(PlanParameters planParams)
         {
-            if (startPoint?.Lat != 0)
+            if (planParams != null)
             {
-                StartPoint = startPoint;
+                StartPoint = DatabaseService.GetInstance().GetPoint(planParams.StartId);
+                _startText = StartPoint.Label;
             }
         }
 
@@ -170,7 +172,7 @@ namespace PaddleBuddy.Core.ViewModels
                 MessengerService.Toast(this, "Invalid trip data", true);
                 return;
             }
-            ShowViewModel<MapViewModel>(new {initMode = MapInitModes.Plan, start = StartPoint, end = EndPoint});
+            //ShowViewModel<MapViewModel>(new MapParameters() {InitMode = MapInitModes.Plan, Start = StartPoint, End = EndPoint});
         }
 
         public async void Estimate()

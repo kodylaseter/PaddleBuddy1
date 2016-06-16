@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
+using PaddleBuddy.Core.ViewModels.parameters;
 
 namespace PaddleBuddy.Core.ViewModels
 {
@@ -69,15 +70,19 @@ namespace PaddleBuddy.Core.ViewModels
 
         public void StartPlan()
         {
-            ShowViewModel<PlanViewModel>( new { startPoint = _selectedMarker});
+            ShowViewModel<PlanViewModel>(new PlanParameters() { StartId = _selectedMarker.Id } );
         }
 
 
-        public void Init(MapInitModes initMode = MapInitModes.Init, Point start = null, Point end = null)
+        public void Init(MapParameters mapParameters)
         {
-            InitMode = initMode;
-            StartPoint = start;
-            EndPoint = end;
+            if (mapParameters != null)
+            {
+                InitMode = mapParameters.InitMode;
+                //todo: fix this
+                //StartPoint = mapParameters.Start;
+                //EndPoint = mapParameters.End;
+            }
         }
 
         public void LocationChanged(Point p)
@@ -125,8 +130,8 @@ namespace PaddleBuddy.Core.ViewModels
             }
             else
             {
-                StartPoint = MapService.GetInstance().GetPoint(StartPoint.Id);
-                EndPoint = MapService.GetInstance().GetPoint(EndPoint.Id);
+                StartPoint = DatabaseService.GetInstance().GetPoint(StartPoint.Id);
+                EndPoint = DatabaseService.GetInstance().GetPoint(EndPoint.Id);
                 var current = LocationService.GetInstance().GetCurrentLocation();
                 MapDrawer.DrawMarker(StartPoint);
                 MapDrawer.DrawMarker(EndPoint);
@@ -140,11 +145,11 @@ namespace PaddleBuddy.Core.ViewModels
             MapDrawer.MoveCameraZoom(LocationService.GetInstance().GetCurrentLocation(), 8);
             try
             {
-                var path = MapService.GetInstance().GetClosestRiver();
+                var path = DatabaseService.GetInstance().GetClosestRiver();
                 if (path.Points != null)
                 {
                     MapDrawer.DrawLine(path.Points.ToArray());
-                    var launchSites = from p in DatabaseService.GetInstance().Points where p.RiverId == MapService.GetInstance().ClosestRiverId && p.IsLaunchSite select p;
+                    var launchSites = from p in DatabaseService.GetInstance().Points where p.RiverId == DatabaseService.GetInstance().ClosestRiverId && p.IsLaunchSite select p;
                     foreach (var site in launchSites)
                     {
                         MapDrawer.DrawMarker(site);

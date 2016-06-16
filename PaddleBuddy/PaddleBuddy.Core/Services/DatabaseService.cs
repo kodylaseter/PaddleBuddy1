@@ -6,6 +6,8 @@ using PaddleBuddy.Core.Models.Map;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
 using PaddleBuddy.Core.DependencyServices;
+using System.Linq;
+using PaddleBuddy.Core.Utilities;
 
 namespace PaddleBuddy.Core.Services
 {
@@ -17,6 +19,7 @@ namespace PaddleBuddy.Core.Services
         private List<Link> _links;
         private IStorageService storageService;
         private string[] names = new[] { "points", "rivers", "links" };
+        public int ClosestRiverId { get; set; }
 
         public static DatabaseService GetInstance()
         {
@@ -83,6 +86,34 @@ namespace PaddleBuddy.Core.Services
         {
             get { return _links; }
             set { _links = value; }
+        }
+
+        public River GetRiver(int id)
+        {
+            return (from river in Rivers where river.Id == id select river).Single();
+        }
+
+        public Path GetClosestRiver()
+        {
+            var curr = LocationService.GetInstance().GetCurrentLocation();
+            var point = (from p in Points let dist = PBUtilities.Distance(curr, p) orderby dist ascending select p).First();
+            ClosestRiverId = point.RiverId;
+            return GetPath(point.RiverId);
+        }
+
+        public Point GetPoint(int id)
+        {
+            return (from point in Points where point.Id == id select point).Single();
+        }
+
+        public Path GetPath(int riverId)
+        {
+            var points = (from p in Points where p.RiverId == riverId select p).ToList();
+            return new Path
+            {
+                RiverId = riverId,
+                Points = points
+            };
         }
 
         public async Task<bool> UpdatePoints()
