@@ -4,7 +4,6 @@ using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
 using PaddleBuddy.Core.Models;
 using PaddleBuddy.Core.Services;
-using System.Threading.Tasks;
 using PaddleBuddy.Core.Models.Map;
 using PaddleBuddy.Core.ViewModels.parameters;
 
@@ -77,7 +76,6 @@ namespace PaddleBuddy.Core.ViewModels
                 RaisePropertyChanged(() => StartText);
                 FilteredStart.Clear();
                 RaisePropertyChanged(() => FilteredStart);
-                Estimate();
             }
         }
 
@@ -92,7 +90,6 @@ namespace PaddleBuddy.Core.ViewModels
                 RaisePropertyChanged(() => EndText);
                 FilteredEnd.Clear();
                 RaisePropertyChanged(() => FilteredEnd);
-                Estimate();
             }
         }
 
@@ -220,6 +217,7 @@ namespace PaddleBuddy.Core.ViewModels
         public void TripSelected(TripEstimate trip)
         {
             Trip = trip;
+            RaisePropertyChanged(() => CanStart);
         }
 
         public ICommand StartChangedCommand
