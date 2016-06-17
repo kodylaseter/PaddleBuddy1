@@ -14,7 +14,6 @@ namespace PaddleBuddy.Core.ViewModels
     {
         private Point _startPoint;
         private Point _endPoint;
-        private bool _isLoading;
         private ObservableCollection<SearchItem> _filteredStart;
         private ObservableCollection<SearchItem> _filteredEnd;
         private string _startText;
@@ -122,16 +121,6 @@ namespace PaddleBuddy.Core.ViewModels
             get { return Trip != null; }
         }
 
-        public bool IsLoading
-        {
-            get { return _isLoading; }
-            set
-            {
-                _isLoading = value; 
-                RaisePropertyChanged(() => IsLoading);
-            }
-        }
-
         public ObservableCollection<SearchItem> FilteredStart
         {
             get { return _filteredStart; }
@@ -154,12 +143,24 @@ namespace PaddleBuddy.Core.ViewModels
 
         public void StartSearch()
         {
-            FilteredStart = StartSearchService.Filter(_startText);
+            var filtered = StartSearchService.Filter(_startText);
+            if (_selectedEnd != null)
+            {
+                filtered.ToList().RemoveAll(x => ((Point) x.Item).RiverId != ((Point) _selectedEnd.Item).RiverId);
+            }
+            FilteredStart = filtered;
         }
 
         public void EndSearch()
         {
-            FilteredEnd = StartSearchService.Filter(_endText);
+            var filtered = StartSearchService.Filter(_endText);
+            if (_selectedStart != null)
+            {
+                //todo: convert thESE to linq??
+                //todo: fix thisssssss
+                filtered.ToList().RemoveAll(x => ((Point)x.Item).RiverId != ((Point)_selectedStart.Item).RiverId);
+            }
+            FilteredEnd = filtered;
         }
 
         public void StartTrip()
@@ -172,16 +173,19 @@ namespace PaddleBuddy.Core.ViewModels
             ShowViewModel<MapViewModel>(new MapParameters(){ InitMode = MapInitModes.Plan, StartId = Trip.StartId, EndId = Trip.EndId, Set = true });
         }
 
-        public async void Estimate()
+        public void Estimate()
         {
-            IsLoading = true;
             if (_startPoint != null && _endPoint != null)
             {
                 if (_startPoint.RiverId == _endPoint.RiverId)
                 {
-                    await Task.Run(() =>
-                    Trips.Add(PlanService.GetInstance().EstimateTrip(_startPoint.Id, _endPoint.Id, _startPoint.RiverId)));
-                    RaisePropertyChanged(() => Trips);
+                    var trip = PlanService.GetInstance().EstimateTrip(_startPoint.Id, _endPoint.Id, _startPoint.RiverId);
+                    if (trip != null)
+                    {
+                        if (Trips == null) Trips = new ObservableCollection<TripEstimate>();
+                        Trips.Add(trip);
+                        RaisePropertyChanged(() => Trips);
+                    }
                 }
                 else
                 {
@@ -189,8 +193,6 @@ namespace PaddleBuddy.Core.ViewModels
                 }
                 
             }
-            IsLoading = false;
-            RaisePropertyChanged(() => IsLoading);
         }
 
 
