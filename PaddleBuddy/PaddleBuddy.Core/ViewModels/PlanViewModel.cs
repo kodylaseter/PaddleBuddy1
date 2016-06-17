@@ -20,10 +20,10 @@ namespace PaddleBuddy.Core.ViewModels
         private string _endText;
         private SearchItem _selectedStart;
         private SearchItem _selectedEnd;
+        private ObservableCollection<TripEstimate> _trips;
 
         public SearchService StartSearchService { get; set; }
         public SearchService EndSearchService { get; set; }
-        public ObservableCollection<TripEstimate> Trips { get; set; }
         public TripEstimate Trip { get; set; }
 
         public void Init(PlanParameters planParams)
@@ -114,6 +114,12 @@ namespace PaddleBuddy.Core.ViewModels
                 _endText = value;
                 EndSearch();
             }
+        }
+
+        public ObservableCollection<TripEstimate> Trips
+        {
+            get { return _trips; }
+            set { _trips = value; }
         }
 
         public bool CanStart
