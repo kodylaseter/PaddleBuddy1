@@ -23,7 +23,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:choiceMode="singleChoice"
-    android:listSelector="@color/light_gray"
+    android:drawSelectorOnTop="true"
     local:MvxItemTemplate="@layout/listitem_search"
     local:MvxBind="ItemsSource FilteredData; Visible IsShown"/>
   <TextView
