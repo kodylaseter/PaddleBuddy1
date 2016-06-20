@@ -22,6 +22,8 @@
   <Mvx.MvxListView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:choiceMode="singleChoice"
+    android:listSelector="@color/light_gray"
     local:MvxItemTemplate="@layout/listitem_search"
     local:MvxBind="ItemsSource FilteredData; Visible IsShown"/>
   <TextView
