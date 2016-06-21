@@ -1,3 +1,4 @@
+using System;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using PaddleBuddy.Core.DependencyServices;
@@ -8,7 +9,6 @@ namespace PaddleBuddy.Droid.DependencyServices
 {
     public class MapDrawerAndroid : IMapDrawer
     {
-
         public GoogleMap Map { get; set; }
 
         public void DrawLine(Point[] points)
@@ -23,6 +23,12 @@ namespace PaddleBuddy.Droid.DependencyServices
                 polyOpts.Add(new LatLng(p.Lat, p.Lng));
             }
             Map.AddPolyline(polyOpts);
+        }
+
+        public void DrawLine(Point start, Point end)
+        {
+            var path = DatabaseService.GetInstance().GetPath(start, end);
+            DrawLine(path.Points.ToArray());
         }
 
         public void DrawMarker(Point p)

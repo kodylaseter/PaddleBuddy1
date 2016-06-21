@@ -8,6 +8,7 @@ using System.Linq;
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
 using PaddleBuddy.Core.ViewModels.parameters;
+using PaddleBuddy.Core.Utilities;
 
 namespace PaddleBuddy.Core.ViewModels
 {
@@ -20,6 +21,7 @@ namespace PaddleBuddy.Core.ViewModels
         public MapInitModes InitMode { get; set; }
         private bool _isLoading;
         private Point _selectedMarker;
+        private Point _currentLocation;
 
         public void Init(MapParameters mapParameters)
         {
@@ -31,53 +33,6 @@ namespace PaddleBuddy.Core.ViewModels
             }
         }
 
-        public string StartText
-        {
-            get
-            {
-                return "teststart";
-            }
-        }
-
-        public string EndText
-        {
-            get
-            {
-                return "test end";
-            }
-        }
-
-
-
-        public Point SelectedMarker
-        {
-            get { return _selectedMarker; }
-            set
-            {
-                _selectedMarker = value; 
-                RaisePropertyChanged(() => SelectedMarker);
-            }
-        }
-
-
-        public bool IsLoading
-        {
-            get { return _isLoading; }
-            set
-            {
-                _isLoading = value;
-                RaisePropertyChanged(() => IsLoading);
-            }
-        }
-
-        public ICommand StartPlanCommand
-        {
-            get
-            {
-                return new MvxCommand(StartPlan);
-            }
-        }
-
         public void StartPlan()
         {
             ShowViewModel<PlanViewModel>(new PlanParameters() { StartId = _selectedMarker.Id, Set = true } );
@@ -85,25 +40,25 @@ namespace PaddleBuddy.Core.ViewModels
 
         public void LocationChanged(Point p)
         {
-            
+            CurrentLocation = p;
         }
 
         public async Task Setup()
         {
             IsLoading = true;
             await Task.Run(() => LetDBSetup());
-            IsLoading = false;
             MapDrawer = Mvx.Resolve<IMapDrawer>();
             switch (InitMode)
             {
                 case MapInitModes.Init:
                     SetupInit();
                     break;
-                case MapInitModes.Plan:
-                    SetupPlan();
+                case MapInitModes.Navigate:
+                    SetupNavigate();
                     break;
                 default: throw new ArgumentOutOfRangeException();
             }
+            IsLoading = false;
         }
 
         public async Task LetDBSetup()
@@ -120,7 +75,7 @@ namespace PaddleBuddy.Core.ViewModels
             }
         }
 
-        public void SetupPlan()
+        public void SetupNavigate()
         {
             if (StartPoint.Id == int.MaxValue || EndPoint.Id == int.MaxValue)
             {
@@ -135,6 +90,7 @@ namespace PaddleBuddy.Core.ViewModels
                 MapDrawer.DrawMarker(EndPoint);
                 MapDrawer.MoveCamera(current);
                 MapDrawer.AnimateCameraBounds( new[] { StartPoint, EndPoint, current });
+                MapDrawer.DrawLine(StartPoint, EndPoint);
             }
         }
 
@@ -163,11 +119,77 @@ namespace PaddleBuddy.Core.ViewModels
                 MessengerService.Toast(this, "Failed to get nearest river", true);
             }
         }
+
+        public string StartText
+        {
+            get
+            {
+                return "teststart";
+            }
+        }
+
+        public string EndText
+        {
+            get
+            {
+                return "test end";
+            }
+        }
+
+        public Point CurrentLocation
+        {
+            get { return _currentLocation; }
+            set
+            {
+                _currentLocation = value;
+                AdjustForLocation();
+            }
+        }
+
+        public void AdjustForLocation()
+        {
+            if (CurrentLocation != null && StartPoint != null)
+            {
+                if (PBUtilities.DistanceInMeters(CurrentLocation, StartPoint) > 40)
+                {
+                    MessengerService.Toast(this, "Greater than 40 meters", true);
+                }
+            }
+        }
+
+        public Point SelectedMarker
+        {
+            get { return _selectedMarker; }
+            set
+            {
+                _selectedMarker = value;
+                RaisePropertyChanged(() => SelectedMarker);
+            }
+        }
+
+
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set
+            {
+                _isLoading = value;
+                RaisePropertyChanged(() => IsLoading);
+            }
+        }
+
+        public ICommand StartPlanCommand
+        {
+            get
+            {
+                return new MvxCommand(StartPlan);
+            }
+        }
     }
 
     public enum MapInitModes
     {
         Init,
-        Plan
+        Navigate
     }
 }

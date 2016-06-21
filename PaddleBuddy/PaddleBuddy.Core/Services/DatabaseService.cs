@@ -8,6 +8,7 @@ using MvvmCross.Platform;
 using PaddleBuddy.Core.DependencyServices;
 using System.Linq;
 using PaddleBuddy.Core.Utilities;
+using PaddleBuddy.Core.Models.LinqModels;
 
 namespace PaddleBuddy.Core.Services
 {
@@ -114,6 +115,43 @@ namespace PaddleBuddy.Core.Services
                 RiverId = riverId,
                 Points = points
             };
+        }
+
+        public Path GetPath(Point start, Point end)
+        {
+            //todo: clean this up
+            var path = new Path();
+            path.Points = new List<Point>();
+            if (start.RiverId != end.RiverId)
+            {
+                MessengerService.Toast(this, "invalid points for path", true);
+            }
+            path.RiverId = start.RiverId;
+            var tempList = (from p in Points where p.RiverId == start.RiverId join lnk in Links on p.Id equals lnk.Begin select new PointWithNext(p, lnk.End)).ToList();
+            if (tempList.Count > 0)
+            {
+                var temp = (from p in tempList where p.Point.Id == start.Id select p).Single();
+                if (temp == null)
+                {
+                    MessengerService.Toast(this, "Failed to get path", true);
+                }
+                else
+                {
+                    path.Points.Add(temp.Point);
+                } 
+                while (temp != null && temp.Point.Id != end.Id)
+                {
+                    temp = (from p in tempList where p.Point.Id == temp.Next select p).First();
+                    if (temp != null) path.Points.Add(temp.Point);
+                    else
+                    {
+                        MessengerService.Toast(this, "Failed to get path", true);
+                        break;
+                    }
+                }
+                
+            }
+            return path;
         }
 
         public async Task<bool> UpdatePoints()

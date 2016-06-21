@@ -33,6 +33,7 @@
     <Compile Include="DependencyServices\IMapDrawer.cs" />
     <Compile Include="DependencyServices\IStorageService.cs" />
     <Compile Include="Models\LinqModels\LinkPoint.cs" />
+    <Compile Include="Models\LinqModels\PointWithNext.cs" />
     <Compile Include="Models\Map\Link.cs" />
     <Compile Include="Models\Map\Path.cs" />
     <Compile Include="Models\Map\Point.cs" />

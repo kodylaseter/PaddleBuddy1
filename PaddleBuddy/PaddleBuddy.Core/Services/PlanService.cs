@@ -44,7 +44,7 @@ namespace PaddleBuddy.Core.Services
             if (temp == null)
             {
                 MessengerService.Toast(this, "Could not find first point", true);
-                return trip;
+                return null;
             }
             int newId;
             var list = new List<LinkPoint>();
@@ -53,12 +53,12 @@ namespace PaddleBuddy.Core.Services
                 list.Add(temp);
                 newId = temp.End;
                 result.Remove(temp);
-                temp = (from f in result where f.Begin == newId select f).First();
+                temp = (from f in result where f.Begin == newId select f).FirstOrDefault();
             }
             if (temp == null)
             {
                 MessengerService.Toast(this, "Did not reach end point", true);
-                return trip;
+                return null;
             }
             if (temp.End == endId)
             {

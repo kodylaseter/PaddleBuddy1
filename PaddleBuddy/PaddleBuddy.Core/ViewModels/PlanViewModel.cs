@@ -146,6 +146,7 @@ namespace PaddleBuddy.Core.ViewModels
 
         public void StartSearch()
         {
+            _selectedStart = null;
             var filtered = StartSearchService.Filter(_startText);
             if (_selectedEnd != null)
             {
@@ -156,6 +157,7 @@ namespace PaddleBuddy.Core.ViewModels
 
         public void EndSearch()
         {
+            _selectedEnd = null;
             var filtered = StartSearchService.Filter(_endText);
             if (_selectedStart != null)
             {
@@ -173,7 +175,7 @@ namespace PaddleBuddy.Core.ViewModels
                 MessengerService.Toast(this, "Invalid trip data", true);
                 return;
             }
-            ShowViewModel<MapViewModel>(new MapParameters(){ InitMode = MapInitModes.Plan, StartId = Trip.StartId, EndId = Trip.EndId, Set = true });
+            ShowViewModel<MapViewModel>(new MapParameters(){ InitMode = MapInitModes.Navigate, StartId = Trip.StartId, EndId = Trip.EndId, Set = true });
         }
 
         public void Estimate()
