@@ -25,7 +25,7 @@
     android:choiceMode="singleChoice"
     android:drawSelectorOnTop="true"
     local:MvxItemTemplate="@layout/listitem_search"
-    local:MvxBind="ItemsSource FilteredData; Visible IsShown"/>
+    local:MvxBind="ItemsSource FilteredData; Visible IsShown; ItemClick ItemSelectedCommand"/>
   <TextView
     android:layout_width="match_parent"
     android:layout_height="1000dp"

@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
+using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
 using PaddleBuddy.Core.Models;
+using PaddleBuddy.Core.Models.Map;
 using PaddleBuddy.Core.Services;
+using PaddleBuddy.Core.ViewModels.parameters;
 
 namespace PaddleBuddy.Core.ViewModels
 {
@@ -13,15 +15,30 @@ namespace PaddleBuddy.Core.ViewModels
         private string _searchString;
         private bool _showSpacer;
         public SearchService SearchService { get; set; }
+        public ObservableCollection<SearchItem> FilteredData { get; set; }
+        private ICommand _itemSelectedCommand;
 
         public override void Start()
         {
             base.Start();
             SearchService = new SearchService();
-            SearchService.SetData(SearchService.ArrayToSearchSource(DatabaseService.GetInstance().Rivers.ToArray()));
+            SearchService.SetData(SearchService.ArrayToSearchSource(DatabaseService.GetInstance().Points.ToArray()));
         }
 
-        public ObservableCollection<SearchItem> FilteredData { get; set; }
+        public void ItemSelected(SearchItem searchItem)
+        {
+            if (searchItem?.Item != null && searchItem.Item.GetType() == typeof (Point))
+            {
+                ShowViewModel<PlanViewModel>(new PlanParameters() {StartId = ((Point) searchItem.Item).Id, Set = true});
+            }
+        }
+
+
+        public ICommand ItemSelectedCommand
+        {
+            get { return _itemSelectedCommand ?? new MvxCommand<SearchItem>(ItemSelected); }
+            set { _itemSelectedCommand = value; }
+        }
 
 
         public string SearchString
@@ -36,7 +53,6 @@ namespace PaddleBuddy.Core.ViewModels
                 RaisePropertyChanged(() => IsShown);
             }
         }
-
 
         public bool ShowSpacer
         {
@@ -57,8 +73,6 @@ namespace PaddleBuddy.Core.ViewModels
                 return text;
             }
         }
-
-
 
         public bool IsShown => !string.IsNullOrEmpty(_searchString);
     }
