@@ -148,12 +148,10 @@ namespace PaddleBuddy.Core.ViewModels
 
         public void AdjustForLocation()
         {
-            if (CurrentLocation != null && StartPoint != null)
+            if (CurrentLocation == null || StartPoint == null) return;
+            if (PBUtilities.DistanceInMeters(CurrentLocation, StartPoint) > 40)
             {
-                if (PBUtilities.DistanceInMeters(CurrentLocation, StartPoint) > 40)
-                {
-                    MessengerService.Toast(this, "Greater than 40 meters", true);
-                }
+                MessengerService.Toast(this, "Greater than 40 meters", true);
             }
         }
 
