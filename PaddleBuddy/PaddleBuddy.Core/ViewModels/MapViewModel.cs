@@ -150,6 +150,7 @@ namespace PaddleBuddy.Core.ViewModels
             set
             {
                 _currentLocation = value;
+                MapDrawer.DrawCurrent(CurrentLocation);
                 AdjustForLocation();
             }
         }
@@ -157,9 +158,10 @@ namespace PaddleBuddy.Core.ViewModels
         public void AdjustForLocation()
         {
             if (CurrentLocation == null || StartPoint == null) return;
-            if (PBUtilities.DistanceInMeters(CurrentLocation, StartPoint) > 40)
+            var dist = PBUtilities.DistanceInMeters(CurrentLocation, StartPoint);
+            if (dist < 40)
             {
-                MessengerService.Toast(this, "Greater than 40 meters", true);
+                MessengerService.Toast(this, dist.ToString(), true);
             }
         }
 
