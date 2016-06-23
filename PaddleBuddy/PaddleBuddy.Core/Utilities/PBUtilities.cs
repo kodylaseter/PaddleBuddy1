@@ -30,9 +30,15 @@ namespace PaddleBuddy.Core.Utilities
         //returns in miles
         public static double Distance(Point begin, Point end)
         {
+            return Distance(begin.Lat, begin.Lng, end.Lat, end.Lng) * 0.000621371;
+        }
+
+        public static double DistanceInMeters(Point begin, Point end)
+        {
             return Distance(begin.Lat, begin.Lng, end.Lat, end.Lng);
         }
 
+        //METERS
         public static double Distance(double lat1, double lon1, double lat2, double lon2)
         {
             var R = 6371000;
@@ -44,8 +50,9 @@ namespace PaddleBuddy.Core.Utilities
             var a = Math.Sin(deltaLat / 2) * Math.Sin(deltaLat / 2) + Math.Cos(l1) * Math.Cos(l2) * Math.Sin(deltaLong / 2) * Math.Sin(deltaLong / 2);
             var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
             var d = R * c;
+            return d;
             //convert to miles
-            return d * 0.000621371;
+            //return d * 0.000621371;
         }
 
         //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::

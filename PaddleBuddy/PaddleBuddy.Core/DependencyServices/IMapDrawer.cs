@@ -5,6 +5,7 @@ namespace PaddleBuddy.Core.DependencyServices
     public interface IMapDrawer
     {
         void DrawLine(Point[] points);
+        void DrawLine(Point start, Point end);
         void DrawMarker(Point point);
         void DrawCurrent(Point current = null);
         void MoveCamera(Point p);

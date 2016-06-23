@@ -33,6 +33,7 @@
     <Compile Include="DependencyServices\IMapDrawer.cs" />
     <Compile Include="DependencyServices\IStorageService.cs" />
     <Compile Include="Models\LinqModels\LinkPoint.cs" />
+    <Compile Include="Models\LinqModels\PointWithNext.cs" />
     <Compile Include="Models\Map\Link.cs" />
     <Compile Include="Models\Map\Path.cs" />
     <Compile Include="Models\Map\Point.cs" />
@@ -65,6 +66,9 @@
     <Compile Include="ViewModels\MapViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
+    <Compile Include="ViewModels\parameters\BaseParameter.cs" />
+    <Compile Include="ViewModels\parameters\MapParameters.cs" />
+    <Compile Include="ViewModels\parameters\PlanParameters.cs" />
     <Compile Include="ViewModels\PointViewModel.cs" />
     <Compile Include="ViewModels\RecentViewModel.cs" />
     <Compile Include="ViewModels\PlanViewModel.cs" />

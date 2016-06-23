@@ -29,6 +29,8 @@
   <Mvx.MvxListView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:choiceMode="singleChoice"
+    android:drawSelectorOnTop="true"
     local:MvxItemTemplate="@layout/listitem_search"
     local:MvxBind="ItemsSource FilteredStart; Visible FilteredStart, Converter=ItemsSourceNotEmpty; ItemClick StartChangedCommand"/>
   <android.support.design.widget.TextInputLayout
@@ -38,22 +40,33 @@
       android:layout_marginLeft="@dimen/element_margin_medium"
       android:layout_marginRight="@dimen/element_margin_medium"
       android:layout_gravity="center_horizontal">
-      <EditText
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_gravity="center_vertical"
-          android:textColorHint="@color/colorPrimary"
-          android:textSize="@dimen/text_medium"
-          android:imeOptions="actionGo" 
-          local:MvxBind="Text EndText"
-          android:hint="End"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textColorHint="@color/colorPrimary"
+        android:textSize="@dimen/text_medium"
+        android:imeOptions="actionGo"
+        local:MvxBind="Text EndText"
+        android:hint="End"/>
   </android.support.design.widget.TextInputLayout>
-
   <Mvx.MvxListView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:choiceMode="singleChoice"
+    android:drawSelectorOnTop="true"
     local:MvxItemTemplate="@layout/listitem_search"
     local:MvxBind="ItemsSource FilteredEnd; Visible FilteredEnd, Converter=ItemsSourceNotEmpty; ItemClick EndChangedCommand"/>
+  <Mvx.MvxListView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:choiceMode="singleChoice"
+    android:drawSelectorOnTop="true"
+    local:MvxItemTemplate="@layout/listitem_trips"
+    local:MvxBind="ItemsSource Trips; Visible Trips, Converter=ItemsSourceNotEmpty; ItemClick TripSelectedCommand"/>
+
+  
+  
   <View
     android:layout_width="fill_parent"
     android:layout_height="0dp"
@@ -63,17 +76,12 @@
       android:layout_width="fill_parent"
       android:layout_height="@dimen/bottom_button_height"
       android:background="@color/colorPrimary"
-      android:layout_gravity="center_horizontal">
-      <ProgressBar
-          android:layout_width="fill_parent"
-          android:layout_height="wrap_content"
-          android:layout_gravity="center"
-          android:gravity="center"
-          local:MvxBind="Visible IsLoading"/>
+      android:layout_gravity="center_horizontal"
+      local:MvxBind="Visible CanStart">
       <Button
           android:layout_height="fill_parent"
           android:layout_width="fill_parent"
-          local:MvxBind="Click StartCommand; Visible IsLoading, Converter=InverseBool"
+          local:MvxBind="Click StartCommand"
           android:gravity="center"
           android:textColor="@color/white"
           android:textSize="@dimen/text_large"

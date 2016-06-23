@@ -1,3 +1,4 @@
+using System;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using PaddleBuddy.Core.DependencyServices;
@@ -8,8 +9,8 @@ namespace PaddleBuddy.Droid.DependencyServices
 {
     public class MapDrawerAndroid : IMapDrawer
     {
-
         public GoogleMap Map { get; set; }
+        public Marker CurrentMarker { get; set; }
 
         public void DrawLine(Point[] points)
         {
@@ -25,9 +26,15 @@ namespace PaddleBuddy.Droid.DependencyServices
             Map.AddPolyline(polyOpts);
         }
 
+        public void DrawLine(Point start, Point end)
+        {
+            var path = DatabaseService.GetInstance().GetPath(start, end);
+            DrawLine(path.Points.ToArray());
+        }
+
         public void DrawMarker(Point p)
         {
-            if (IsMapNull) return;
+            if (IsMapNull || p == null) return;
             var marker = new MarkerOptions().SetPosition(new LatLng(p.Lat, p.Lng));
             if (p.IsLaunchSite) marker.SetTitle(p.Label).SetSnippet(p.Id.ToString());
             Map.AddMarker(marker);
@@ -36,10 +43,21 @@ namespace PaddleBuddy.Droid.DependencyServices
         public void DrawCurrent(Point current = null)
         {
             if (IsMapNull) return;
-            if (current == null) current = LocationService.GetInstance().GetCurrentLocation();
-            var markerOptions = new MarkerOptions();
-            markerOptions.SetPosition(new LatLng(current.Lat, current.Lng));
-            var icon = BitmapDescriptorFactory.FromResource(Resource.Drawable.current_circle);
+            if (CurrentMarker == null)
+            {
+                var markerOpts = new MarkerOptions().SetPosition(new LatLng(current.Lat, current.Lng));
+                CurrentMarker = Map.AddMarker(markerOpts);
+            } else
+            {
+                CurrentMarker.Remove();
+                var markerOpts = new MarkerOptions().SetPosition(new LatLng(current.Lat, current.Lng));
+                CurrentMarker = Map.AddMarker(markerOpts);
+            }
+            //if (current == null) current = LocationService.GetInstance().GetCurrentLocation();
+            //var markerOptions = new MarkerOptions();
+            //markerOptions.SetPosition(new LatLng(current.Lat, current.Lng));
+            //var icon = BitmapDescriptorFactory.FromResource(Resource.Drawable.current_circle);
+
         }
 
         public void MoveCamera(Point p)

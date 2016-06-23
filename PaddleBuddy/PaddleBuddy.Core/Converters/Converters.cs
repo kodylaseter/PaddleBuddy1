@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using MvvmCross.Platform.Converters;
 using PaddleBuddy.Core.Models;
+using System.Collections;
 
 namespace PaddleBuddy.Core.Converters
 {
@@ -14,11 +15,29 @@ namespace PaddleBuddy.Core.Converters
         }
     }
 
-    public class ItemsSourceNotEmptyValueConverter : MvxValueConverter<ObservableCollection<SearchItem>, bool>
+    //public class ItemsSourceNotEmptyValueConverter : MvxValueConverter<object, bool>
+    //{
+    //    protected override bool Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    //    {
+    //        if (value != null)
+    //        {
+    //            var obsCol = value as ObservableCollection<object>;
+    //            if (obsCol != null && obsCol.Count > 0) return true;
+    //        }
+    //        return false;
+    //    }
+    //}
+
+    public class ItemsSourceNotEmptyValueConverter : MvxValueConverter
     {
-        protected override bool Convert(ObservableCollection<SearchItem> value, Type targetType, object parameter, CultureInfo culture)
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (value != null && value.Count > 0);
+            if (value != null)
+            {
+                var obs = value as IList;
+                if (obs != null && obs.Count > 0) return true;
+            }
+            return false;
         }
     }
 

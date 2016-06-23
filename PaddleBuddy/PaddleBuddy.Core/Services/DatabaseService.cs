@@ -6,6 +6,9 @@ using PaddleBuddy.Core.Models.Map;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
 using PaddleBuddy.Core.DependencyServices;
+using System.Linq;
+using PaddleBuddy.Core.Utilities;
+using PaddleBuddy.Core.Models.LinqModels;
 
 namespace PaddleBuddy.Core.Services
 {
@@ -17,6 +20,7 @@ namespace PaddleBuddy.Core.Services
         private List<Link> _links;
         private IStorageService storageService;
         private string[] names = new[] { "points", "rivers", "links" };
+        public int ClosestRiverId { get; set; }
 
         public static DatabaseService GetInstance()
         {
@@ -83,6 +87,71 @@ namespace PaddleBuddy.Core.Services
         {
             get { return _links; }
             set { _links = value; }
+        }
+
+        public River GetRiver(int id)
+        {
+            return (from river in Rivers where river.Id == id select river).Single();
+        }
+
+        public Path GetClosestRiver()
+        {
+            var curr = LocationService.GetInstance().GetCurrentLocation();
+            var point = (from p in Points let dist = PBUtilities.Distance(curr, p) orderby dist ascending select p).First();
+            ClosestRiverId = point.RiverId;
+            return GetPath(point.RiverId);
+        }
+
+        public Point GetPoint(int id)
+        {
+            return (from point in Points where point.Id == id select point).Single();
+        }
+
+        public Path GetPath(int riverId)
+        {
+            var points = (from p in Points where p.RiverId == riverId select p).ToList();
+            return new Path
+            {
+                RiverId = riverId,
+                Points = points
+            };
+        }
+
+        public Path GetPath(Point start, Point end)
+        {
+            //todo: clean this up
+            var path = new Path();
+            path.Points = new List<Point>();
+            if (start.RiverId != end.RiverId)
+            {
+                MessengerService.Toast(this, "invalid points for path", true);
+            }
+            path.RiverId = start.RiverId;
+            var tempList = (from p in Points where p.RiverId == start.RiverId join lnk in Links on p.Id equals lnk.Begin select new PointWithNext(p, lnk.End)).ToList();
+            if (tempList.Count > 0)
+            {
+                var temp = (from p in tempList where p.Point.Id == start.Id select p).Single();
+                if (temp == null)
+                {
+                    MessengerService.Toast(this, "Failed to get path", true);
+                }
+                else
+                {
+                    path.Points.Add(temp.Point);
+                } 
+                while (temp != null && temp.Point.Id != end.Id)
+                {
+                    temp = (from p in tempList where p.Point.Id == temp.Next select p).First();
+                    if (temp != null) path.Points.Add(temp.Point);
+                    else
+                    {
+                        MessengerService.Toast(this, "Failed to get path", true);
+                        break;
+                    }
+                }
+                
+            }
+            return path;
         }
 
         public async Task<bool> UpdatePoints()

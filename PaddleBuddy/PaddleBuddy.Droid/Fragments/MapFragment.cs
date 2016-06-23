@@ -12,6 +12,7 @@ using PaddleBuddy.Core.ViewModels;
 using PaddleBuddy.Droid.DependencyServices;
 using PaddleBuddy.Core.Services;
 using Android.Widget;
+using System.Threading.Tasks;
 
 namespace PaddleBuddy.Droid.Fragments
 {
@@ -37,8 +38,8 @@ namespace PaddleBuddy.Droid.Fragments
 
         public void OnMapReady(GoogleMap googleMap)
         {
-            googleMap.MyLocationEnabled = true;
-            googleMap.MyLocationChange += LocationChanged;
+            //googleMap.MyLocationEnabled = true;
+            //googleMap.MyLocationChange += LocationChanged;
             googleMap.SetOnMapClickListener(this);
             googleMap.SetOnMarkerClickListener(this);
             googleMap.SetInfoWindowAdapter(this);
@@ -46,6 +47,22 @@ namespace PaddleBuddy.Droid.Fragments
             ViewModel.SelectedMarker = null;
             ViewModel.MapReady = true;
             ViewModel.Setup();
+            Task.Run(() => Simulate());
+        }
+
+        public async void Simulate()
+        {
+            var curr = new Point();
+            while (true)
+            {
+                await Task.Delay(1000);
+                if (ViewModel.StartPoint != null)
+                {
+                    curr.Lat = ViewModel.CurrentLocation.Lat;
+                    curr.Lng = ViewModel.CurrentLocation.Lng + (-84.1180229 - ViewModel.CurrentLocation.Lng) / 5;
+                    Activity.RunOnUiThread(() => ViewModel.CurrentLocation = curr);
+                }
+            }
         }
 
         public void LocationChanged(object sender, GoogleMap.MyLocationChangeEventArgs eventArgs)
@@ -62,7 +79,7 @@ namespace PaddleBuddy.Droid.Fragments
             try
             {
                 var id = int.Parse(marker.Snippet);
-                ViewModel.SelectedMarker = MapService.GetInstance().GetPoint(id);
+                ViewModel.SelectedMarker = DatabaseService.GetInstance().GetPoint(id);
                 marker.ShowInfoWindow();
                 return true;
 

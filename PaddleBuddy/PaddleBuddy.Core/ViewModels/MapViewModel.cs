@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
+using PaddleBuddy.Core.ViewModels.parameters;
+using PaddleBuddy.Core.Utilities;
 
 namespace PaddleBuddy.Core.ViewModels
 {
@@ -19,6 +21,112 @@ namespace PaddleBuddy.Core.ViewModels
         public MapInitModes InitMode { get; set; }
         private bool _isLoading;
         private Point _selectedMarker;
+        private Point _currentLocation;
+
+        public void Init(MapParameters mapParameters)
+        {
+            if (mapParameters != null && mapParameters.Set)
+            {
+                InitMode = mapParameters.InitMode;
+                StartPoint = DatabaseService.GetInstance().GetPoint(mapParameters.StartId);
+                EndPoint = DatabaseService.GetInstance().GetPoint(mapParameters.EndId);
+            }
+        }
+
+        public void StartPlan()
+        {
+            ShowViewModel<PlanViewModel>(new PlanParameters() { StartId = _selectedMarker.Id, Set = true } );
+        }
+
+        public void LocationChanged(Point p)
+        {
+            CurrentLocation = p;
+        }
+
+        public async Task Setup()
+        {
+            IsLoading = true;
+            await Task.Run(() => LetDBSetup());
+            MapDrawer = Mvx.Resolve<IMapDrawer>();
+            switch (InitMode)
+            {
+                case MapInitModes.Init:
+                    SetupInit();
+                    break;
+                case MapInitModes.Navigate:
+                    SetupNavigate();
+                    break;
+                default: throw new ArgumentOutOfRangeException();
+            }
+            if (CurrentLocation == null)
+            {
+                CurrentLocation = new Point
+                {
+                    Lat = 34.065676,
+                    Lng = -84.272612
+                };
+            }
+            IsLoading = false;
+        }
+
+        public async Task LetDBSetup()
+        {
+            var times = 0;
+            while (!DatabaseService.GetInstance().IsReady)
+            {
+                if (times == 20)
+                {
+                    MessengerService.Toast(this, "DB not updating. Consider restarting app", false);
+                }
+                await Task.Delay(TimeSpan.FromMilliseconds(300));
+                times++;
+            }
+        }
+
+        public void SetupNavigate()
+        {
+            if (StartPoint.Id == int.MaxValue || EndPoint.Id == int.MaxValue)
+            {
+                MessengerService.Toast(this, "Start or end value not valid", true);
+            }
+            else
+            {
+                StartPoint = DatabaseService.GetInstance().GetPoint(StartPoint.Id);
+                EndPoint = DatabaseService.GetInstance().GetPoint(EndPoint.Id);
+                var current = LocationService.GetInstance().GetCurrentLocation();
+                MapDrawer.DrawMarker(StartPoint);
+                MapDrawer.DrawMarker(EndPoint);
+                MapDrawer.MoveCamera(current);
+                MapDrawer.AnimateCameraBounds( new[] { StartPoint, EndPoint, current });
+                MapDrawer.DrawLine(StartPoint, EndPoint);
+            }
+        }
+
+        public void SetupInit()
+        {
+            MapDrawer.MoveCameraZoom(LocationService.GetInstance().GetCurrentLocation(), 8);
+            try
+            {
+                var path = DatabaseService.GetInstance().GetClosestRiver();
+                if (path.Points != null)
+                {
+                    MapDrawer.DrawLine(path.Points.ToArray());
+                    var launchSites = from p in DatabaseService.GetInstance().Points where p.RiverId == DatabaseService.GetInstance().ClosestRiverId && p.IsLaunchSite select p;
+                    foreach (var site in launchSites)
+                    {
+                        MapDrawer.DrawMarker(site);
+                    }
+                }
+                else
+                {
+                    MessengerService.Toast(this, "Failed to get nearest river", true);
+                }
+            }
+            catch (Exception)
+            {
+                MessengerService.Toast(this, "Failed to get nearest river", true);
+            }
+        }
 
         public string StartText
         {
@@ -36,14 +144,33 @@ namespace PaddleBuddy.Core.ViewModels
             }
         }
 
+        public Point CurrentLocation
+        {
+            get { return _currentLocation; }
+            set
+            {
+                _currentLocation = value;
+                MapDrawer.DrawCurrent(CurrentLocation);
+                AdjustForLocation();
+            }
+        }
 
+        public void AdjustForLocation()
+        {
+            if (CurrentLocation == null || StartPoint == null) return;
+            var dist = PBUtilities.DistanceInMeters(CurrentLocation, StartPoint);
+            if (dist < 40)
+            {
+                MessengerService.Toast(this, dist.ToString(), true);
+            }
+        }
 
         public Point SelectedMarker
         {
             get { return _selectedMarker; }
             set
             {
-                _selectedMarker = value; 
+                _selectedMarker = value;
                 RaisePropertyChanged(() => SelectedMarker);
             }
         }
@@ -66,105 +193,11 @@ namespace PaddleBuddy.Core.ViewModels
                 return new MvxCommand(StartPlan);
             }
         }
-
-        public void StartPlan()
-        {
-            ShowViewModel<PlanViewModel>( new { startPoint = _selectedMarker});
-        }
-
-
-        public void Init(MapInitModes initMode = MapInitModes.Init, Point start = null, Point end = null)
-        {
-            InitMode = initMode;
-            StartPoint = start;
-            EndPoint = end;
-        }
-
-        public void LocationChanged(Point p)
-        {
-            
-        }
-
-        public async Task Setup()
-        {
-            IsLoading = true;
-            await Task.Run(() => LetDBSetup());
-            IsLoading = false;
-            MapDrawer = Mvx.Resolve<IMapDrawer>();
-            switch (InitMode)
-            {
-                case MapInitModes.Init:
-                    SetupInit();
-                    break;
-                case MapInitModes.Plan:
-                    SetupPlan();
-                    break;
-                default: throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        public async Task LetDBSetup()
-        {
-            var times = 0;
-            while (!DatabaseService.GetInstance().IsReady)
-            {
-                if (times == 20)
-                {
-                    MessengerService.Toast(this, "DB not updating. Consider restarting app", false);
-                }
-                await Task.Delay(TimeSpan.FromMilliseconds(300));
-                times++;
-            }
-        }
-
-        public void SetupPlan()
-        {
-            if (StartPoint.Id == int.MaxValue || EndPoint.Id == int.MaxValue)
-            {
-                MessengerService.Toast(this, "Start or end value not valid", true);
-            }
-            else
-            {
-                StartPoint = MapService.GetInstance().GetPoint(StartPoint.Id);
-                EndPoint = MapService.GetInstance().GetPoint(EndPoint.Id);
-                var current = LocationService.GetInstance().GetCurrentLocation();
-                MapDrawer.DrawMarker(StartPoint);
-                MapDrawer.DrawMarker(EndPoint);
-                MapDrawer.MoveCamera(current);
-                MapDrawer.AnimateCameraBounds( new[] { StartPoint, EndPoint, current });
-            }
-        }
-
-        public void SetupInit()
-        {
-            MapDrawer.MoveCameraZoom(LocationService.GetInstance().GetCurrentLocation(), 8);
-            try
-            {
-                var path = MapService.GetInstance().GetClosestRiver();
-                if (path.Points != null)
-                {
-                    MapDrawer.DrawLine(path.Points.ToArray());
-                    var launchSites = from p in DatabaseService.GetInstance().Points where p.RiverId == MapService.GetInstance().ClosestRiverId && p.IsLaunchSite select p;
-                    foreach (var site in launchSites)
-                    {
-                        MapDrawer.DrawMarker(site);
-                    }
-                }
-                else
-                {
-                    MessengerService.Toast(this, "Failed to get nearest river", true);
-                }
-            }
-            catch (Exception)
-            {
-                MessengerService.Toast(this, "Failed to get nearest river", true);
-            }
-        }
     }
 
     public enum MapInitModes
     {
         Init,
-        Plan
+        Navigate
     }
 }

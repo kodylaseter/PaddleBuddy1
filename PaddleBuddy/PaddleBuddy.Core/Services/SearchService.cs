@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using PaddleBuddy.Core.Models;
 using System.Collections.ObjectModel;
 using PaddleBuddy.Core.Models.Map;
@@ -16,17 +17,24 @@ namespace PaddleBuddy.Core.Services
 
         public void SetData(ObservableCollection<SearchItem> items)
         {
-            if (Data.Count > 0) Data.Clear();
-            foreach (var item in DatabaseService.GetInstance().Rivers)
-            {
-                Data.Add(new SearchItem { SearchString = item.Name, Item = item });
-            }
+            Data = items;
         }
 
         public ObservableCollection<SearchItem> Filter(string searchText)
         {
-            if (string.IsNullOrWhiteSpace(searchText)) return new ObservableCollection<SearchItem>();
-            return new ObservableCollection<SearchItem>(Data.Where(w => w.SearchString.Contains(searchText)));
+            var filteredList = new ObservableCollection<SearchItem>();
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+                try
+                {
+                    filteredList = new ObservableCollection<SearchItem>(Data.Where(w => !string.IsNullOrWhiteSpace(w.SearchString) && w.SearchString.Contains(searchText)));
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+            return filteredList;
         }
 
         public static ObservableCollection<SearchItem> ArrayToSearchSource(object[] arr)
