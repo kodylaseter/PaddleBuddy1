@@ -58,6 +58,14 @@ namespace PaddleBuddy.Core.ViewModels
                     break;
                 default: throw new ArgumentOutOfRangeException();
             }
+            if (CurrentLocation == null)
+            {
+                CurrentLocation = new Point
+                {
+                    Lat = 34.065676,
+                    Lng = -84.272612
+                };
+            }
             IsLoading = false;
         }
 

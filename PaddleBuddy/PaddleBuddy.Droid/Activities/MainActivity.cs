@@ -5,11 +5,7 @@ using Android.Support.V4.View;
 using Android.Support.V4.Widget;
 using Android.Views;
 using Android.Views.InputMethods;
-using Android.Widget;
 using MvvmCross.Droid.Support.V7.AppCompat;
-using MvvmCross.Platform;
-using MvvmCross.Plugins.Messenger;
-using PaddleBuddy.Core.Models.Messages;
 using PaddleBuddy.Core.ViewModels;
 using ActionBar = Android.Support.V7.App.ActionBar;
 
