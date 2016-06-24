@@ -65,6 +65,19 @@ namespace PaddleBuddy.Core.ViewModels
             }
         }
 
+        private bool _showSubBar;
+
+        public bool ShowSubBar
+        {
+            get { return _showSubBar; }
+            set
+            {
+                _showSubBar = value;
+                RaisePropertyChanged(() => ShowSubBar);
+            }
+        }
+
+
         public string SpacerText
         {
             get

@@ -17,8 +17,20 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         local:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+    <!--<LinearLayout
+      android:orientation="horizontal"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="?attr/colorPrimary"
+      android:elevation="4dp"
+      local:MvxBind="Visible ShowSubBar">
+      <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Test"/>
+    </LinearLayout>-->
   </android.support.design.widget.AppBarLayout>
-  <!--TODO: maybe change this to wrap_content-->
+
   <Mvx.MvxListView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

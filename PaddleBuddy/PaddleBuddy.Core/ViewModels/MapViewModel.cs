@@ -25,12 +25,10 @@ namespace PaddleBuddy.Core.ViewModels
 
         public void Init(MapParameters mapParameters)
         {
-            if (mapParameters != null && mapParameters.Set)
-            {
-                InitMode = mapParameters.InitMode;
-                StartPoint = DatabaseService.GetInstance().GetPoint(mapParameters.StartId);
-                EndPoint = DatabaseService.GetInstance().GetPoint(mapParameters.EndId);
-            }
+            if (mapParameters == null || !mapParameters.Set) return;
+            InitMode = mapParameters.InitMode;
+            StartPoint = DatabaseService.GetInstance().GetPoint(mapParameters.StartId);
+            EndPoint = DatabaseService.GetInstance().GetPoint(mapParameters.EndId);
         }
 
         public void StartPlan()
@@ -53,8 +51,8 @@ namespace PaddleBuddy.Core.ViewModels
                 case MapInitModes.Init:
                     SetupInit();
                     break;
-                case MapInitModes.Navigate:
-                    SetupNavigate();
+                case MapInitModes.TripStart:
+                    SetupTripStart();
                     break;
                 default: throw new ArgumentOutOfRangeException();
             }
@@ -83,7 +81,7 @@ namespace PaddleBuddy.Core.ViewModels
             }
         }
 
-        public void SetupNavigate()
+        public void SetupTripStart()
         {
             if (StartPoint.Id == int.MaxValue || EndPoint.Id == int.MaxValue)
             {
@@ -99,6 +97,7 @@ namespace PaddleBuddy.Core.ViewModels
                 MapDrawer.MoveCamera(current);
                 MapDrawer.AnimateCameraBounds( new[] { StartPoint, EndPoint, current });
                 MapDrawer.DrawLine(StartPoint, EndPoint);
+                
             }
         }
 
@@ -151,7 +150,24 @@ namespace PaddleBuddy.Core.ViewModels
             {
                 _currentLocation = value;
                 MapDrawer.DrawCurrent(CurrentLocation);
-                AdjustForLocation();
+                var dist = PBUtilities.DistanceInMeters(_currentLocation, StartPoint);
+                switch (InitMode)
+                {
+                    case MapInitModes.Init:
+                        break;
+                    case MapInitModes.TripStart:
+                        if (dist < 50)
+                        {
+                            ShowSubBar = true;
+                        }
+                        else
+                        {
+                            ShowSubBar = false;
+                        }
+                        break;
+                    default: MessengerService.Toast(this, "Map init mode not set", true);
+                        break;
+                }
             }
         }
 
@@ -198,6 +214,6 @@ namespace PaddleBuddy.Core.ViewModels
     public enum MapInitModes
     {
         Init,
-        Navigate
+        TripStart
     }
 }

@@ -175,7 +175,7 @@ namespace PaddleBuddy.Core.ViewModels
                 MessengerService.Toast(this, "Invalid trip data", true);
                 return;
             }
-            ShowViewModel<MapViewModel>(new MapParameters(){ InitMode = MapInitModes.Navigate, StartId = Trip.StartId, EndId = Trip.EndId, Set = true });
+            ShowViewModel<MapViewModel>(new MapParameters(){ InitMode = MapInitModes.TripStart, StartId = Trip.StartId, EndId = Trip.EndId, Set = true });
         }
 
         public void Estimate()

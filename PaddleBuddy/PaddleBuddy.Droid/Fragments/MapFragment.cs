@@ -55,11 +55,11 @@ namespace PaddleBuddy.Droid.Fragments
             var curr = new Point();
             while (true)
             {
-                await Task.Delay(1000);
+                await Task.Delay(500);
                 if (ViewModel.StartPoint != null)
                 {
                     curr.Lat = ViewModel.CurrentLocation.Lat;
-                    curr.Lng = ViewModel.CurrentLocation.Lng + (-84.1180229 - ViewModel.CurrentLocation.Lng) / 5;
+                    curr.Lng = ViewModel.CurrentLocation.Lng + (-84.1180229 - ViewModel.CurrentLocation.Lng) / 2;
                     Activity.RunOnUiThread(() => ViewModel.CurrentLocation = curr);
                 }
             }
