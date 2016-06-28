@@ -156,13 +156,9 @@ namespace PaddleBuddy.Core.ViewModels
                     case MapInitModes.Init:
                         break;
                     case MapInitModes.TripStart:
-                        if (dist < 50)
+                        if (dist > 50)
                         {
-                            ShowSubBar = true;
-                        }
-                        else
-                        {
-                            ShowSubBar = false;
+                            SubBarText = "Navigate to starting point";
                         }
                         break;
                     default: MessengerService.Toast(this, "Map init mode not set", true);
