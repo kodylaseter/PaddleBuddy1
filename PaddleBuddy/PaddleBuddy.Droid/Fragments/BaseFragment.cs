@@ -49,6 +49,7 @@ namespace PaddleBuddy.Droid.Fragments
 			var view = this.BindingInflate(FragmentId, null);
 
 			_toolbar = view.FindViewById<Toolbar>(Resource.Id.toolbar);
+            //_toolbar.SetTitleTextColor(Resource.Color.white);
 			if (_toolbar != null)
 			{
 				((MainActivity)Activity).SetSupportActionBar(_toolbar);
