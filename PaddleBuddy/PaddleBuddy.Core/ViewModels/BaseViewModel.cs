@@ -23,6 +23,7 @@ namespace PaddleBuddy.Core.ViewModels
             base.Start();
             SearchService = new SearchService();
             SearchService.SetData(SearchService.ArrayToSearchSource(DatabaseService.GetInstance().Points.ToArray()));
+            ShowSubBar = true;
         }
 
         public void ItemSelected(SearchItem searchItem)

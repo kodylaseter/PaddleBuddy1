@@ -8,8 +8,7 @@ namespace PaddleBuddy.Core.Services
     public abstract class ApiService : BaseService
     {
         private const string ContentTypeJson = "application/json";
-
-        //TODO implement internet checking mechanism
+        
         public async Task<Response> PostAsync(string url, object data)
         {
             var response = new Response();
