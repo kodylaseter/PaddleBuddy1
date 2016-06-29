@@ -47,6 +47,7 @@ namespace PaddleBuddy.Droid.Fragments
             ViewModel.SelectedMarker = null;
             ViewModel.MapReady = true;
             ViewModel.Setup();
+            ViewModel.SetupAync();
             Task.Run(() => Simulate());
         }
 

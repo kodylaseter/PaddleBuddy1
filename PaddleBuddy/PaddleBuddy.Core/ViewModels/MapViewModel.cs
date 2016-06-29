@@ -41,11 +41,23 @@ namespace PaddleBuddy.Core.ViewModels
             CurrentLocation = p;
         }
 
-        public async Task Setup()
+        public void Setup()
+        {
+            MapDrawer = Mvx.Resolve<IMapDrawer>();
+            if (CurrentLocation == null)
+            {
+                CurrentLocation = new Point
+                {
+                    Lat = 34.065676,
+                    Lng = -84.272612
+                };
+            }
+        }
+
+        public async Task SetupAync()
         {
             IsLoading = true;
             await Task.Run(() => LetDBSetup());
-            MapDrawer = Mvx.Resolve<IMapDrawer>();
             switch (InitMode)
             {
                 case MapInitModes.Init:
@@ -55,14 +67,6 @@ namespace PaddleBuddy.Core.ViewModels
                     SetupTripStart();
                     break;
                 default: throw new ArgumentOutOfRangeException();
-            }
-            if (CurrentLocation == null)
-            {
-                CurrentLocation = new Point
-                {
-                    Lat = 34.065676,
-                    Lng = -84.272612
-                };
             }
             IsLoading = false;
         }
@@ -97,7 +101,6 @@ namespace PaddleBuddy.Core.ViewModels
                 MapDrawer.MoveCamera(current);
                 MapDrawer.AnimateCameraBounds( new[] { StartPoint, EndPoint, current });
                 MapDrawer.DrawLine(StartPoint, EndPoint);
-                
             }
         }
 
@@ -127,22 +130,6 @@ namespace PaddleBuddy.Core.ViewModels
             }
         }
 
-        public string StartText
-        {
-            get
-            {
-                return "teststart";
-            }
-        }
-
-        public string EndText
-        {
-            get
-            {
-                return "test end";
-            }
-        }
-
         public Point CurrentLocation
         {
             get { return _currentLocation; }
@@ -150,15 +137,19 @@ namespace PaddleBuddy.Core.ViewModels
             {
                 _currentLocation = value;
                 MapDrawer.DrawCurrent(CurrentLocation);
-                var dist = PBUtilities.DistanceInMeters(_currentLocation, StartPoint);
                 switch (InitMode)
                 {
                     case MapInitModes.Init:
                         break;
                     case MapInitModes.TripStart:
+                        var dist = PBUtilities.DistanceInMeters(_currentLocation, StartPoint);
                         if (dist > 50)
                         {
-                            SubBarText = "Navigate to starting point";
+                            SubBarText = "Proceed to start point";
+                        }
+                        else
+                        {
+                            SubBarText = "At start";
                         }
                         break;
                     default: MessengerService.Toast(this, "Map init mode not set", true);

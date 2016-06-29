@@ -17,7 +17,6 @@ namespace PaddleBuddy.Core.ViewModels
         public SearchService SearchService { get; set; }
         public ObservableCollection<SearchItem> FilteredData { get; set; }
         private ICommand _itemSelectedCommand;
-        private bool _showSubBar;
         private string _subBarText;
 
         public override void Start()
@@ -25,7 +24,6 @@ namespace PaddleBuddy.Core.ViewModels
             base.Start();
             SearchService = new SearchService();
             SearchService.SetData(SearchService.ArrayToSearchSource(DatabaseService.GetInstance().Points.ToArray()));
-            SubBarText = "this is a test";
             RaisePropertyChanged(() => SubBarText);
         }
 

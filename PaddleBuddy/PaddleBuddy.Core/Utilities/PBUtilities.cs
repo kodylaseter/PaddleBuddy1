@@ -3,6 +3,8 @@ using PaddleBuddy.Core.Models.LinqModels;
 using PaddleBuddy.Core.Models.Map;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using PaddleBuddy.Core.Services;
 
 namespace PaddleBuddy.Core.Utilities
 {
@@ -30,12 +32,16 @@ namespace PaddleBuddy.Core.Utilities
         //returns in miles
         public static double Distance(Point begin, Point end)
         {
-            return Distance(begin.Lat, begin.Lng, end.Lat, end.Lng) * 0.000621371;
+            if (begin != null || end != null) return Distance(begin.Lat, begin.Lng, end.Lat, end.Lng) * 0.000621371;
+            Debug.WriteLine("Distance calculation failed");
+            return double.MaxValue;
         }
 
         public static double DistanceInMeters(Point begin, Point end)
         {
-            return Distance(begin.Lat, begin.Lng, end.Lat, end.Lng);
+            if (begin != null || end != null) return Distance(begin.Lat, begin.Lng, end.Lat, end.Lng);
+            Debug.WriteLine("Distance calculation failed");
+            return double.MaxValue;
         }
 
         //METERS
