@@ -137,34 +137,32 @@ namespace PaddleBuddy.Core.ViewModels
             {
                 _currentLocation = value;
                 MapDrawer.DrawCurrent(CurrentLocation);
-                switch (InitMode)
-                {
-                    case MapInitModes.Init:
-                        break;
-                    case MapInitModes.TripStart:
-                        var dist = PBUtilities.DistanceInMeters(_currentLocation, StartPoint);
-                        if (dist > 50)
-                        {
-                            SubBarText = "Proceed to start point";
-                        }
-                        else
-                        {
-                            SubBarText = "At start";
-                        }
-                        break;
-                    default: MessengerService.Toast(this, "Map init mode not set", true);
-                        break;
-                }
+                AdjustForLocation(_currentLocation);
             }
         }
 
-        public void AdjustForLocation()
+
+
+        public void AdjustForLocation(Point point)
         {
-            if (CurrentLocation == null || StartPoint == null) return;
-            var dist = PBUtilities.DistanceInMeters(CurrentLocation, StartPoint);
-            if (dist < 40)
+            switch (InitMode)
             {
-                MessengerService.Toast(this, dist.ToString(), true);
+                case MapInitModes.Init:
+                    break;
+                case MapInitModes.TripStart:
+                    var dist = PBUtilities.DistanceInMeters(point, StartPoint);
+                    if (dist > 50)
+                    {
+                        SubBarText = "Proceed to start point";
+                    }
+                    else
+                    {
+                        SubBarText = "At start";
+                    }
+                    break;
+                default:
+                    MessengerService.Toast(this, "Map init mode not set", true);
+                    break;
             }
         }
 
