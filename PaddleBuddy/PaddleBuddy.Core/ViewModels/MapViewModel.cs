@@ -95,7 +95,7 @@ namespace PaddleBuddy.Core.ViewModels
             {
                 StartPoint = DatabaseService.GetInstance().GetPoint(StartPoint.Id);
                 EndPoint = DatabaseService.GetInstance().GetPoint(EndPoint.Id);
-                var current = LocationService.GetInstance().GetCurrentLocation();
+                var current = LocationService.GetInstance().GetCurrentLocation().Result;
                 MapDrawer.DrawMarker(StartPoint);
                 MapDrawer.DrawMarker(EndPoint);
                 MapDrawer.MoveCamera(current);
@@ -106,7 +106,7 @@ namespace PaddleBuddy.Core.ViewModels
 
         public void SetupInit()
         {
-            MapDrawer.MoveCameraZoom(LocationService.GetInstance().GetCurrentLocation(), 8);
+            MapDrawer.MoveCameraZoom(LocationService.GetInstance().GetCurrentLocation().Result, 8);
             try
             {
                 var path = DatabaseService.GetInstance().GetClosestRiver();

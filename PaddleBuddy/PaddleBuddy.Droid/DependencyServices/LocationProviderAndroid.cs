@@ -1,11 +1,16 @@
 using System;
+using System.Threading.Tasks;
+using Android;
 using Android.App;
 using Android.Content;
+using Android.Gms.Common.Apis;
 using Android.Locations;
 using Android.OS;
 using PaddleBuddy.Core.DependencyServices;
 using PaddleBuddy.Core.Models.Map;
 using PaddleBuddy.Core.Services;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 
 namespace PaddleBuddy.Droid.DependencyServices
 {
@@ -34,8 +39,28 @@ namespace PaddleBuddy.Droid.DependencyServices
             }
         }
 
-        public Point GetCurrentLocation()
+        public async Task<bool> CheckPermission()
         {
+            var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+            if (status != PermissionStatus.Granted)
+            {
+                var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] {Permission.Location});
+                status = results[Permission.Location];
+            }
+            if (status == PermissionStatus.Granted)
+            {
+                return true;
+            }
+            if (status != PermissionStatus.Unknown)
+            {
+                MessengerService.Toast(this, "Error requesting permission, try again", true);
+            }
+            return false;
+        }
+
+        public async Task<Point> GetCurrentLocation()
+        {
+            await CheckPermission();
             _locationManager.RequestSingleUpdate(_criteria, _locationListener, Looper.MainLooper);
             if (_locationListener.CurrentLocation == null)
             {

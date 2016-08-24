@@ -6,7 +6,11 @@ using Android.Support.V4.Widget;
 using Android.Views;
 using Android.Views.InputMethods;
 using MvvmCross.Droid.Support.V7.AppCompat;
+using MvvmCross.Platform;
+using MvvmCross.Plugins.Messenger;
+using PaddleBuddy.Core.Models.Messages;
 using PaddleBuddy.Core.ViewModels;
+using Plugin.Permissions;
 using ActionBar = Android.Support.V7.App.ActionBar;
 
 namespace PaddleBuddy.Droid.Activities
@@ -44,6 +48,11 @@ namespace PaddleBuddy.Droid.Activities
                     return true;
             }
             return base.OnOptionsItemSelected(item);
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        {
+            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
         /*public override IFragmentCacheConfiguration BuildFragmentCacheConfiguration()
@@ -89,7 +98,7 @@ namespace PaddleBuddy.Droid.Activities
         }
 		*/
 
-		/*public override void OnBeforeFragmentChanging (IMvxCachedFragmentInfo fragmentInfo, FragmentTransaction transaction)
+        /*public override void OnBeforeFragmentChanging (IMvxCachedFragmentInfo fragmentInfo, FragmentTransaction transaction)
 		{
 			var currentFrag = SupportFragmentManager.FindFragmentById (Resource.Id.content_frame) as MvxFragment;
 

@@ -1,4 +1,5 @@
-﻿using MvvmCross.Platform;
+﻿using System.Threading.Tasks;
+using MvvmCross.Platform;
 using PaddleBuddy.Core.DependencyServices;
 using PaddleBuddy.Core.Models.Map;
 
@@ -19,9 +20,9 @@ namespace PaddleBuddy.Core.Services
             return _locationService ?? (_locationService = new LocationService());
         }
 
-        public Point GetCurrentLocation()
+        public async Task<Point> GetCurrentLocation()
         {
-            return _locationProvider.GetCurrentLocation();
+            return await _locationProvider.GetCurrentLocation();
         }
     }
 }
