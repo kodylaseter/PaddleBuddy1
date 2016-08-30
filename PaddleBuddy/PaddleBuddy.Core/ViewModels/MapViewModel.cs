@@ -44,14 +44,14 @@ namespace PaddleBuddy.Core.ViewModels
         public void Setup()
         {
             MapDrawer = Mvx.Resolve<IMapDrawer>();
-            if (CurrentLocation == null)
-            {
-                CurrentLocation = new Point
-                {
-                    Lat = 34.065676,
-                    Lng = -84.272612
-                };
-            }
+            //if (CurrentLocation == null)
+            //{
+            //    CurrentLocation = new Point
+            //    {
+            //        Lat = 34.065676,
+            //        Lng = -84.272612
+            //    };
+            //}
         }
 
         public async Task SetupAync()
@@ -95,7 +95,7 @@ namespace PaddleBuddy.Core.ViewModels
             {
                 StartPoint = DatabaseService.GetInstance().GetPoint(StartPoint.Id);
                 EndPoint = DatabaseService.GetInstance().GetPoint(EndPoint.Id);
-                var current = LocationService.GetInstance().GetCurrentLocation().Result;
+                var current = LocationService.GetInstance().CurrentLocation;
                 MapDrawer.DrawMarker(StartPoint);
                 MapDrawer.DrawMarker(EndPoint);
                 MapDrawer.MoveCamera(current);
@@ -106,7 +106,7 @@ namespace PaddleBuddy.Core.ViewModels
 
         public void SetupInit()
         {
-            MapDrawer.MoveCameraZoom(LocationService.GetInstance().GetCurrentLocation().Result, 8);
+            MapDrawer.MoveCameraZoom(LocationService.GetInstance().CurrentLocation, 8);
             try
             {
                 var path = DatabaseService.GetInstance().GetClosestRiver();

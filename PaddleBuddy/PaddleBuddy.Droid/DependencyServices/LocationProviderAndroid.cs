@@ -31,7 +31,7 @@ namespace PaddleBuddy.Droid.DependencyServices
                     Accuracy = Accuracy.Fine,
                     PowerRequirement = Power.NoRequirement
                 };
-                _locationManager.RequestSingleUpdate(_criteria, _locationListener, Looper.MainLooper);
+                //_locationManager.RequestSingleUpdate(_criteria, _locationListener, Looper.MainLooper);
             }
             else
             {
@@ -39,44 +39,48 @@ namespace PaddleBuddy.Droid.DependencyServices
             }
         }
 
-        public async Task<bool> CheckPermission()
-        {
-            var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
-            if (status != PermissionStatus.Granted)
-            {
-                var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] {Permission.Location});
-                status = results[Permission.Location];
-            }
-            if (status == PermissionStatus.Granted)
-            {
-                return true;
-            }
-            if (status != PermissionStatus.Unknown)
-            {
-                MessengerService.Toast(this, "Error requesting permission, try again", true);
-            }
-            return false;
-        }
+        //public async Task<bool> CheckPermission()
+        //{
+        //    var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+        //    if (status != PermissionStatus.Granted)
+        //    {
+        //        var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] {Permission.Location});
+        //        status = results[Permission.Location];
+        //    }
+        //    if (status == PermissionStatus.Granted)
+        //    {
+        //        return true;
+        //    }
+        //    if (status != PermissionStatus.Unknown)
+        //    {
+        //        MessengerService.Toast(this, "Error requesting permission, try again", true);
+        //    }
+        //    return false;
+        //}
 
-        public async Task<Point> GetCurrentLocation()
+        public Point CurrentLocation
         {
-            await CheckPermission();
-            _locationManager.RequestSingleUpdate(_criteria, _locationListener, Looper.MainLooper);
-            if (_locationListener.CurrentLocation == null)
+            get
             {
-                MessengerService.Toast(this, "Current location not set!", true);
+                //await CheckPermission();
+                _locationManager.RequestSingleUpdate(_criteria, _locationListener, Looper.MainLooper);
+                if (_locationListener.CurrentLocation == null)
+                {
+                    MessengerService.Toast(this, "Current location not set!", true);
+                    return new Point
+                    {
+                        Lat = 34.0754,
+                        Lng = -84.2941
+                    };
+                }
+
                 return new Point
                 {
-                    Lat = 34.0754,
-                    Lng = -84.2941
+                    Lat = _locationListener.CurrentLocation.Latitude,
+                    Lng = _locationListener.CurrentLocation.Longitude
                 };
             }
 
-            return new Point
-            {
-                Lat = _locationListener.CurrentLocation.Latitude,
-                Lng = _locationListener.CurrentLocation.Longitude
-            };
         }
         class Listener : Java.Lang.Object, ILocationListener
         {

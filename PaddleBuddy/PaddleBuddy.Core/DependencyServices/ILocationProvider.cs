@@ -5,6 +5,6 @@ namespace PaddleBuddy.Core.DependencyServices
 {
     public interface ILocationProvider
     {
-        Task<Point> GetCurrentLocation();
+        Point CurrentLocation { get; }
     }
 }

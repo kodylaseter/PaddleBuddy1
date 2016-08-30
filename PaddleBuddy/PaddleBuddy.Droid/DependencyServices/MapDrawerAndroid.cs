@@ -53,7 +53,7 @@ namespace PaddleBuddy.Droid.DependencyServices
                 var markerOpts = new MarkerOptions().SetPosition(new LatLng(current.Lat, current.Lng));
                 CurrentMarker = Map.AddMarker(markerOpts);
             }
-            //if (current == null) current = LocationService.GetInstance().GetCurrentLocation();
+            //if (current == null) current = LocationService.GetInstance().CurrentLocation;
             //var markerOptions = new MarkerOptions();
             //markerOptions.SetPosition(new LatLng(current.Lat, current.Lng));
             //var icon = BitmapDescriptorFactory.FromResource(Resource.Drawable.current_circle);
