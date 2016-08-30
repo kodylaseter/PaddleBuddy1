@@ -1,9 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using Android;
 using Android.App;
 using Android.Content;
-using Android.Gms.Common.Apis;
 using Android.Locations;
 using Android.OS;
 using PaddleBuddy.Core.DependencyServices;
@@ -24,14 +22,14 @@ namespace PaddleBuddy.Droid.DependencyServices
         {
             _locationListener = new Listener();
             _locationManager = Application.Context.GetSystemService(Context.LocationService) as LocationManager;
-            if (_locationManager != null)
+            if (_locationManager != null && CheckPermission().Result)
             {
                 _criteria = new Criteria
                 {
                     Accuracy = Accuracy.Fine,
                     PowerRequirement = Power.NoRequirement
                 };
-                //_locationManager.RequestSingleUpdate(_criteria, _locationListener, Looper.MainLooper);
+                _locationManager.RequestSingleUpdate(_criteria, _locationListener, Looper.MainLooper);
             }
             else
             {
@@ -39,30 +37,30 @@ namespace PaddleBuddy.Droid.DependencyServices
             }
         }
 
-        //public async Task<bool> CheckPermission()
-        //{
-        //    var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
-        //    if (status != PermissionStatus.Granted)
-        //    {
-        //        var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] {Permission.Location});
-        //        status = results[Permission.Location];
-        //    }
-        //    if (status == PermissionStatus.Granted)
-        //    {
-        //        return true;
-        //    }
-        //    if (status != PermissionStatus.Unknown)
-        //    {
-        //        MessengerService.Toast(this, "Error requesting permission, try again", true);
-        //    }
-        //    return false;
-        //}
+        public async Task<bool> CheckPermission()
+        {
+            var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+            if (status != PermissionStatus.Granted)
+            {
+                var results = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
+                status = results[Permission.Location];
+            }
+            if (status == PermissionStatus.Granted)
+            {
+                return true;
+            }
+            MessengerService.Toast(this, "Error requesting permission, try again", true);
+            return false;
+        }
 
         public Point CurrentLocation
         {
             get
             {
-                //await CheckPermission();
+                if (!CheckPermission().Result)
+                {
+                    return null;
+                }
                 _locationManager.RequestSingleUpdate(_criteria, _locationListener, Looper.MainLooper);
                 if (_locationListener.CurrentLocation == null)
                 {
@@ -80,8 +78,8 @@ namespace PaddleBuddy.Droid.DependencyServices
                     Lng = _locationListener.CurrentLocation.Longitude
                 };
             }
-
         }
+
         class Listener : Java.Lang.Object, ILocationListener
         {
             public Location CurrentLocation { get; set; }

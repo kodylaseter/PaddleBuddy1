@@ -1,6 +1,7 @@
 using Android.App;
 using Android.Content.PM;
 using MvvmCross.Droid.Views;
+using Plugin.Permissions;
 
 namespace PaddleBuddy.Droid
 {
@@ -16,6 +17,11 @@ namespace PaddleBuddy.Droid
         public SplashScreen()
             : base(Resource.Layout.splash_screen)
         {
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        {
+            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
     }

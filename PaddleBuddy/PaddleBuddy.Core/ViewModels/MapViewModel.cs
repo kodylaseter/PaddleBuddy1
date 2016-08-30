@@ -44,17 +44,18 @@ namespace PaddleBuddy.Core.ViewModels
         public void Setup()
         {
             MapDrawer = Mvx.Resolve<IMapDrawer>();
-            //if (CurrentLocation == null)
-            //{
-            //    CurrentLocation = new Point
-            //    {
-            //        Lat = 34.065676,
-            //        Lng = -84.272612
-            //    };
-            //}
+            if (CurrentLocation == null)
+            {
+                //using this simulate, plan from tretret to qwertyuiop
+                CurrentLocation = new Point
+                {
+                    Lat = 34.065676,
+                    Lng = -84.272612
+                };
+            }
         }
 
-        public async Task SetupAync()
+        public async Task SetupAsync()
         {
             IsLoading = true;
             await Task.Run(() => LetDBSetup());

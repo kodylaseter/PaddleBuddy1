@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Reflection;
-using System.Threading;
 using Android.Content;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Droid.Platform;
@@ -10,7 +9,6 @@ using MvvmCross.Platform;
 using MvvmCross.Platform.Platform;
 using PaddleBuddy.Core;
 using PaddleBuddy.Core.DependencyServices;
-using PaddleBuddy.Core.Services;
 using PaddleBuddy.Droid.DependencyServices;
 
 namespace PaddleBuddy.Droid
