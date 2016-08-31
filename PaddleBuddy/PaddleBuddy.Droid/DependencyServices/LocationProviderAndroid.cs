@@ -1,17 +1,5 @@
-using System;
-using Android.App;
-using Android.Content;
-using Android.Locations;
-using Android.OS;
-using Android.Util;
-using Java.Lang;
 using PaddleBuddy.Core.DependencyServices;
 using PaddleBuddy.Core.Models.Map;
-using PaddleBuddy.Core.Services;
-using Plugin.Geolocator;
-using Plugin.Geolocator.Abstractions;
-using Plugin.Permissions.Abstractions;
-using Exception = System.Exception;
 
 namespace PaddleBuddy.Droid.DependencyServices
 {

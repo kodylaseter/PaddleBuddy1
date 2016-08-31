@@ -1,7 +1,6 @@
 ﻿using MvvmCross.Platform;
 using PaddleBuddy.Core.DependencyServices;
 using PaddleBuddy.Core.Models.Map;
-using Plugin.Permissions.Abstractions;
 
 namespace PaddleBuddy.Core.Services
 {

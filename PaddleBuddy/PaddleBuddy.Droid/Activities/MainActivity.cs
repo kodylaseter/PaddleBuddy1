@@ -1,15 +1,13 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using Android.Support.V4.App;
 using Android.Support.V4.View;
 using Android.Support.V4.Widget;
 using Android.Views;
 using Android.Views.InputMethods;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using PaddleBuddy.Core.ViewModels;
-using PaddleBuddy.Core.Services;
-using Plugin.Permissions;
+using PaddleBuddy.Droid.Services;
 using ActionBar = Android.Support.V7.App.ActionBar;
 
 
@@ -29,14 +27,18 @@ namespace PaddleBuddy.Droid.Activities
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-
             SetContentView(Resource.Layout.activity_main);
-
             DrawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
 
             if (bundle == null)
                 ViewModel.ShowMenuAndFirstDetail();
             _actionBar = SupportActionBar;
+        }
+
+        protected override void OnStart()
+        {
+            base.OnStart();
+            PermissionService.CheckOrRequestLocation(this);
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)
@@ -50,11 +52,10 @@ namespace PaddleBuddy.Droid.Activities
             return base.OnOptionsItemSelected(item);
         }
 
-
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            var b = 5;
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions)
