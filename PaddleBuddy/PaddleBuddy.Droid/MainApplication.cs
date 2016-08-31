@@ -3,6 +3,9 @@ using System;
 using Android.App;
 using Android.OS;
 using Android.Runtime;
+using MvvmCross.Platform;
+using PaddleBuddy.Core.DependencyServices;
+using PaddleBuddy.Droid.DependencyServices;
 using Plugin.CurrentActivity;
 
 namespace PaddleBuddy.Droid

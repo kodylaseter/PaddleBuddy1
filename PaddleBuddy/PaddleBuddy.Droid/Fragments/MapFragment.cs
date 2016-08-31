@@ -38,7 +38,7 @@ namespace PaddleBuddy.Droid.Fragments
 
         public void OnMapReady(GoogleMap googleMap)
         {
-            googleMap.MyLocationEnabled = true;
+            //googleMap.MyLocationEnabled = true;
             //googleMap.MyLocationChange += LocationChanged;
             googleMap.SetOnMapClickListener(this);
             googleMap.SetOnMarkerClickListener(this);

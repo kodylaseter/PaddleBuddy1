@@ -6,9 +6,15 @@ using Android.Support.V4.Widget;
 using Android.Views;
 using Android.Views.InputMethods;
 using MvvmCross.Droid.Support.V7.AppCompat;
+using MvvmCross.Platform;
+using PaddleBuddy.Core.DependencyServices;
 using PaddleBuddy.Core.ViewModels;
+using PaddleBuddy.Droid.DependencyServices;
+using PaddleBuddy.Core.Services;
 using Plugin.Permissions;
 using ActionBar = Android.Support.V7.App.ActionBar;
+using Plugin.Permissions.Abstractions;
+
 
 namespace PaddleBuddy.Droid.Activities
 {
@@ -34,6 +40,12 @@ namespace PaddleBuddy.Droid.Activities
             if (bundle == null)
                 ViewModel.ShowMenuAndFirstDetail();
             _actionBar = SupportActionBar;
+            RequestPermissions();
+        }
+
+        private bool RequestPermissions()
+        {
+            return PermissionService.CheckOrRequestPermission(Permission.Location).Result;
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)
