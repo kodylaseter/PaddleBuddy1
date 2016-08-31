@@ -1,4 +1,5 @@
-﻿using Android.Content.Res;
+﻿using Android.Content.PM;
+using Android.Content.Res;
 using Android.OS;
 using Android.Support.V7.Widget;
 using Android.Text;

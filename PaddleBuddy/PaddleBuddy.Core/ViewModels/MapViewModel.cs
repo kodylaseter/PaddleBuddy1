@@ -62,7 +62,7 @@ namespace PaddleBuddy.Core.ViewModels
             switch (InitMode)
             {
                 case MapInitModes.Init:
-                    SetupInit();
+                    await SetupInit();
                     break;
                 case MapInitModes.TripStart:
                     SetupTripStart();
@@ -105,9 +105,13 @@ namespace PaddleBuddy.Core.ViewModels
             }
         }
 
-        public void SetupInit()
+        public async Task SetupInit()
         {
-            MapDrawer.MoveCameraZoom(LocationService.GetInstance().CurrentLocation, 8);
+            if (!await LetLocationStart())
+            {
+                MessengerService.Toast(this, "Unable to get current location", true);
+            }
+            MapDrawer.MoveCameraZoom(CurrentLocation, 8);
             try
             {
                 var path = DatabaseService.GetInstance().GetClosestRiver();
@@ -131,13 +135,25 @@ namespace PaddleBuddy.Core.ViewModels
             }
         }
 
+        private async Task<bool> LetLocationStart()
+        {
+            var times = 0;
+            var max = 10;
+            while (times < max && LocationService.GetInstance().CurrentLocation == null)
+            {
+                await Task.Delay(100);
+                times++;
+            }
+            return times != max;
+        }
+
         public Point CurrentLocation
         {
             get { return _currentLocation; }
             set
             {
                 _currentLocation = value;
-                MapDrawer.DrawCurrent(CurrentLocation);
+                //MapDrawer.DrawCurrent(_currentLocation);
                 AdjustForLocation(_currentLocation);
             }
         }

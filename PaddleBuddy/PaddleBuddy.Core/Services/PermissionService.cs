@@ -29,11 +29,6 @@ namespace PaddleBuddy.Core.Services
                 var status = await CrossPermissions.Current.CheckPermissionStatusAsync(permission);
                 if (status != PermissionStatus.Granted)
                 {
-                    if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(permission))
-                    {
-                        MessengerService.Toast(null, "Location services are required for proper map usage!", true);
-                    }
-
                     var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] { Permission.Location });
                     status = results[permission];
                 }

@@ -1,19 +1,16 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Android.Support.V4.App;
 using Android.Support.V4.View;
 using Android.Support.V4.Widget;
 using Android.Views;
 using Android.Views.InputMethods;
 using MvvmCross.Droid.Support.V7.AppCompat;
-using MvvmCross.Platform;
-using PaddleBuddy.Core.DependencyServices;
 using PaddleBuddy.Core.ViewModels;
-using PaddleBuddy.Droid.DependencyServices;
 using PaddleBuddy.Core.Services;
 using Plugin.Permissions;
 using ActionBar = Android.Support.V7.App.ActionBar;
-using Plugin.Permissions.Abstractions;
 
 
 namespace PaddleBuddy.Droid.Activities
@@ -40,12 +37,6 @@ namespace PaddleBuddy.Droid.Activities
             if (bundle == null)
                 ViewModel.ShowMenuAndFirstDetail();
             _actionBar = SupportActionBar;
-            RequestPermissions();
-        }
-
-        private bool RequestPermissions()
-        {
-            return PermissionService.CheckOrRequestPermission(Permission.Location).Result;
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)
@@ -59,9 +50,17 @@ namespace PaddleBuddy.Droid.Activities
             return base.OnOptionsItemSelected(item);
         }
 
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions)
+        {
+            base.OnRequestPermissionsResult(requestCode, permissions);
+            var a = 5;
         }
 
         /*public override IFragmentCacheConfiguration BuildFragmentCacheConfiguration()

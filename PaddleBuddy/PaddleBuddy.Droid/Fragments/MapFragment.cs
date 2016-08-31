@@ -13,6 +13,7 @@ using PaddleBuddy.Droid.DependencyServices;
 using PaddleBuddy.Core.Services;
 using Android.Widget;
 using System.Threading.Tasks;
+using Plugin.Permissions.Abstractions;
 
 namespace PaddleBuddy.Droid.Fragments
 {
@@ -21,10 +22,9 @@ namespace PaddleBuddy.Droid.Fragments
     public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, GoogleMap.IOnMarkerClickListener, GoogleMap.IOnMapClickListener, GoogleMap.IInfoWindowAdapter
     {
         public SupportMapFragment Fragment { get; set; }
-
         protected override int FragmentId => Resource.Layout.fragment_map;
-
         public EventHandler<GoogleMap.MyLocationChangeEventArgs> Handler;
+        private ILocationProvider _locationProvider;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -36,10 +36,17 @@ namespace PaddleBuddy.Droid.Fragments
             return base.OnCreateView(inflater, container, savedInstanceState);
         }
 
+        public override void OnCreate(Bundle savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
+            _locationProvider = Mvx.Resolve<ILocationProvider>();
+        }
+
         public void OnMapReady(GoogleMap googleMap)
         {
-            //googleMap.MyLocationEnabled = true;
-            //googleMap.MyLocationChange += LocationChanged;
+            var a = PermissionService.CheckOrRequestPermission(Permission.Location).Result;
+            googleMap.MyLocationEnabled = true;
+            googleMap.MyLocationChange += LocationChanged;
             googleMap.SetOnMapClickListener(this);
             googleMap.SetOnMarkerClickListener(this);
             googleMap.SetInfoWindowAdapter(this);
@@ -68,11 +75,13 @@ namespace PaddleBuddy.Droid.Fragments
 
         public void LocationChanged(object sender, GoogleMap.MyLocationChangeEventArgs eventArgs)
         {
-            ViewModel.LocationChanged(new Point
+            var point = new Point
             {
                 Lat = eventArgs.Location.Latitude,
                 Lng = eventArgs.Location.Longitude
-            });
+            };
+            ViewModel.LocationChanged(point);
+            _locationProvider.CurrentLocation = point;
         }
 
         public bool OnMarkerClick(Marker marker)

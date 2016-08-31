@@ -9,6 +9,7 @@ using MvvmCross.Platform;
 using MvvmCross.Platform.Platform;
 using PaddleBuddy.Core;
 using PaddleBuddy.Core.DependencyServices;
+using PaddleBuddy.Core.Services;
 using PaddleBuddy.Droid.DependencyServices;
 
 namespace PaddleBuddy.Droid
