@@ -8,6 +8,7 @@ using Android.Views.InputMethods;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using PaddleBuddy.Core.ViewModels;
 using PaddleBuddy.Droid.Services;
+using Plugin.Permissions;
 using ActionBar = Android.Support.V7.App.ActionBar;
 
 
@@ -38,7 +39,10 @@ namespace PaddleBuddy.Droid.Activities
         protected override void OnStart()
         {
             base.OnStart();
-            PermissionService.CheckOrRequestLocation(this);
+            if (!PermissionService.CheckOrRequestLocation().Result)
+            {
+                Finish();
+            };
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)
@@ -54,14 +58,7 @@ namespace PaddleBuddy.Droid.Activities
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
-            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-            var b = 5;
-        }
-
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions)
-        {
-            base.OnRequestPermissionsResult(requestCode, permissions);
-            var a = 5;
+            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
         /*public override IFragmentCacheConfiguration BuildFragmentCacheConfiguration()
