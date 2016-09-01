@@ -1,11 +1,14 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Android.Provider;
+using Android.Support.Design.Widget;
 using Android.Support.V4.View;
 using Android.Support.V4.Widget;
 using Android.Views;
 using Android.Views.InputMethods;
 using MvvmCross.Droid.Support.V7.AppCompat;
+using PaddleBuddy.Core.Models;
 using PaddleBuddy.Core.ViewModels;
 using PaddleBuddy.Droid.Services;
 using ActionBar = Android.Support.V7.App.ActionBar;
@@ -38,6 +41,11 @@ namespace PaddleBuddy.Droid.Activities
         protected override void OnStart()
         {
             base.OnStart();
+            RequestLocation();
+        }
+
+        private void RequestLocation()
+        {
             PermissionService.CheckOrRequestLocation(this);
         }
 
@@ -55,13 +63,29 @@ namespace PaddleBuddy.Droid.Activities
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-            var b = 5;
-        }
-
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions)
-        {
-            base.OnRequestPermissionsResult(requestCode, permissions);
-            var a = 5;
+            switch (requestCode)
+            {
+                case PermissionCodes.LOCATION:
+                {
+                    if (grantResults == null || grantResults.Length < 1 || grantResults[0] != Permission.Granted)
+                    {
+                        var alert = new AlertDialog.Builder(this);
+                        alert.SetTitle("Permission Required");
+                        alert.SetMessage("Location services are required. Please approve the request.");
+                        alert.SetPositiveButton("Ok", (sendAlert, args) =>
+                        {
+                            RequestLocation();
+                        });
+                        alert.SetNegativeButton("Quit", (senderAler, args) =>
+                        {
+                            FinishAffinity();
+                        });
+                        var dialog = alert.Create();
+                        dialog.Show();
+                    }
+                    break;
+                }
+            }
         }
 
         /*public override IFragmentCacheConfiguration BuildFragmentCacheConfiguration()

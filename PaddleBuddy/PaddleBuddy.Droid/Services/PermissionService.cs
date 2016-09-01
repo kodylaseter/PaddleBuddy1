@@ -1,10 +1,10 @@
 using Android;
 using Android.App;
-using Android.Content;
 using Android.Content.PM;
 using Android.Support.V4.App;
 using Android.Support.V4.Content;
 using Android.Support.V7.App;
+using PaddleBuddy.Core.Models;
 
 namespace PaddleBuddy.Droid.Services
 {
@@ -17,11 +17,10 @@ namespace PaddleBuddy.Droid.Services
                   Manifest.Permission.AccessCoarseLocation,
                   Manifest.Permission.AccessFineLocation
                 };
-            int requestLocationId = 0;
             string permission = Manifest.Permission.AccessFineLocation;
             if (ContextCompat.CheckSelfPermission(Application.Context, permission) == Permission.Granted) return true;
-            ActivityCompat.RequestPermissions(activity, permissionsLocation, requestLocationId);
-            return true;
+            ActivityCompat.RequestPermissions(activity, permissionsLocation, PermissionCodes.LOCATION);
+            return false;
         }
     }
 }

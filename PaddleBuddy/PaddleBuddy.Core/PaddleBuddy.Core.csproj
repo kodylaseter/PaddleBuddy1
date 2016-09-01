@@ -40,6 +40,7 @@
     <Compile Include="Models\Map\River.cs" />
     <Compile Include="Models\MenuItem.cs" />
     <Compile Include="Models\Messages\ToastMessage.cs" />
+    <Compile Include="Models\PermissionCodes.cs" />
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\SearchItem.cs" />
     <Compile Include="Models\TimeEstimate.cs" />

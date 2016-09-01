@@ -13,9 +13,6 @@ using PaddleBuddy.Droid.DependencyServices;
 using PaddleBuddy.Core.Services;
 using Android.Widget;
 using System.Threading.Tasks;
-using Android.Support.V7.App;
-using PaddleBuddy.Droid.Services;
-using Plugin.CurrentActivity;
 
 namespace PaddleBuddy.Droid.Fragments
 {
@@ -45,8 +42,8 @@ namespace PaddleBuddy.Droid.Fragments
         }
 
         public void OnMapReady(GoogleMap googleMap)
-        {   
-            
+        {
+
             //PermissionService.CheckOrRequestLocation(CrossCurrentActivity.Current.Activity as AppCompatActivity);
             //googleMap.MyLocationEnabled = true;
             //googleMap.MyLocationChange += LocationChanged;
