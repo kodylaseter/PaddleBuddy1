@@ -39,6 +39,7 @@
     <Compile Include="Models\Map\Point.cs" />
     <Compile Include="Models\Map\River.cs" />
     <Compile Include="Models\MenuItem.cs" />
+    <Compile Include="Models\Messages\PermissionMessage.cs" />
     <Compile Include="Models\Messages\ToastMessage.cs" />
     <Compile Include="Models\PermissionCodes.cs" />
     <Compile Include="Models\Response.cs" />

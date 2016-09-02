@@ -17,5 +17,10 @@ namespace PaddleBuddy.Core.Services
         {
             Messenger.Publish(new ToastMessage(sender, message, isShort));
         }
+
+        public static void Permission(object sender, string permission, bool hasPermission)
+        {
+            Messenger.Publish(new PermissionMessage(sender, permission, hasPermission));
+        }
     }
 }

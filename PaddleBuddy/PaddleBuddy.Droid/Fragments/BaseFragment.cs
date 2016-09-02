@@ -74,6 +74,7 @@ namespace PaddleBuddy.Droid.Fragments
             Messenger = Mvx.Resolve<IMvxMessenger>();
             Messenger.Subscribe<ToastMessage>(DisplayToast);
 
+
             return view;
 		}
 

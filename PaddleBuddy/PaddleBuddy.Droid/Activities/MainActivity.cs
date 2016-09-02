@@ -8,7 +8,10 @@ using Android.Support.V4.Widget;
 using Android.Views;
 using Android.Views.InputMethods;
 using MvvmCross.Droid.Support.V7.AppCompat;
+using MvvmCross.Platform;
+using MvvmCross.Plugins.Messenger;
 using PaddleBuddy.Core.Models;
+using PaddleBuddy.Core.Models.Messages;
 using PaddleBuddy.Core.ViewModels;
 using PaddleBuddy.Droid.Services;
 using ActionBar = Android.Support.V7.App.ActionBar;
@@ -46,7 +49,10 @@ namespace PaddleBuddy.Droid.Activities
 
         private void RequestLocation()
         {
-            PermissionService.CheckOrRequestLocation(this);
+            if (!PermissionService.CheckLocation())
+            {
+                PermissionService.RequestLocation(this);
+            }
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)
@@ -82,6 +88,10 @@ namespace PaddleBuddy.Droid.Activities
                         });
                         var dialog = alert.Create();
                         dialog.Show();
+                    }
+                    else
+                    {
+                        Mvx.Resolve<IMvxMessenger>().Publish(new PermissionMessage(this, "location", true));
                     }
                     break;
                 }

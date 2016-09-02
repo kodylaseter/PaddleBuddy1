@@ -13,6 +13,9 @@ using PaddleBuddy.Droid.DependencyServices;
 using PaddleBuddy.Core.Services;
 using Android.Widget;
 using System.Threading.Tasks;
+using MvvmCross.Plugins.Messenger;
+using PaddleBuddy.Core.Models.Messages;
+using PaddleBuddy.Droid.Services;
 
 namespace PaddleBuddy.Droid.Fragments
 {
@@ -21,6 +24,7 @@ namespace PaddleBuddy.Droid.Fragments
     public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, GoogleMap.IOnMarkerClickListener, GoogleMap.IOnMapClickListener, GoogleMap.IInfoWindowAdapter
     {
         public SupportMapFragment Fragment { get; set; }
+        public GoogleMap GoogleMap { get; set; }
         protected override int FragmentId => Resource.Layout.fragment_map;
         public EventHandler<GoogleMap.MyLocationChangeEventArgs> Handler;
         private ILocationProvider _locationProvider;
@@ -39,18 +43,26 @@ namespace PaddleBuddy.Droid.Fragments
         {
             base.OnCreate(savedInstanceState);
             _locationProvider = Mvx.Resolve<ILocationProvider>();
+            Mvx.Resolve<IMvxMessenger>().Subscribe<PermissionMessage>(AfterMapReadyAndPermission);
         }
 
         public void OnMapReady(GoogleMap googleMap)
         {
+            GoogleMap = googleMap;
+            ((MapDrawerAndroid)Mvx.Resolve<IMapDrawer>()).Map = GoogleMap;
+            if (PermissionService.CheckLocation())
+            {
+                AfterMapReadyAndPermission();
+            }
+        }
 
-            //PermissionService.CheckOrRequestLocation(CrossCurrentActivity.Current.Activity as AppCompatActivity);
-            //googleMap.MyLocationEnabled = true;
-            //googleMap.MyLocationChange += LocationChanged;
-            googleMap.SetOnMapClickListener(this);
-            googleMap.SetOnMarkerClickListener(this);
-            googleMap.SetInfoWindowAdapter(this);
-            ((MapDrawerAndroid) Mvx.Resolve<IMapDrawer>()).Map = googleMap;
+        private void AfterMapReadyAndPermission(PermissionMessage permissionMessage = null)
+        {
+            GoogleMap.MyLocationEnabled = true;
+            GoogleMap.MyLocationChange += LocationChanged;
+            GoogleMap.SetOnMapClickListener(this);
+            GoogleMap.SetOnMarkerClickListener(this);
+            GoogleMap.SetInfoWindowAdapter(this);
             ViewModel.SelectedMarker = null;
             ViewModel.MapReady = true;
             ViewModel.Setup();
