@@ -1,4 +1,5 @@
-﻿using Android.Content.Res;
+﻿using Android.Content.PM;
+using Android.Content.Res;
 using Android.OS;
 using Android.Support.V7.Widget;
 using Android.Text;
@@ -49,6 +50,7 @@ namespace PaddleBuddy.Droid.Fragments
 			var view = this.BindingInflate(FragmentId, null);
 
 			_toolbar = view.FindViewById<Toolbar>(Resource.Id.toolbar);
+            //_toolbar.SetTitleTextColor(Resource.Color.white);
 			if (_toolbar != null)
 			{
 				((MainActivity)Activity).SetSupportActionBar(_toolbar);
@@ -71,6 +73,7 @@ namespace PaddleBuddy.Droid.Fragments
 
             Messenger = Mvx.Resolve<IMvxMessenger>();
             Messenger.Subscribe<ToastMessage>(DisplayToast);
+
 
             return view;
 		}

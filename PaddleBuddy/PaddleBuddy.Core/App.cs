@@ -16,7 +16,7 @@ namespace PaddleBuddy.Core
 
             //TODO enable login
             bool isLoggedIn = true;
-            if (!isLoggedIn) RegisterAppStart<PlanViewModel>();
+            if (!isLoggedIn) RegisterAppStart<IntroViewModel>();
             else RegisterAppStart<MapViewModel>();
 
             Task.Run(() => SetupData());

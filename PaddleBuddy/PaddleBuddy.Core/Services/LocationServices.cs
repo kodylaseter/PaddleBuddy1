@@ -19,9 +19,12 @@ namespace PaddleBuddy.Core.Services
             return _locationService ?? (_locationService = new LocationService());
         }
 
-        public Point GetCurrentLocation()
+        public Point CurrentLocation
         {
-            return _locationProvider.GetCurrentLocation();
+            get
+            {
+                return _locationProvider.CurrentLocation;
+            }
         }
     }
 }

@@ -17,12 +17,14 @@ namespace PaddleBuddy.Core.ViewModels
         public SearchService SearchService { get; set; }
         public ObservableCollection<SearchItem> FilteredData { get; set; }
         private ICommand _itemSelectedCommand;
+        private string _subBarText;
 
         public override void Start()
         {
             base.Start();
             SearchService = new SearchService();
             SearchService.SetData(SearchService.ArrayToSearchSource(DatabaseService.GetInstance().Points.ToArray()));
+            RaisePropertyChanged(() => SubBarText);
         }
 
         public void ItemSelected(SearchItem searchItem)
@@ -65,6 +67,15 @@ namespace PaddleBuddy.Core.ViewModels
             }
         }
 
+        public bool ShowSubBar
+        {
+            get
+            {
+                return !string.IsNullOrWhiteSpace(_subBarText);
+            }
+        }
+
+
         public string SpacerText
         {
             get
@@ -73,6 +84,18 @@ namespace PaddleBuddy.Core.ViewModels
                 return text;
             }
         }
+
+        public string SubBarText
+        {
+            get { return _subBarText; }
+            set
+            {
+                _subBarText = value;
+                RaisePropertyChanged(() => SubBarText);
+                RaisePropertyChanged(() => ShowSubBar);
+            }
+        }
+
 
         public bool IsShown => !string.IsNullOrEmpty(_searchString);
     }

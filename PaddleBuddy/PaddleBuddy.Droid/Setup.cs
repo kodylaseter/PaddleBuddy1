@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Reflection;
-using System.Threading;
 using Android.Content;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Droid.Platform;
@@ -25,9 +24,9 @@ namespace PaddleBuddy.Droid
         protected override IMvxApplication CreateApp()
         {
             var app = new App();
-            Mvx.RegisterSingleton<ILocationProvider>(new LocationProviderAndroid());
             Mvx.RegisterSingleton<IMapDrawer>(new MapDrawerAndroid());
             Mvx.RegisterSingleton<IStorageService>(new StorageServiceAndroid());
+            Mvx.RegisterSingleton<ILocationProvider>(new LocationProviderAndroid());
             return app;
         }
 

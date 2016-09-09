@@ -13,6 +13,9 @@ using PaddleBuddy.Droid.DependencyServices;
 using PaddleBuddy.Core.Services;
 using Android.Widget;
 using System.Threading.Tasks;
+using MvvmCross.Plugins.Messenger;
+using PaddleBuddy.Core.Models.Messages;
+using PaddleBuddy.Droid.Services;
 
 namespace PaddleBuddy.Droid.Fragments
 {
@@ -21,10 +24,10 @@ namespace PaddleBuddy.Droid.Fragments
     public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, GoogleMap.IOnMarkerClickListener, GoogleMap.IOnMapClickListener, GoogleMap.IInfoWindowAdapter
     {
         public SupportMapFragment Fragment { get; set; }
-
+        public GoogleMap GoogleMap { get; set; }
         protected override int FragmentId => Resource.Layout.fragment_map;
-
         public EventHandler<GoogleMap.MyLocationChangeEventArgs> Handler;
+        private ILocationProvider _locationProvider;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -36,17 +39,34 @@ namespace PaddleBuddy.Droid.Fragments
             return base.OnCreateView(inflater, container, savedInstanceState);
         }
 
+        public override void OnCreate(Bundle savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
+            _locationProvider = Mvx.Resolve<ILocationProvider>();
+            Mvx.Resolve<IMvxMessenger>().Subscribe<PermissionMessage>(AfterMapReadyAndPermission);
+        }
+
         public void OnMapReady(GoogleMap googleMap)
         {
-            //googleMap.MyLocationEnabled = true;
-            //googleMap.MyLocationChange += LocationChanged;
-            googleMap.SetOnMapClickListener(this);
-            googleMap.SetOnMarkerClickListener(this);
-            googleMap.SetInfoWindowAdapter(this);
-            ((MapDrawerAndroid) Mvx.Resolve<IMapDrawer>()).Map = googleMap;
+            GoogleMap = googleMap;
+            ((MapDrawerAndroid)Mvx.Resolve<IMapDrawer>()).Map = GoogleMap;
+            if (PermissionService.CheckLocation())
+            {
+                AfterMapReadyAndPermission();
+            }
+        }
+
+        private void AfterMapReadyAndPermission(PermissionMessage permissionMessage = null)
+        {
+            GoogleMap.MyLocationEnabled = true;
+            GoogleMap.MyLocationChange += LocationChanged;
+            GoogleMap.SetOnMapClickListener(this);
+            GoogleMap.SetOnMarkerClickListener(this);
+            GoogleMap.SetInfoWindowAdapter(this);
             ViewModel.SelectedMarker = null;
             ViewModel.MapReady = true;
             ViewModel.Setup();
+            ViewModel.SetupAsync();
             Task.Run(() => Simulate());
         }
 
@@ -55,11 +75,11 @@ namespace PaddleBuddy.Droid.Fragments
             var curr = new Point();
             while (true)
             {
-                await Task.Delay(1000);
+                await Task.Delay(500);
                 if (ViewModel.StartPoint != null)
                 {
                     curr.Lat = ViewModel.CurrentLocation.Lat;
-                    curr.Lng = ViewModel.CurrentLocation.Lng + (-84.1180229 - ViewModel.CurrentLocation.Lng) / 5;
+                    curr.Lng = ViewModel.CurrentLocation.Lng + (-84.1180229 - ViewModel.CurrentLocation.Lng) / 2;
                     Activity.RunOnUiThread(() => ViewModel.CurrentLocation = curr);
                 }
             }
@@ -67,11 +87,13 @@ namespace PaddleBuddy.Droid.Fragments
 
         public void LocationChanged(object sender, GoogleMap.MyLocationChangeEventArgs eventArgs)
         {
-            ViewModel.LocationChanged(new Point
+            var point = new Point
             {
                 Lat = eventArgs.Location.Latitude,
                 Lng = eventArgs.Location.Longitude
-            });
+            };
+            ViewModel.LocationChanged(point);
+            _locationProvider.CurrentLocation = point;
         }
 
         public bool OnMarkerClick(Marker marker)

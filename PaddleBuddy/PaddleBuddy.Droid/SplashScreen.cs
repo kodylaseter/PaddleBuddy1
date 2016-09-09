@@ -17,6 +17,5 @@ namespace PaddleBuddy.Droid
             : base(Resource.Layout.splash_screen)
         {
         }
-
     }
 }

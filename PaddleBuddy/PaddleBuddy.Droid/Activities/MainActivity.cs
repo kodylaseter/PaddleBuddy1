@@ -1,13 +1,21 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Android.Provider;
+using Android.Support.Design.Widget;
 using Android.Support.V4.View;
 using Android.Support.V4.Widget;
 using Android.Views;
 using Android.Views.InputMethods;
 using MvvmCross.Droid.Support.V7.AppCompat;
+using MvvmCross.Platform;
+using MvvmCross.Plugins.Messenger;
+using PaddleBuddy.Core.Models;
+using PaddleBuddy.Core.Models.Messages;
 using PaddleBuddy.Core.ViewModels;
+using PaddleBuddy.Droid.Services;
 using ActionBar = Android.Support.V7.App.ActionBar;
+
 
 namespace PaddleBuddy.Droid.Activities
 {
@@ -25,14 +33,26 @@ namespace PaddleBuddy.Droid.Activities
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-
             SetContentView(Resource.Layout.activity_main);
-
             DrawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
 
             if (bundle == null)
                 ViewModel.ShowMenuAndFirstDetail();
             _actionBar = SupportActionBar;
+        }
+
+        protected override void OnStart()
+        {
+            base.OnStart();
+            RequestLocation();
+        }
+
+        private void RequestLocation()
+        {
+            if (!PermissionService.CheckLocation())
+            {
+                PermissionService.RequestLocation(this);
+            }
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)
@@ -44,6 +64,38 @@ namespace PaddleBuddy.Droid.Activities
                     return true;
             }
             return base.OnOptionsItemSelected(item);
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        {
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            switch (requestCode)
+            {
+                case PermissionCodes.LOCATION:
+                {
+                    if (grantResults == null || grantResults.Length < 1 || grantResults[0] != Permission.Granted)
+                    {
+                        var alert = new AlertDialog.Builder(this);
+                        alert.SetTitle("Permission Required");
+                        alert.SetMessage("Location services are required. Please approve the request.");
+                        alert.SetPositiveButton("Ok", (sendAlert, args) =>
+                        {
+                            RequestLocation();
+                        });
+                        alert.SetNegativeButton("Quit", (senderAler, args) =>
+                        {
+                            FinishAffinity();
+                        });
+                        var dialog = alert.Create();
+                        dialog.Show();
+                    }
+                    else
+                    {
+                        Mvx.Resolve<IMvxMessenger>().Publish(new PermissionMessage(this, "location", true));
+                    }
+                    break;
+                }
+            }
         }
 
         /*public override IFragmentCacheConfiguration BuildFragmentCacheConfiguration()
@@ -89,7 +141,7 @@ namespace PaddleBuddy.Droid.Activities
         }
 		*/
 
-		/*public override void OnBeforeFragmentChanging (IMvxCachedFragmentInfo fragmentInfo, FragmentTransaction transaction)
+        /*public override void OnBeforeFragmentChanging (IMvxCachedFragmentInfo fragmentInfo, FragmentTransaction transaction)
 		{
 			var currentFrag = SupportFragmentManager.FindFragmentById (Resource.Id.content_frame) as MvxFragment;
 

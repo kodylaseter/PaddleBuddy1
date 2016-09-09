@@ -25,12 +25,10 @@ namespace PaddleBuddy.Core.ViewModels
 
         public void Init(MapParameters mapParameters)
         {
-            if (mapParameters != null && mapParameters.Set)
-            {
-                InitMode = mapParameters.InitMode;
-                StartPoint = DatabaseService.GetInstance().GetPoint(mapParameters.StartId);
-                EndPoint = DatabaseService.GetInstance().GetPoint(mapParameters.EndId);
-            }
+            if (mapParameters == null || !mapParameters.Set) return;
+            InitMode = mapParameters.InitMode;
+            StartPoint = DatabaseService.GetInstance().GetPoint(mapParameters.StartId);
+            EndPoint = DatabaseService.GetInstance().GetPoint(mapParameters.EndId);
         }
 
         public void StartPlan()
@@ -43,28 +41,33 @@ namespace PaddleBuddy.Core.ViewModels
             CurrentLocation = p;
         }
 
-        public async Task Setup()
+        public void Setup()
         {
-            IsLoading = true;
-            await Task.Run(() => LetDBSetup());
             MapDrawer = Mvx.Resolve<IMapDrawer>();
-            switch (InitMode)
-            {
-                case MapInitModes.Init:
-                    SetupInit();
-                    break;
-                case MapInitModes.Navigate:
-                    SetupNavigate();
-                    break;
-                default: throw new ArgumentOutOfRangeException();
-            }
             if (CurrentLocation == null)
             {
+                //using this simulate, plan from tretret to qwertyuiop
                 CurrentLocation = new Point
                 {
                     Lat = 34.065676,
                     Lng = -84.272612
                 };
+            }
+        }
+
+        public async Task SetupAsync()
+        {
+            IsLoading = true;
+            await Task.Run(() => LetDBSetup());
+            switch (InitMode)
+            {
+                case MapInitModes.Init:
+                    await SetupInit();
+                    break;
+                case MapInitModes.TripStart:
+                    SetupTripStart();
+                    break;
+                default: throw new ArgumentOutOfRangeException();
             }
             IsLoading = false;
         }
@@ -83,7 +86,7 @@ namespace PaddleBuddy.Core.ViewModels
             }
         }
 
-        public void SetupNavigate()
+        public void SetupTripStart()
         {
             if (StartPoint.Id == int.MaxValue || EndPoint.Id == int.MaxValue)
             {
@@ -93,7 +96,7 @@ namespace PaddleBuddy.Core.ViewModels
             {
                 StartPoint = DatabaseService.GetInstance().GetPoint(StartPoint.Id);
                 EndPoint = DatabaseService.GetInstance().GetPoint(EndPoint.Id);
-                var current = LocationService.GetInstance().GetCurrentLocation();
+                var current = LocationService.GetInstance().CurrentLocation;
                 MapDrawer.DrawMarker(StartPoint);
                 MapDrawer.DrawMarker(EndPoint);
                 MapDrawer.MoveCamera(current);
@@ -102,9 +105,13 @@ namespace PaddleBuddy.Core.ViewModels
             }
         }
 
-        public void SetupInit()
+        public async Task SetupInit()
         {
-            MapDrawer.MoveCameraZoom(LocationService.GetInstance().GetCurrentLocation(), 8);
+            if (!await LetLocationStart())
+            {
+                MessengerService.Toast(this, "Unable to get current location", true);
+            }
+            MapDrawer.MoveCameraZoom(CurrentLocation, 8);
             try
             {
                 var path = DatabaseService.GetInstance().GetClosestRiver();
@@ -128,20 +135,16 @@ namespace PaddleBuddy.Core.ViewModels
             }
         }
 
-        public string StartText
+        private async Task<bool> LetLocationStart()
         {
-            get
+            var times = 0;
+            var max = 10;
+            while (times < max && LocationService.GetInstance().CurrentLocation == null)
             {
-                return "teststart";
+                await Task.Delay(100);
+                times++;
             }
-        }
-
-        public string EndText
-        {
-            get
-            {
-                return "test end";
-            }
+            return times != max;
         }
 
         public Point CurrentLocation
@@ -150,18 +153,33 @@ namespace PaddleBuddy.Core.ViewModels
             set
             {
                 _currentLocation = value;
-                MapDrawer.DrawCurrent(CurrentLocation);
-                AdjustForLocation();
+                //MapDrawer.DrawCurrent(_currentLocation);
+                AdjustForLocation(_currentLocation);
             }
         }
 
-        public void AdjustForLocation()
+
+
+        public void AdjustForLocation(Point point)
         {
-            if (CurrentLocation == null || StartPoint == null) return;
-            var dist = PBUtilities.DistanceInMeters(CurrentLocation, StartPoint);
-            if (dist < 40)
+            switch (InitMode)
             {
-                MessengerService.Toast(this, dist.ToString(), true);
+                case MapInitModes.Init:
+                    break;
+                case MapInitModes.TripStart:
+                    var dist = PBUtilities.DistanceInMeters(point, StartPoint);
+                    if (dist > 50)
+                    {
+                        SubBarText = "Proceed to start point";
+                    }
+                    else
+                    {
+                        SubBarText = "At start";
+                    }
+                    break;
+                default:
+                    MessengerService.Toast(this, "Map init mode not set", true);
+                    break;
             }
         }
 
@@ -198,6 +216,6 @@ namespace PaddleBuddy.Core.ViewModels
     public enum MapInitModes
     {
         Init,
-        Navigate
+        TripStart
     }
 }
