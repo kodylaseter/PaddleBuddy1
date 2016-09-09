@@ -20,7 +20,6 @@ namespace PaddleBuddy.Core
             else RegisterAppStart<MapViewModel>();
 
             Task.Run(() => SetupData());
-
             MvvmCross.Plugins.Messenger.PluginLoader.Instance.EnsureLoaded();
         }
 

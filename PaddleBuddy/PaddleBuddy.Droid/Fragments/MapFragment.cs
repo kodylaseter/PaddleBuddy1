@@ -59,6 +59,7 @@ namespace PaddleBuddy.Droid.Fragments
         private void AfterMapReadyAndPermission(PermissionMessage permissionMessage = null)
         {
             GoogleMap.MyLocationEnabled = true;
+            GoogleMap.UiSettings.MyLocationButtonEnabled = false;
             GoogleMap.MyLocationChange += LocationChanged;
             GoogleMap.SetOnMapClickListener(this);
             GoogleMap.SetOnMarkerClickListener(this);
@@ -92,8 +93,8 @@ namespace PaddleBuddy.Droid.Fragments
                 Lat = eventArgs.Location.Latitude,
                 Lng = eventArgs.Location.Longitude
             };
-            ViewModel.LocationChanged(point);
             _locationProvider.CurrentLocation = point;
+            Mvx.Resolve<IMvxMessenger>().Publish(new LocationChangedMessage(this));
         }
 
         public bool OnMarkerClick(Marker marker)

@@ -17,7 +17,8 @@
     android:id="@+id/map_container"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:layout_below="@id/map_toolbar"/>
+    android:layout_below="@id/map_toolbar"
+    local:MvxBind="Visible IsLoading, Converter=InverseBool"/>
   <LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"

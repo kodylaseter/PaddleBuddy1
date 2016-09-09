@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
+using MvvmCross.Plugins.Messenger;
+using PaddleBuddy.Core.Models.Messages;
 using PaddleBuddy.Core.ViewModels.parameters;
 using PaddleBuddy.Core.Utilities;
 
@@ -44,21 +46,23 @@ namespace PaddleBuddy.Core.ViewModels
         public void Setup()
         {
             MapDrawer = Mvx.Resolve<IMapDrawer>();
-            if (CurrentLocation == null)
-            {
-                //using this simulate, plan from tretret to qwertyuiop
-                CurrentLocation = new Point
-                {
-                    Lat = 34.065676,
-                    Lng = -84.272612
-                };
-            }
+            Mvx.Resolve<IMvxMessenger>().Subscribe<LocationChangedMessage>(OnLocationChanged);
+
+            //using this simulate, plan from tretret to qwertyuiop
+            //if (CurrentLocation == null)
+            //{
+            //    CurrentLocation = new Point
+            //    {
+            //        Lat = 34.065676,
+            //        Lng = -84.272612
+            //    };
+            //}
         }
 
         public async Task SetupAsync()
         {
             IsLoading = true;
-            await Task.Run(() => LetDBSetup());
+            await LetDBSetup();
             switch (InitMode)
             {
                 case MapInitModes.Init:
@@ -107,38 +111,41 @@ namespace PaddleBuddy.Core.ViewModels
 
         public async Task SetupInit()
         {
-            if (!await LetLocationStart())
+            if (!await LetLocationSetup())
             {
                 MessengerService.Toast(this, "Unable to get current location", true);
             }
-            MapDrawer.MoveCameraZoom(CurrentLocation, 8);
-            try
+            else
             {
-                var path = DatabaseService.GetInstance().GetClosestRiver();
-                if (path.Points != null)
+                MapDrawer.MoveCameraZoom(CurrentLocation, 8);
+                try
                 {
-                    MapDrawer.DrawLine(path.Points.ToArray());
-                    var launchSites = from p in DatabaseService.GetInstance().Points where p.RiverId == DatabaseService.GetInstance().ClosestRiverId && p.IsLaunchSite select p;
-                    foreach (var site in launchSites)
+                    var path = DatabaseService.GetInstance().GetClosestRiver();
+                    if (path.Points != null)
                     {
-                        MapDrawer.DrawMarker(site);
+                        MapDrawer.DrawLine(path.Points.ToArray());
+                        var launchSites = from p in DatabaseService.GetInstance().Points where p.RiverId == DatabaseService.GetInstance().ClosestRiverId && p.IsLaunchSite select p;
+                        foreach (var site in launchSites)
+                        {
+                            MapDrawer.DrawMarker(site);
+                        }
+                    }
+                    else
+                    {
+                        MessengerService.Toast(this, "Failed to get nearest river", true);
                     }
                 }
-                else
+                catch (Exception)
                 {
                     MessengerService.Toast(this, "Failed to get nearest river", true);
                 }
             }
-            catch (Exception)
-            {
-                MessengerService.Toast(this, "Failed to get nearest river", true);
-            }
         }
 
-        private async Task<bool> LetLocationStart()
+        private async Task<bool> LetLocationSetup()
         {
             var times = 0;
-            var max = 10;
+            var max = 30;
             while (times < max && LocationService.GetInstance().CurrentLocation == null)
             {
                 await Task.Delay(100);
@@ -153,12 +160,16 @@ namespace PaddleBuddy.Core.ViewModels
             set
             {
                 _currentLocation = value;
+
                 //MapDrawer.DrawCurrent(_currentLocation);
                 AdjustForLocation(_currentLocation);
             }
         }
 
-
+        private void OnLocationChanged(LocationChangedMessage message)
+        {
+            CurrentLocation = LocationService.GetInstance().CurrentLocation;
+        }
 
         public void AdjustForLocation(Point point)
         {
