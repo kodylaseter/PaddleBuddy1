@@ -27,7 +27,6 @@ namespace PaddleBuddy.Droid.Fragments
         public GoogleMap GoogleMap { get; set; }
         protected override int FragmentId => Resource.Layout.fragment_map;
         public EventHandler<GoogleMap.MyLocationChangeEventArgs> Handler;
-        private ILocationProvider _locationProvider;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -42,7 +41,6 @@ namespace PaddleBuddy.Droid.Fragments
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            _locationProvider = Mvx.Resolve<ILocationProvider>();
             Mvx.Resolve<IMvxMessenger>().Subscribe<PermissionMessage>(AfterMapReadyAndPermission);
         }
 
@@ -58,9 +56,6 @@ namespace PaddleBuddy.Droid.Fragments
 
         private void AfterMapReadyAndPermission(PermissionMessage permissionMessage = null)
         {
-            //GoogleMap.MyLocationEnabled = true;
-            //GoogleMap.UiSettings.MyLocationButtonEnabled = false;
-            //GoogleMap.MyLocationChange += LocationChanged;
             GoogleMap.SetOnMapClickListener(this);
             GoogleMap.SetOnMarkerClickListener(this);
             GoogleMap.SetInfoWindowAdapter(this);
@@ -73,6 +68,7 @@ namespace PaddleBuddy.Droid.Fragments
 
         public async void Simulate()
         {
+
             var curr = new Point();
             while (true)
             {
@@ -81,21 +77,22 @@ namespace PaddleBuddy.Droid.Fragments
                 {
                     curr.Lat = ViewModel.CurrentLocation.Lat;
                     curr.Lng = ViewModel.CurrentLocation.Lng + (-84.1180229 - ViewModel.CurrentLocation.Lng) / 2;
-                    Activity.RunOnUiThread(() => ViewModel.CurrentLocation = curr);
+                    //Need to set current location
+                    //Need to refactor this
                 }
             }
         }
 
-        public void LocationChanged(object sender, GoogleMap.MyLocationChangeEventArgs eventArgs)
-        {
-            var point = new Point
-            {
-                Lat = eventArgs.Location.Latitude,
-                Lng = eventArgs.Location.Longitude
-            };
-            _locationProvider.CurrentLocation = point;
-            Mvx.Resolve<IMvxMessenger>().Publish(new LocationChangedMessage(this));
-        }
+        //public void LocationChanged(object sender, GoogleMap.MyLocationChangeEventArgs eventArgs)
+        //{
+        //    var point = new Point
+        //    {
+        //        Lat = eventArgs.Location.Latitude,
+        //        Lng = eventArgs.Location.Longitude
+        //    };
+        //    _locationProvider.CurrentLocation = point;
+        //    Mvx.Resolve<IMvxMessenger>().Publish(new LocationChangedMessage(this));
+        //}
 
         public bool OnMarkerClick(Marker marker)
         {

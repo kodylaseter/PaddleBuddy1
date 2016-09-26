@@ -27,6 +27,7 @@ namespace PaddleBuddy.Core
         private async void SetupData()
         {
             await DatabaseService.GetInstance().Setup();
+            LocationService.GetInstance().StartListening();
         }
     }
 }

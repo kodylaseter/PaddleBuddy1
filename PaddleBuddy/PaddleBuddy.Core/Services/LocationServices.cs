@@ -13,15 +13,14 @@ namespace PaddleBuddy.Core.Services
     public class LocationService
     {
         private static LocationService _locationService;
-        private readonly ILocationProvider _locationProvider;
         private Point _currentLocation;
         private readonly IMvxMessenger _mvxMessenger;
         public IGeolocator Geolocator => CrossGeolocator.Current;
 
         public LocationService()
         {
-            _locationProvider = Mvx.Resolve<ILocationProvider>();
             _mvxMessenger = Mvx.Resolve<IMvxMessenger>();
+            Geolocator.DesiredAccuracy = 5;
         }
 
 
@@ -42,29 +41,35 @@ namespace PaddleBuddy.Core.Services
 
         public async Task<Point> GetLocationAsync()
         {
-            var locator = CrossGeolocator.Current;
-            locator.DesiredAccuracy = 5;
 
-            var position = await locator.GetPositionAsync(10000);
-            return new Point
+            var position = await Geolocator.GetPositionAsync(10000);
+            var point = new Point
             {
                 Lat = position.Latitude,
                 Lng = position.Longitude
             };
+            _currentLocation = point;
+            return point;
         }
 
         public void StartListening()
         {
             Geolocator.StartListeningAsync(1, 1, true);
-            Geolocator.PositionChanged += PositionChanged();
+            Geolocator.PositionChanged += GeolocatorOnPositionChanged;
             var b = Geolocator.IsListening;
 
         }
 
-        private EventHandler<PositionEventArgs> PositionChanged()
+        private void GeolocatorOnPositionChanged(object sender, PositionEventArgs positionEventArgs)
         {
-            _mvxMessenger.Publish(new LocationChangedMessage(this));
-            return null;
+            if (positionEventArgs?.Position != null)
+            {
+                CurrentLocation = new Point
+                {
+                    Lat = positionEventArgs.Position.Latitude,
+                    Lng = positionEventArgs.Position.Longitude
+                };
+            }
         }
     }
 }

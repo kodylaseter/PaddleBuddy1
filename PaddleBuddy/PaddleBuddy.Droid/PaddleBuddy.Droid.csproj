@@ -175,7 +175,6 @@
     <Compile Include="Bootstrap\MessengerPluginBootstrap.cs" />
     <Compile Include="Bootstrap\VisibilityPluginBootstrap.cs" />
     <Compile Include="DependencyServices\BaseDependencyServiceAndroid.cs" />
-    <Compile Include="DependencyServices\LocationProviderAndroid.cs" />
     <Compile Include="DependencyServices\MapDrawerAndroid.cs" />
     <Compile Include="DependencyServices\StorageServiceAndroid.cs" />
     <Compile Include="Fragments\PointFragment.cs" />
@@ -318,6 +317,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\list_item_selector.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\Profi_icons_20_1x.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

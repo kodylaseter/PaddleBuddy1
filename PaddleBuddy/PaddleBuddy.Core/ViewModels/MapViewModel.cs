@@ -38,11 +38,6 @@ namespace PaddleBuddy.Core.ViewModels
             ShowViewModel<PlanViewModel>(new PlanParameters() { StartId = _selectedMarker.Id, Set = true } );
         }
 
-        public void LocationChanged(Point p)
-        {
-            CurrentLocation = p;
-        }
-
         public void Setup()
         {
             MapDrawer = Mvx.Resolve<IMapDrawer>();
@@ -158,19 +153,14 @@ namespace PaddleBuddy.Core.ViewModels
 
         public Point CurrentLocation
         {
-            get { return _currentLocation; }
-            set
-            {
-                _currentLocation = value;
-
-                //MapDrawer.DrawCurrent(_currentLocation);
-                AdjustForLocation(_currentLocation);
-            }
+            get { return LocationService.GetInstance().CurrentLocation; }
         }
 
         private void OnLocationChanged(LocationChangedMessage message)
         {
-            CurrentLocation = LocationService.GetInstance().CurrentLocation;
+            AdjustForLocation(_currentLocation);
+            MapDrawer.DrawCurrent();
+
         }
 
         public void AdjustForLocation(Point point)

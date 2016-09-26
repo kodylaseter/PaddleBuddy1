@@ -43,21 +43,23 @@ namespace PaddleBuddy.Droid.DependencyServices
         public void DrawCurrent(Point current = null)
         {
             if (IsMapNull) return;
+            if (current == null)
+            {
+                current = LocationService.GetInstance().CurrentLocation;
+            }
             if (CurrentMarker == null)
             {
-                var markerOpts = new MarkerOptions().SetPosition(new LatLng(current.Lat, current.Lng));
-                CurrentMarker = Map.AddMarker(markerOpts);
+                CurrentMarker = Map.AddMarker(CreateCurrentMarkerOptions(current));
             } else
             {
                 CurrentMarker.Remove();
-                var markerOpts = new MarkerOptions().SetPosition(new LatLng(current.Lat, current.Lng));
-                CurrentMarker = Map.AddMarker(markerOpts);
+                CurrentMarker = Map.AddMarker(CreateCurrentMarkerOptions(current));
             }
-            //if (current == null) current = LocationService.GetInstance().CurrentLocation;
-            //var markerOptions = new MarkerOptions();
-            //markerOptions.SetPosition(new LatLng(current.Lat, current.Lng));
-            //var icon = BitmapDescriptorFactory.FromResource(Resource.Drawable.current_circle);
+        }
 
+        private MarkerOptions CreateCurrentMarkerOptions(Point point)
+        {
+            return new MarkerOptions().SetPosition(new LatLng(point.Lat, point.Lng)).SetIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.Profi_icons_20_1x));
         }
 
         public void MoveCamera(Point p)

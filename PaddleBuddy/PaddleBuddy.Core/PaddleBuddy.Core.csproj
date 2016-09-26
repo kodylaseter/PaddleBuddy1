@@ -29,7 +29,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Converters\Converters.cs" />
-    <Compile Include="DependencyServices\ILocationProvider.cs" />
     <Compile Include="DependencyServices\IMapDrawer.cs" />
     <Compile Include="DependencyServices\IStorageService.cs" />
     <Compile Include="Models\LinqModels\LinkPoint.cs" />
