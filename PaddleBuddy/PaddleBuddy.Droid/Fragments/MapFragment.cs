@@ -58,9 +58,9 @@ namespace PaddleBuddy.Droid.Fragments
 
         private void AfterMapReadyAndPermission(PermissionMessage permissionMessage = null)
         {
-            GoogleMap.MyLocationEnabled = true;
-            GoogleMap.UiSettings.MyLocationButtonEnabled = false;
-            GoogleMap.MyLocationChange += LocationChanged;
+            //GoogleMap.MyLocationEnabled = true;
+            //GoogleMap.UiSettings.MyLocationButtonEnabled = false;
+            //GoogleMap.MyLocationChange += LocationChanged;
             GoogleMap.SetOnMapClickListener(this);
             GoogleMap.SetOnMarkerClickListener(this);
             GoogleMap.SetInfoWindowAdapter(this);
