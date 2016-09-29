@@ -1,9 +1,16 @@
 using System;
+using Android.App;
+using Android.Content;
+using Android.Content.Res;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
+using Android.Graphics;
+using Android.Graphics.Drawables;
+using Android.Test.Mock;
 using PaddleBuddy.Core.DependencyServices;
-using PaddleBuddy.Core.Models.Map;
 using PaddleBuddy.Core.Services;
+using Plugin.CurrentActivity;
+using Point = PaddleBuddy.Core.Models.Map.Point;
 
 namespace PaddleBuddy.Droid.DependencyServices
 {
@@ -11,6 +18,7 @@ namespace PaddleBuddy.Droid.DependencyServices
     {
         public GoogleMap Map { get; set; }
         public Marker CurrentMarker { get; set; }
+        private MarkerOptions _currentMarkerOptions;
 
         public void DrawLine(Point[] points)
         {
@@ -47,19 +55,32 @@ namespace PaddleBuddy.Droid.DependencyServices
             {
                 current = LocationService.GetInstance().CurrentLocation;
             }
-            if (CurrentMarker == null)
+            var position = new LatLng(current.Lat, current.Lng);
+            if (CurrentMarker != null)
             {
-                CurrentMarker = Map.AddMarker(CreateCurrentMarkerOptions(current));
-            } else
+                CurrentMarker.Position = position;
+            }
+            else
             {
-                CurrentMarker.Remove();
-                CurrentMarker = Map.AddMarker(CreateCurrentMarkerOptions(current));
+                CurrentMarker = Map.AddMarker(ReturnCurrentMarkerOptions.SetPosition(position));
             }
         }
 
-        private MarkerOptions CreateCurrentMarkerOptions(Point point)
+        private MarkerOptions ReturnCurrentMarkerOptions
         {
-            return new MarkerOptions().SetPosition(new LatLng(point.Lat, point.Lng)).SetIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.Profi_icons_20_1x));
+            get
+            {
+                if (_currentMarkerOptions != null) return _currentMarkerOptions;
+                var px = 50;
+                var bitmap = Bitmap.CreateBitmap(px, px, Bitmap.Config.Argb8888);
+                var canvas = new Canvas(bitmap);
+                var shape = CrossCurrentActivity.Current.Activity.Resources.GetDrawable(Resource.Drawable.current_circle);
+                shape.SetBounds(0, 0, bitmap.Width, bitmap.Height);
+                shape.Draw(canvas);
+                var markerOpts = new MarkerOptions().SetIcon(BitmapDescriptorFactory.FromBitmap(bitmap)).Anchor(.5f, .5f);
+                _currentMarkerOptions = markerOpts;
+                return _currentMarkerOptions;
+            }
         }
 
         public void MoveCamera(Point p)

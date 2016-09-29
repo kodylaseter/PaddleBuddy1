@@ -57,8 +57,10 @@ namespace PaddleBuddy.Core.ViewModels
         public async Task SetupAsync()
         {
             IsLoading = true;
-            LocationService.GetInstance().CurrentLocation = await LocationService.GetInstance().GetLocationAsync();
-            LocationService.GetInstance().StartListening();
+            if (LocationService.GetInstance().CurrentLocation == null)
+            {
+                await LocationService.GetInstance().GetLocationAsync();
+            }
             await LetDBSetup();
             switch (InitMode)
             {

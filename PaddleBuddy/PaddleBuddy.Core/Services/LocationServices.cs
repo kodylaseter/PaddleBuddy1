@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
 using MvvmCross.Plugins.Messenger;
@@ -48,28 +49,49 @@ namespace PaddleBuddy.Core.Services
                 Lat = position.Latitude,
                 Lng = position.Longitude
             };
-            _currentLocation = point;
+            CurrentLocation = point;
             return point;
         }
 
         public void StartListening()
         {
             Geolocator.StartListeningAsync(1, 1, true);
-            Geolocator.PositionChanged += GeolocatorOnPositionChanged;
+            Geolocator.PositionChanged += OnPositionChanged;
             var b = Geolocator.IsListening;
-
         }
 
-        private void GeolocatorOnPositionChanged(object sender, PositionEventArgs positionEventArgs)
+        public void StopListening()
         {
-            if (positionEventArgs?.Position != null)
+            Geolocator.StopListeningAsync();
+        }
+
+        private void OnPositionChanged(object sender, object eventArgs)
+        {
+            var point = new Point();
+            if (eventArgs.GetType() == typeof (PositionEventArgs))
             {
-                CurrentLocation = new Point
+                var args = (PositionEventArgs) eventArgs;
+                point = new Point
                 {
-                    Lat = positionEventArgs.Position.Latitude,
-                    Lng = positionEventArgs.Position.Longitude
+                    Lat = args.Position.Latitude,
+                    Lng = args.Position.Longitude
                 };
             }
+            else if (eventArgs.GetType() == typeof (Point))
+            {
+                point = (Point) eventArgs;
+            }
+            else
+            {
+                MessengerService.Toast(this, "OnPositionChanged error", true);
+                var a = "shouldnt get here";
+            }
+            CurrentLocation = point;
+        }
+
+        public void StartSimulating(List<Point> points)
+        {
+            //this
         }
     }
 }

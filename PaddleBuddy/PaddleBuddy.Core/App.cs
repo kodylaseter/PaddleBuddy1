@@ -21,13 +21,19 @@ namespace PaddleBuddy.Core
             else RegisterAppStart<MapViewModel>();
 
             Task.Run(() => SetupData());
+            Task.Run(() => SetupLocation());
             MvvmCross.Plugins.Messenger.PluginLoader.Instance.EnsureLoaded();
         }
 
         private async void SetupData()
         {
             await DatabaseService.GetInstance().Setup();
+        }
+
+        private async void SetupLocation()
+        {
             LocationService.GetInstance().StartListening();
+            await LocationService.GetInstance().GetLocationAsync();
         }
     }
 }

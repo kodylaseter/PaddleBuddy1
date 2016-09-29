@@ -35,6 +35,7 @@ namespace PaddleBuddy.Droid.Fragments
             Fragment.GetMapAsync(this);
             var trans = ChildFragmentManager.BeginTransaction();
             trans.Add(Resource.Id.map_container, Fragment).Commit();
+            
             return base.OnCreateView(inflater, container, savedInstanceState);
         }
 
