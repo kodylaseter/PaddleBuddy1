@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
 using MvvmCross.Plugins.Messenger;
-using PaddleBuddy.Core.DependencyServices;
 using PaddleBuddy.Core.Models.Map;
 using PaddleBuddy.Core.Models.Messages;
 using Plugin.Geolocator;
@@ -55,9 +54,9 @@ namespace PaddleBuddy.Core.Services
 
         public void StartListening()
         {
-            Geolocator.StartListeningAsync(1, 1, true);
+            if (Geolocator.IsListening) return;
+            Geolocator.StartListeningAsync(5, 5, true);
             Geolocator.PositionChanged += OnPositionChanged;
-            var b = Geolocator.IsListening;
         }
 
         public void StopListening()
@@ -84,9 +83,16 @@ namespace PaddleBuddy.Core.Services
             else
             {
                 MessengerService.Toast(this, "OnPositionChanged error", true);
+                Debug.WriteLine("Error in location service's onpositionchanged");
                 var a = "shouldnt get here";
             }
             CurrentLocation = point;
+        }
+
+        public static async void SetupLocation()
+        {
+            GetInstance().StartListening();
+            await GetInstance().GetLocationAsync();
         }
 
         public void StartSimulating(List<Point> points)

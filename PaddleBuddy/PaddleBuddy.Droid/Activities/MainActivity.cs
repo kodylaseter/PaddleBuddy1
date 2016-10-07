@@ -1,4 +1,5 @@
-﻿using Android.App;
+﻿using System.Threading.Tasks;
+using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Support.V4.View;
@@ -37,20 +38,13 @@ namespace PaddleBuddy.Droid.Activities
             if (bundle == null)
                 ViewModel.ShowMenuAndFirstDetail();
             _actionBar = SupportActionBar;
+
         }
 
         protected override void OnStart()
         {
             base.OnStart();
-            RequestLocation();
-        }
-
-        private void RequestLocation()
-        {
-            if (!PermissionService.CheckLocation())
-            {
-                PermissionService.RequestLocation(this);
-            }
+            PermissionService.SetupLocation(this);
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)
@@ -78,7 +72,7 @@ namespace PaddleBuddy.Droid.Activities
                         alert.SetMessage("Location services are required. Please approve the request.");
                         alert.SetPositiveButton("Ok", (sendAlert, args) =>
                         {
-                            RequestLocation();
+                            PermissionService.SetupLocation(this);
                         });
                         alert.SetNegativeButton("Quit", (senderAler, args) =>
                         {

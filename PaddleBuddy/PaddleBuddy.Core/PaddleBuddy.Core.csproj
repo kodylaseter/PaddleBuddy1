@@ -52,7 +52,7 @@
     <Compile Include="ListItem.cs" />
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\DatabaseService.cs" />
-    <Compile Include="Services\LocationServices.cs" />
+    <Compile Include="Services\LocationService.cs" />
     <Compile Include="Services\MapService.cs" />
     <Compile Include="Services\MessengerService.cs" />
     <Compile Include="Services\NetworkService.cs" />
