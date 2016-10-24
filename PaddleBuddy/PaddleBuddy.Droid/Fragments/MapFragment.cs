@@ -12,7 +12,6 @@ using PaddleBuddy.Core.ViewModels;
 using PaddleBuddy.Droid.DependencyServices;
 using PaddleBuddy.Core.Services;
 using Android.Widget;
-using System.Threading.Tasks;
 using MvvmCross.Plugins.Messenger;
 using PaddleBuddy.Core.Models.Messages;
 using PaddleBuddy.Droid.Services;
@@ -35,14 +34,9 @@ namespace PaddleBuddy.Droid.Fragments
             Fragment.GetMapAsync(this);
             var trans = ChildFragmentManager.BeginTransaction();
             trans.Add(Resource.Id.map_container, Fragment).Commit();
-            
-            return base.OnCreateView(inflater, container, savedInstanceState);
-        }
-
-        public override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
             Mvx.Resolve<IMvxMessenger>().Subscribe<PermissionMessage>(AfterMapReadyAndPermission);
+
+            return base.OnCreateView(inflater, container, savedInstanceState);
         }
 
         public void OnMapReady(GoogleMap googleMap)
@@ -64,24 +58,6 @@ namespace PaddleBuddy.Droid.Fragments
             ViewModel.MapReady = true;
             ViewModel.Setup();
             ViewModel.SetupAsync();
-            Task.Run(() => Simulate());
-        }
-
-        public async void Simulate()
-        {
-
-            var curr = new Point();
-            while (true)
-            {
-                await Task.Delay(500);
-                if (ViewModel.StartPoint != null)
-                {
-                    curr.Lat = ViewModel.CurrentLocation.Lat;
-                    curr.Lng = ViewModel.CurrentLocation.Lng + (-84.1180229 - ViewModel.CurrentLocation.Lng) / 2;
-                    //Need to set current location
-                    //Need to refactor this
-                }
-            }
         }
 
         //public void LocationChanged(object sender, GoogleMap.MyLocationChangeEventArgs eventArgs)

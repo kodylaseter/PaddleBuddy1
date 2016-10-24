@@ -27,11 +27,9 @@ namespace PaddleBuddy.Core.ViewModels
 
         public void Init(PlanParameters planParams)
         {
-            if (planParams != null && planParams.Set)
-            {
-                StartPoint = DatabaseService.GetInstance().GetPoint(planParams.StartId);
-                _startText = StartPoint.Label;
-            }
+            if (planParams == null) return;
+            StartPoint = DatabaseService.GetInstance().GetPoint(planParams.StartId);
+            _startText = StartPoint.Label;
         }
 
         public PlanViewModel()
@@ -175,7 +173,7 @@ namespace PaddleBuddy.Core.ViewModels
                 MessengerService.Toast(this, "Invalid trip data", true);
                 return;
             }
-            ShowViewModel<MapViewModel>(new MapParameters(){ InitMode = MapInitModes.TripStart, StartId = Trip.StartId, EndId = Trip.EndId, Set = true });
+            ShowViewModel<MapViewModel>(new MapParameters{ MapMode = MapMode.TripStart, StartId = Trip.StartId, EndId = Trip.EndId});
         }
 
         public void Estimate()

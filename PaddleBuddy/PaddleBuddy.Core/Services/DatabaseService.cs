@@ -9,6 +9,7 @@ using PaddleBuddy.Core.DependencyServices;
 using System.Linq;
 using PaddleBuddy.Core.Utilities;
 using PaddleBuddy.Core.Models.LinqModels;
+using PaddleBuddy.Core.Models.Messages;
 
 namespace PaddleBuddy.Core.Services
 {
@@ -19,34 +20,43 @@ namespace PaddleBuddy.Core.Services
         private List<Point> _points;
         private List<Link> _links;
         private IStorageService storageService;
-        private string[] names = new[] { "points", "rivers", "links" };
+        private string[] names = { "points", "rivers", "links" };
         public int ClosestRiverId { get; set; }
+        private bool _isReady;
 
         public static DatabaseService GetInstance()
         {
             return _databaseService ?? (_databaseService = new DatabaseService());
         }
 
-        public async Task<bool> Setup(bool sync = false)
+        public DatabaseService()
+        {
+            _isReady = false;
+        }
+
+        public async Task Setup(bool sync = false)
         {
             if (storageService == null) storageService = Mvx.Resolve<IStorageService>();
-            if (sync) return await UpdateAll();
+            if (sync)
+            {
+                await UpdateAll();
+            }
             if (storageService.HasData(names))
             {
                 Points = JsonConvert.DeserializeObject<List<Point>>(storageService.ReadSerializedFromFile("points"));
                 Rivers = JsonConvert.DeserializeObject<List<River>>(storageService.ReadSerializedFromFile("rivers"));
                 Links = JsonConvert.DeserializeObject<List<Link>>(storageService.ReadSerializedFromFile("links"));
             }
-            var isUpdated = (Points != null && Rivers != null && Links != null && Points.Count > 0 && Rivers.Count > 0 && Links.Count > 0);
-            MessengerService.Toast(this, isUpdated ? "Data obtained from local copy" : "Data not updated", false);
-            return isUpdated ? true : await UpdateAll();
+            UpdateIsReady();
+            if (!IsReady) await UpdateAll();
         }
 
-        public async Task<bool> UpdateAll()
+        public async Task UpdateAll()
         {
-            var result = await UpdateRivers() && await UpdateLinks() && await UpdatePoints();
-            Task.Run(() => SaveData());
-            return result;
+            await UpdateRivers();
+            await UpdateLinks();
+            await UpdatePoints();
+            SaveData();
         }
 
         public void SaveData()
@@ -57,15 +67,23 @@ namespace PaddleBuddy.Core.Services
             storageService.SaveSerializedToFile(points, "points");
             storageService.SaveSerializedToFile(rivers, "rivers");
             storageService.SaveSerializedToFile(links, "links");
+            UpdateIsReady();
+        }
+
+        private void UpdateIsReady()
+        {
+            IsReady = (_rivers != null && _rivers.Count > 0) &&
+                    (_points != null && _points.Count > 0) &&
+                    (_links != null && _links.Count > 0);
         }
 
         public bool IsReady
         {
-            get
+            get { return _isReady; }
+            set
             {
-                return (_rivers != null && _rivers.Count > 0) &&
-                    (_points != null && _points.Count > 0) &&
-                    (_links != null && _links.Count > 0);
+                _isReady = value;
+                if (_isReady) MessengerService.Messenger.Publish(new DbReadyMessage(this));
             }
         }
 

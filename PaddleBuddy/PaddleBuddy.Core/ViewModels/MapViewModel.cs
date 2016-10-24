@@ -20,38 +20,35 @@ namespace PaddleBuddy.Core.ViewModels
         public Point StartPoint { get; set; }
         public Point EndPoint { get; set; }
         public bool MapReady { get; set; }
-        public MapInitModes InitMode { get; set; }
+        public MapMode MapMode { get; set; }
         private bool _isLoading;
         private Point _selectedMarker;
         private Point _currentLocation;
 
         public void Init(MapParameters mapParameters)
         {
-            if (mapParameters == null || !mapParameters.Set) return;
-            InitMode = mapParameters.InitMode;
+            if (mapParameters == null) return;
+            MapMode = mapParameters.MapMode;
             StartPoint = DatabaseService.GetInstance().GetPoint(mapParameters.StartId);
             EndPoint = DatabaseService.GetInstance().GetPoint(mapParameters.EndId);
         }
 
+        public void Init()
+        {
+            var a = 5;
+        }
+
+        
+
         public void StartPlan()
         {
-            ShowViewModel<PlanViewModel>(new PlanParameters() { StartId = _selectedMarker.Id, Set = true } );
+            ShowViewModel<PlanViewModel>(new PlanParameters { StartId = _selectedMarker.Id} );
         }
 
         public void Setup()
         {
             MapDrawer = Mvx.Resolve<IMapDrawer>();
             Mvx.Resolve<IMvxMessenger>().Subscribe<LocationChangedMessage>(OnLocationChanged);
-
-            //using this simulate, plan from tretret to qwertyuiop
-            //if (CurrentLocation == null)
-            //{
-            //    CurrentLocation = new Point
-            //    {
-            //        Lat = 34.065676,
-            //        Lng = -84.272612
-            //    };
-            //}
         }
 
         public async Task SetupAsync()
@@ -62,12 +59,12 @@ namespace PaddleBuddy.Core.ViewModels
                 await LocationService.GetInstance().GetLocationAsync();
             }
             await LetDBSetup();
-            switch (InitMode)
+            switch (MapMode)
             {
-                case MapInitModes.Init:
+                case MapMode.Init:
                     await SetupInit();
                     break;
-                case MapInitModes.TripStart:
+                case MapMode.TripStart:
                     SetupTripStart();
                     break;
                 default: throw new ArgumentOutOfRangeException();
@@ -167,11 +164,11 @@ namespace PaddleBuddy.Core.ViewModels
 
         public void AdjustForLocation(Point point)
         {
-            switch (InitMode)
+            switch (MapMode)
             {
-                case MapInitModes.Init:
+                case MapMode.Init:
                     break;
-                case MapInitModes.TripStart:
+                case MapMode.TripStart:
                     var dist = PBUtilities.DistanceInMeters(point, StartPoint);
                     if (dist > 50)
                     {
@@ -218,7 +215,7 @@ namespace PaddleBuddy.Core.ViewModels
         }
     }
 
-    public enum MapInitModes
+    public enum MapMode
     {
         Init,
         TripStart

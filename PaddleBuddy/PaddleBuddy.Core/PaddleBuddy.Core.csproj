@@ -38,6 +38,7 @@
     <Compile Include="Models\Map\Point.cs" />
     <Compile Include="Models\Map\River.cs" />
     <Compile Include="Models\MenuItem.cs" />
+    <Compile Include="Models\Messages\DbReadyMessage.cs" />
     <Compile Include="Models\Messages\LocationChangedMessage.cs" />
     <Compile Include="Models\Messages\PermissionMessage.cs" />
     <Compile Include="Models\Messages\ToastMessage.cs" />

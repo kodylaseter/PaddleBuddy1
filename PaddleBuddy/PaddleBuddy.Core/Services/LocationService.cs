@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using MvvmCross.Platform;
-using MvvmCross.Plugins.Messenger;
 using PaddleBuddy.Core.Models.Map;
 using PaddleBuddy.Core.Models.Messages;
 using Plugin.Geolocator;
@@ -14,12 +12,10 @@ namespace PaddleBuddy.Core.Services
     {
         private static LocationService _locationService;
         private Point _currentLocation;
-        private readonly IMvxMessenger _mvxMessenger;
         public IGeolocator Geolocator => CrossGeolocator.Current;
 
         public LocationService()
         {
-            _mvxMessenger = Mvx.Resolve<IMvxMessenger>();
             Geolocator.DesiredAccuracy = 5;
         }
 
@@ -35,7 +31,7 @@ namespace PaddleBuddy.Core.Services
             set
             {
                 _currentLocation = value;
-                _mvxMessenger.Publish(new LocationChangedMessage(this));
+                MessengerService.Messenger.Publish(new LocationChangedMessage(this));
             }
         }
 
@@ -99,5 +95,32 @@ namespace PaddleBuddy.Core.Services
         {
             //this
         }
+
+        //public async void Simulate()
+        //{
+
+        //    var curr = new Point();
+        //    while (true)
+        //    {
+        //        await Task.Delay(500);
+        //        if (ViewModel.StartPoint != null)
+        //        {
+        //            curr.Lat = ViewModel.CurrentLocation.Lat;
+        //            curr.Lng = ViewModel.CurrentLocation.Lng + (-84.1180229 - ViewModel.CurrentLocation.Lng) / 2;
+        //            //Need to set current location
+        //            //Need to refactor this
+        //        }
+        //    }
+        //}
+
+        //using this simulate, plan from tretret to qwertyuiop
+        //if (CurrentLocation == null)
+        //{
+        //    CurrentLocation = new Point
+        //    {
+        //        Lat = 34.065676,
+        //        Lng = -84.272612
+        //    };
+        //}
     }
 }
