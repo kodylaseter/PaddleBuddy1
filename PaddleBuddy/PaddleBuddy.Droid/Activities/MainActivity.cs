@@ -38,13 +38,7 @@ namespace PaddleBuddy.Droid.Activities
             if (bundle == null)
                 ViewModel.ShowMenuAndFirstDetail();
             _actionBar = SupportActionBar;
-
-        }
-
-        protected override void OnStart()
-        {
-            base.OnStart();
-            PermissionService.SetupLocation(this);
+            //PermissionService.SetupLocation(this);
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)

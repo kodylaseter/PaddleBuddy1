@@ -28,11 +28,6 @@ namespace PaddleBuddy.Droid.Activities
 
             Messenger = Mvx.Resolve<IMvxMessenger>();
             Messenger.Subscribe<ToastMessage>(DisplayToast);
-        }
-
-        protected override void OnStart()
-        {
-            base.OnStart();
             PermissionService.SetupLocation(this);
         }
 
